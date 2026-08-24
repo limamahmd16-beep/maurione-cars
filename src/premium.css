@@ -1,15 +1,191 @@
-:root{--bg:#f7f5f1;--bg2:#eee9e1;--surface:#ffffff;--text:#171513;--muted:#706960;--bronze:#a87942;--bronze2:#c2955f;--line:rgba(77,58,38,.14);--shadow:0 28px 80px rgba(31,24,18,.12)}
-html[data-theme='dark']{--bg:#090806;--bg2:#11100d;--surface:#15130f;--text:#f7f1e8;--muted:#aaa096;--bronze:#b9854f;--bronze2:#d6ad78;--line:rgba(214,173,120,.17);--shadow:0 34px 100px rgba(0,0,0,.48)}
-html[data-theme='dark'] .siteHeader{background:rgba(9,8,6,.82)}
-html[data-theme='dark'] .heroImage{filter:saturate(.55) contrast(1.08) brightness(.72)}
-html[data-theme='dark'] .heroShade{background:linear-gradient(90deg,rgba(9,8,6,.98),rgba(9,8,6,.85) 44%,rgba(9,8,6,.18) 82%),linear-gradient(180deg,rgba(0,0,0,.04) 48%,var(--bg))}
-html[data-theme='dark'] .carCard,html[data-theme='dark'] .filters,html[data-theme='dark'] .specStrip,html[data-theme='dark'] .loginCard,html[data-theme='dark'] .adminRow,html[data-theme='dark'] .editor{box-shadow:inset 0 1px 0 rgba(255,255,255,.015)}
-html[data-theme='dark'] .primary{color:#0c0906;background:linear-gradient(135deg,#c99a62,#a96f37);border-color:#c99a62;font-weight:700}
-html[data-theme='dark'] .secondary,html[data-theme='dark'] .contact,html[data-theme='dark'] .rowBtns button{background:#17140f}
-html[data-theme='dark'] .wa{background:#172019;color:#e8f3e9}
-html[data-theme='dark'] .available{background:#152018;color:#b8d3b8;border-color:#35523a}
-html[data-theme='dark'] .sold{background:#241715;color:#d5aaa4;border-color:#5b3430}
-.userAuthPage{min-height:100svh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 50% 28%,color-mix(in srgb,var(--bronze) 16%,transparent),transparent 31%),var(--bg);color:var(--text);font-family:var(--body)}
-.userAuthCard{width:min(470px,100%);background:var(--surface);border:1px solid var(--line);padding:34px;box-shadow:var(--shadow)}
-.userAuthBrand{display:flex;align-items:baseline;gap:8px;margin-bottom:26px}.userAuthBrand span{font:600 24px var(--mono);letter-spacing:-.04em}.userAuthBrand small{color:var(--bronze2);font-size:11px}.userAuthIcon{width:46px;height:46px;display:grid;place-items:center;border:1px solid var(--line);color:var(--bronze2);margin-bottom:15px}.userAuthEyebrow{font:500 10px var(--mono);letter-spacing:.12em;color:var(--bronze2)}.userAuthCard h1{font:700 46px var(--display);margin:8px 0 10px}.userAuthCard p{color:var(--muted);font-size:12px;line-height:1.9;margin:0 0 20px}.userAuthCard form{display:grid;gap:12px}.userAuthCard label{display:grid;gap:7px;color:var(--muted);font-size:11px}.userAuthCard input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);padding:13px;outline:none}.userAuthCard input:focus{border-color:var(--bronze)}.userAuthPrimary{min-height:49px;border:1px solid var(--bronze);background:var(--bronze);color:#fff;cursor:pointer;margin-top:4px}.userAuthPrimary:disabled{opacity:.55}.userAuthSwitch{width:100%;margin-top:14px;min-height:44px;border:0;background:transparent;color:var(--bronze2);cursor:pointer}.userAuthError{padding:11px 12px;border:1px solid #8b4b45;background:rgba(139,75,69,.12);color:#d8aaa4;font-size:11px}.userAccountChip{position:fixed;z-index:90;left:18px;bottom:18px;display:flex;align-items:center;gap:8px;max-width:min(360px,calc(100vw - 36px));padding:8px 9px 8px 12px;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(14px);border:1px solid var(--line);box-shadow:var(--shadow);color:var(--text);font-family:var(--body);font-size:10px}.userAccountChip span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.userAccountChip button{width:31px;height:31px;border:1px solid var(--line);background:var(--bg);color:var(--text);display:grid;place-items:center;cursor:pointer}
-@media(max-width:650px){.userAuthCard{padding:26px}.userAuthCard h1{font-size:38px}.userAccountChip{left:12px;bottom:12px}}
+:root,
+html[data-theme='dark']{
+  --bg:#ffffff;
+  --bg2:#f7f7f5;
+  --surface:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --bronze:#b68a4a;
+  --bronze2:#9b7137;
+  --navy:#0b1830;
+  --line:#e8e4dd;
+  --shadow:0 20px 60px rgba(11,24,48,.09);
+}
+
+html,body{background:#fff!important;color:var(--text)!important;color-scheme:light!important}
+body{min-height:100svh}
+
+/* White premium header */
+.siteHeader,
+html[data-theme='dark'] .siteHeader{
+  background:rgba(255,255,255,.94)!important;
+  border-bottom:1px solid var(--line)!important;
+  box-shadow:0 8px 32px rgba(11,24,48,.035);
+}
+.brandLatin{color:var(--navy);font-weight:600!important}
+.brandArabic{color:var(--bronze2)!important}
+.nav button{color:#737b87!important}
+.nav button:hover,.adminNav{color:var(--navy)!important}
+.adminNav{border-color:var(--line)!important}
+.iconBtn{background:#fff!important;border-color:var(--line)!important;color:var(--navy)!important}
+.headActions .iconBtn:not(.mobileMenu){display:none!important}
+
+/* Bright editorial hero */
+.hero{background:#fff}
+.heroImage,
+html[data-theme='dark'] .heroImage{
+  filter:saturate(.55) contrast(.94) brightness(1.09)!important;
+}
+.heroShade,
+html[data-theme='dark'] .heroShade{
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.99) 0%,rgba(255,255,255,.95) 35%,rgba(255,255,255,.63) 61%,rgba(255,255,255,.14) 82%),
+    linear-gradient(180deg,rgba(255,255,255,.06) 45%,#fff 100%)!important;
+}
+.hero h1{color:var(--navy)!important}
+.hero h1 em{color:var(--bronze)!important}
+.hero p{color:#667085!important}
+.eyebrow{color:var(--bronze2)!important}
+
+/* Buttons */
+.primary,
+html[data-theme='dark'] .primary{
+  color:#fff!important;
+  background:var(--navy)!important;
+  border-color:var(--navy)!important;
+  box-shadow:0 10px 25px rgba(11,24,48,.12);
+  font-weight:700;
+}
+.primary:hover{box-shadow:0 14px 32px rgba(11,24,48,.18)}
+.secondary,.contact,.rowBtns button,
+html[data-theme='dark'] .secondary,
+html[data-theme='dark'] .contact,
+html[data-theme='dark'] .rowBtns button{
+  background:#fff!important;
+  color:var(--navy)!important;
+  border-color:var(--line)!important;
+}
+
+/* Inventory */
+.section{background:#fff}
+.sectionHead h2{color:var(--navy)}
+.filters{
+  background:#fff!important;
+  border-color:var(--line)!important;
+  box-shadow:0 12px 36px rgba(11,24,48,.045);
+  border-radius:14px;
+}
+.filters label{background:#fbfbfa!important;border-color:#ece8e1!important;border-radius:10px}
+.filters input,.filters select{color:var(--navy)!important}
+.carCard,
+html[data-theme='dark'] .carCard{
+  background:#fff!important;
+  border-color:var(--line)!important;
+  box-shadow:0 8px 28px rgba(11,24,48,.045)!important;
+  border-radius:16px;
+}
+.carCard:hover{box-shadow:0 24px 55px rgba(11,24,48,.12)!important}
+.cardMedia{background:#f3f4f6!important}
+.cardBody h3,.cardFoot strong{color:var(--navy)!important}
+.brandLabel,.cardFoot span{color:var(--bronze2)!important}
+.available,
+html[data-theme='dark'] .available{background:#eef8f0!important;color:#356143!important;border-color:#cfe7d4!important}
+.sold,
+html[data-theme='dark'] .sold{background:#fff1ef!important;color:#944b43!important;border-color:#efd1cc!important}
+
+/* Details */
+.galleryMain,.adminRow>img,.ph{background:#f5f6f7!important}
+.summary h1{color:var(--navy)!important}
+.detailPrice{color:var(--bronze2)!important}
+.specStrip,
+html[data-theme='dark'] .specStrip{
+  background:#fff!important;
+  border-color:var(--line)!important;
+  box-shadow:0 12px 36px rgba(11,24,48,.045);
+  border-radius:14px;
+  overflow:hidden;
+}
+.specStrip>div{border-color:var(--line)!important}
+.wa,html[data-theme='dark'] .wa{background:#f1f8f2!important;color:#315c3a!important}
+
+/* Authentication */
+.userAuthPage,.adminLogin{
+  background:
+    radial-gradient(circle at 15% 5%,rgba(182,138,74,.10),transparent 26%),
+    radial-gradient(circle at 92% 90%,rgba(11,24,48,.055),transparent 28%),
+    #fff!important;
+}
+.userAuthCard,.loginCard,
+html[data-theme='dark'] .loginCard{
+  background:#fff!important;
+  border:1px solid var(--line)!important;
+  border-radius:20px;
+  box-shadow:0 26px 80px rgba(11,24,48,.10)!important;
+}
+.userAuthBrand span,.loginCard h1,.userAuthCard h1{color:var(--navy)!important}
+.userAuthCard input,.loginCard input{
+  background:#fafaf9!important;
+  border-color:var(--line)!important;
+  color:var(--navy)!important;
+  border-radius:10px;
+}
+.userAuthPrimary{background:var(--navy)!important;border-color:var(--navy)!important;border-radius:10px}
+.userAuthSwitch{color:var(--bronze2)!important}
+.userAccountChip{
+  background:rgba(255,255,255,.95)!important;
+  color:var(--navy)!important;
+  border-color:var(--line)!important;
+  box-shadow:0 12px 36px rgba(11,24,48,.10)!important;
+  border-radius:14px;
+}
+.userAccountChip button{background:#fff!important;color:var(--navy)!important;border-color:var(--line)!important}
+
+/* Admin */
+.adminPage{background:#fff!important}
+.adminTop h1{color:var(--navy)!important}
+.adminRow,
+html[data-theme='dark'] .adminRow{
+  background:#fff!important;
+  border-color:var(--line)!important;
+  box-shadow:0 8px 24px rgba(11,24,48,.045)!important;
+  border-radius:14px;
+}
+.editor,
+html[data-theme='dark'] .editor{
+  background:#fff!important;
+  border-color:var(--line)!important;
+  border-radius:18px;
+  box-shadow:0 30px 90px rgba(11,24,48,.18)!important;
+}
+.editor input,.editor select,.editor textarea{
+  background:#fafaf9!important;
+  color:var(--navy)!important;
+  border-color:var(--line)!important;
+  border-radius:9px;
+}
+.modal{background:rgba(11,24,48,.28)!important;backdrop-filter:blur(5px)}
+.empty,.notFound{
+  background:#fff!important;
+  border-color:var(--line)!important;
+  color:#7b818a!important;
+  border-radius:14px;
+}
+
+/* Footer */
+.footer{background:#fff!important;border-color:var(--line)!important}
+
+/* Consistent focus */
+input:focus,select:focus,textarea:focus{border-color:var(--bronze)!important;box-shadow:0 0 0 3px rgba(182,138,74,.10)}
+button,.carCard,.contact{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+
+@media(max-width:650px){
+  .nav{background:#fff!important;border-color:var(--line)!important;box-shadow:0 18px 50px rgba(11,24,48,.10)}
+  .hero{min-height:74svh}
+  .heroShade,
+  html[data-theme='dark'] .heroShade{
+    background:linear-gradient(180deg,rgba(255,255,255,.82) 0%,rgba(255,255,255,.90) 48%,#fff 100%)!important;
+  }
+  .heroImage{opacity:.52}
+  .hero h1{font-size:56px!important}
+  .userAuthCard,.loginCard{border-radius:16px;padding:25px!important}
+}
