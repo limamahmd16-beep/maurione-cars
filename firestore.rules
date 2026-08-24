@@ -5,8 +5,15 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    function isOwner() {
+      return signedIn() && request.auth.uid == 'sC94v8XaXmUMHK6eineEy25GIst2';
+    }
+
     function isAdmin() {
-      return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+      return signedIn() && (
+        isOwner() ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
     }
 
     match /cars/{carId} {
@@ -22,7 +29,8 @@ service cloud.firestore {
 
     match /admins/{userId} {
       allow read: if signedIn() && request.auth.uid == userId;
-      allow write: if false;
+      allow create: if isOwner() && userId == request.auth.uid;
+      allow update, delete: if false;
     }
   }
 }
