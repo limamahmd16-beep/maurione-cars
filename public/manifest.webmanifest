@@ -1,0 +1,20 @@
+{
+  "name": "MauriOne السيارات",
+  "short_name": "MauriOne",
+  "description": "معرض MauriOne للسيارات",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0d0b09",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png?v=3",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
