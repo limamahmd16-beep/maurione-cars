@@ -1,7 +1,8 @@
 import React,{useEffect,useMemo,useState}from'react';
-import{Bell,Heart,LogIn,LogOut,UserRound,X}from'lucide-react';
-import{auth}from'./lib/firebase.js';
-import{onAuthStateChanged,signOut}from'firebase/auth';
+import{Bell,ChevronLeft,CircleHelp,Heart,KeyRound,LogIn,LogOut,Save,Settings,ShieldCheck,UserRound,X}from'lucide-react';
+import{auth,db}from'./lib/firebase.js';
+import{onAuthStateChanged,sendPasswordResetEmail,signOut,updateProfile}from'firebase/auth';
+import{doc,serverTimestamp,setDoc}from'firebase/firestore';
 
 function getSavedNotifications(uid){
   try{return JSON.parse(localStorage.getItem(`maurione_notifications_${uid||'guest'}`)||'[]')}catch{return[]}
@@ -17,6 +18,10 @@ export default function FunctionalEnhancer(){
   const[notifications,setNotifications]=useState(()=>getSavedNotifications(auth?.currentUser?.uid));
   const[favorites,setFavorites]=useState([]);
   const[guest,setGuest]=useState(()=>guestSession()||Boolean(auth?.currentUser?.isAnonymous));
+  const[nameDraft,setNameDraft]=useState(()=>auth?.currentUser?.displayName||'');
+  const[accountMessage,setAccountMessage]=useState('');
+  const[accountError,setAccountError]=useState('');
+  const[busy,setBusy]=useState(false);
 
   useEffect(()=>{
     if(!auth)return;
@@ -24,6 +29,7 @@ export default function FunctionalEnhancer(){
       setUser(u||null);
       setGuest(Boolean(u?.isAnonymous)||guestSession());
       setNotifications(getSavedNotifications(u?.uid));
+      setNameDraft(u?.displayName||'');
     });
   },[]);
 
@@ -63,6 +69,37 @@ export default function FunctionalEnhancer(){
     window.dispatchEvent(new CustomEvent('maurione:show-auth'));
   }
 
+  function openAccount(){
+    setAccountMessage('');
+    setAccountError('');
+    setNameDraft(user?.displayName||'');
+    setPanel('account');
+  }
+
+  async function saveAccount(){
+    if(isGuest||!user)return requestLogin();
+    const name=nameDraft.trim();
+    if(!name){setAccountError('أدخل الاسم أولًا.');return}
+    setBusy(true);setAccountMessage('');setAccountError('');
+    try{
+      await updateProfile(user,{displayName:name});
+      if(db){
+        await setDoc(doc(db,'users',user.uid),{name,email:user.email||'',updatedAt:serverTimestamp()},{merge:true});
+      }
+      setUser({...user,displayName:name});
+      setAccountMessage('تم حفظ الاسم بنجاح.');
+    }catch(err){setAccountError('تعذر حفظ التعديل الآن. حاول مرة أخرى.')}finally{setBusy(false)}
+  }
+
+  async function sendPasswordLink(){
+    if(isGuest||!user?.email)return requestLogin();
+    setBusy(true);setAccountMessage('');setAccountError('');
+    try{
+      await sendPasswordResetEmail(auth,user.email);
+      setAccountMessage('تم إرسال رابط تغيير كلمة المرور إلى بريدك الإلكتروني.');
+    }catch(err){setAccountError('تعذر إرسال رابط تغيير كلمة المرور الآن.')}finally{setBusy(false)}
+  }
+
   useEffect(()=>{
     const clickHandler=e=>{
       const bell=e.target.closest?.('.mxBell');
@@ -72,7 +109,7 @@ export default function FunctionalEnhancer(){
       if(bottom){
         const text=bottom.textContent||'';
         if(text.includes('المفضلة')){e.preventDefault();collectFavorites();return}
-        if(text.includes('حسابي')){e.preventDefault();setPanel('account');return}
+        if(text.includes('حسابي')){e.preventDefault();openAccount();return}
       }
 
       const drawer=e.target.closest?.('.mxDrawer button');
@@ -81,7 +118,7 @@ export default function FunctionalEnhancer(){
         const buttons=[...drawer.parentElement.querySelectorAll('button')];
         if(buttons.indexOf(drawer)===2){
           e.preventDefault();
-          setPanel('account');
+          openAccount();
           setTimeout(()=>document.querySelector('.mxHeaderBar .mxHeaderIcon:last-child')?.click(),0);
           return;
         }
@@ -126,20 +163,75 @@ export default function FunctionalEnhancer(){
 
   if(!panel)return null;
 
+  if(panel==='account'){
+    return <div className="mxAccountPage" dir="rtl">
+      <header className="mxAccountHeader">
+        <button onClick={()=>setPanel(null)} aria-label="إغلاق"><X/></button>
+        <div className="mxAccountBrand" dir="ltr"><b>Mauri</b><i>One</i></div>
+        <span aria-hidden="true"/>
+      </header>
+
+      <main className="mxAccountBody">
+        {isGuest?<section className="mxAccountGuest">
+          <div className="mxAccountAvatar"><UserRound/></div>
+          <h1>حسابي</h1>
+          <p>أنت تتصفح MauriOne كزائر. سجّل الدخول للوصول إلى إعدادات الحساب.</p>
+          <button onClick={requestLogin}><LogIn/> تسجيل الدخول أو إنشاء حساب</button>
+        </section>:<>
+          <section className="mxAccountProfile">
+            <div className="mxAccountAvatar"><UserRound/></div>
+            <div><strong>{user?.displayName||'مستخدم MauriOne'}</strong><span dir="ltr">{user?.email||'—'}</span></div>
+          </section>
+
+          <section className="mxAccountMenu">
+            <button onClick={collectFavorites}><Heart/><span><strong>المفضلة</strong><small>السيارات التي حفظتها</small></span><ChevronLeft/></button>
+            <button onClick={()=>{setAccountMessage('');setAccountError('');setPanel('account-settings')}}><Settings/><span><strong>إعدادات الحساب</strong><small>تعديل اسم الحساب</small></span><ChevronLeft/></button>
+            <button onClick={()=>{setAccountMessage('');setAccountError('');setPanel('password')}}><KeyRound/><span><strong>تغيير كلمة المرور</strong><small>إرسال رابط آمن إلى بريدك</small></span><ChevronLeft/></button>
+            <button onClick={openNotifications}><Bell/><span><strong>الإشعارات</strong><small>عرض التنبيهات الأخيرة</small></span><ChevronLeft/></button>
+            <button onClick={()=>setPanel('help')}><CircleHelp/><span><strong>المساعدة</strong><small>معلومات استخدام الحساب</small></span><ChevronLeft/></button>
+            <button onClick={()=>setPanel('privacy')}><ShieldCheck/><span><strong>سياسة الخصوصية</strong><small>كيف تُستخدم بيانات الحساب</small></span><ChevronLeft/></button>
+          </section>
+
+          <button className="mxAccountLogout" onClick={()=>signOut(auth)}><LogOut/> تسجيل الخروج</button>
+        </>}
+      </main>
+    </div>
+  }
+
+  const simpleTitle=panel==='account-settings'?'إعدادات الحساب':panel==='password'?'تغيير كلمة المرور':panel==='help'?'المساعدة':panel==='privacy'?'سياسة الخصوصية':null;
+
   return <div className="mxFunctionBackdrop" onClick={()=>setPanel(null)} dir="rtl">
     <section className="mxFunctionSheet" onClick={e=>e.stopPropagation()}>
-      <button className="mxFunctionClose" onClick={()=>setPanel(null)} aria-label="إغلاق"><X/></button>
+      <button className="mxFunctionClose" onClick={()=>setPanel(panel==='account-settings'||panel==='password'||panel==='help'||panel==='privacy'?'account':null)} aria-label="إغلاق"><X/></button>
 
-      {panel==='account'&&<>
-        <div className="mxFunctionIcon"><UserRound/></div>
-        <h2>حسابي</h2>
-        {isGuest?<>
-          <p className="mxGuestAccountText">أنت تتصفح MauriOne كزائر. يمكنك تسجيل الدخول أو إنشاء حساب في أي وقت.</p>
-          <button className="mxFunctionPrimary" onClick={requestLogin}><LogIn/> تسجيل الدخول</button>
-        </>:<>
-          <div className="mxAccountInfo"><span>الاسم</span><strong>{user?.displayName||'مستخدم MauriOne'}</strong><span>البريد الإلكتروني</span><strong dir="ltr">{user?.email||'—'}</strong></div>
-          <button className="mxFunctionPrimary" onClick={()=>signOut(auth)}><LogOut/> تسجيل الخروج</button>
-        </>}
+      {simpleTitle&&<h2>{simpleTitle}</h2>}
+
+      {panel==='account-settings'&&<>
+        <div className="mxFunctionIcon"><Settings/></div>
+        <label className="mxAccountEditField">الاسم<input value={nameDraft} onChange={e=>setNameDraft(e.target.value)} placeholder="الاسم"/></label>
+        <label className="mxAccountEditField">البريد الإلكتروني<input value={user?.email||''} readOnly dir="ltr"/></label>
+        {accountMessage&&<div className="mxFunctionSuccess">{accountMessage}</div>}
+        {accountError&&<div className="mxFunctionError">{accountError}</div>}
+        <button className="mxFunctionPrimary" onClick={saveAccount} disabled={busy}><Save/> {busy?'جارٍ الحفظ...':'حفظ التعديل'}</button>
+      </>}
+
+      {panel==='password'&&<>
+        <div className="mxFunctionIcon"><KeyRound/></div>
+        <p className="mxFunctionText">سيتم إرسال رابط آمن لتغيير كلمة المرور إلى بريدك الإلكتروني المسجل.</p>
+        <div className="mxAccountInfo"><span>البريد الإلكتروني</span><strong dir="ltr">{user?.email||'—'}</strong></div>
+        {accountMessage&&<div className="mxFunctionSuccess">{accountMessage}</div>}
+        {accountError&&<div className="mxFunctionError">{accountError}</div>}
+        <button className="mxFunctionPrimary" onClick={sendPasswordLink} disabled={busy}><KeyRound/> {busy?'جارٍ الإرسال...':'إرسال رابط تغيير كلمة المرور'}</button>
+      </>}
+
+      {panel==='help'&&<>
+        <div className="mxFunctionIcon"><CircleHelp/></div>
+        <div className="mxFunctionText mxFunctionInfoList"><p>• استخدم «المفضلة» لحفظ السيارات التي تهمك.</p><p>• من «إعدادات الحساب» يمكنك تعديل اسمك.</p><p>• من «تغيير كلمة المرور» يمكنك طلب رابط آمن على بريدك.</p><p>• جرس الإشعارات يعرض تنبيهات حسابك داخل الموقع.</p></div>
+      </>}
+
+      {panel==='privacy'&&<>
+        <div className="mxFunctionIcon"><ShieldCheck/></div>
+        <div className="mxFunctionText mxFunctionInfoList"><p>تستخدم بيانات الاسم والبريد لتسجيل الدخول وإظهار معلومات الحساب.</p><p>المفضلة والإشعارات الحالية تُحفظ محليًا في متصفحك، بينما بيانات الحساب الأساسية مرتبطة بخدمة تسجيل الدخول وقاعدة البيانات.</p><p>لا تعرض صفحة السيارات بريدك الإلكتروني أو اسمك للعامة.</p></div>
       </>}
 
       {panel==='notifications'&&<>
