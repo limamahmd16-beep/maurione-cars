@@ -10,6 +10,7 @@ import './src/brand-fix.css';
 import './src/exact.css';
 import './src/no-messages.css';
 import './src/functional-enhancer.css';
+import './src/auth-final.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
