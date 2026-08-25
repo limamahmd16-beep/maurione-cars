@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   sendPasswordResetEmail,
+  signInAnonymously,
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
@@ -13,6 +14,9 @@ import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 
 export default function UserGate({ children }) {
   const [user, setUser] = useState(null);
+  const [guest, setGuest] = useState(()=>{
+    try{return sessionStorage.getItem('maurione_guest')==='1'}catch{return false}
+  });
   const [loading, setLoading] = useState(firebaseReady);
   const [mode, setMode] = useState('login');
   const [form, setForm] = useState({ name: '', email: '', password: '' });
@@ -28,9 +32,36 @@ export default function UserGate({ children }) {
     }
     return onAuthStateChanged(auth, nextUser => {
       setUser(nextUser || null);
+      if(nextUser?.isAnonymous){
+        try{sessionStorage.setItem('maurione_guest','1')}catch{}
+        setGuest(true);
+      }else if(nextUser){
+        try{sessionStorage.removeItem('maurione_guest')}catch{}
+        setGuest(false);
+      }else{
+        let saved=false;try{saved=sessionStorage.getItem('maurione_guest')==='1'}catch{}
+        setGuest(saved);
+      }
       setLoading(false);
     });
   }, []);
+
+  useEffect(()=>{
+    async function showAuth(){
+      try{sessionStorage.removeItem('maurione_guest')}catch{}
+      setGuest(false);
+      setError('');
+      setSuccess('');
+      setMode('login');
+      setShowPassword(false);
+      if(auth?.currentUser?.isAnonymous){
+        try{await signOut(auth)}catch{}
+      }
+      setUser(auth?.currentUser||null);
+    }
+    window.addEventListener('maurione:show-auth',showAuth);
+    return()=>window.removeEventListener('maurione:show-auth',showAuth);
+  },[]);
 
   async function submit(e) {
     e.preventDefault();
@@ -39,6 +70,11 @@ export default function UserGate({ children }) {
     setError('');
     setSuccess('');
     try {
+      try{sessionStorage.removeItem('maurione_guest')}catch{}
+      setGuest(false);
+      if(auth.currentUser?.isAnonymous){
+        try{await signOut(auth)}catch{}
+      }
       if (mode === 'signup') {
         const name = form.name.trim();
         const cred = await createUserWithEmailAndPassword(auth, form.email.trim(), form.password);
@@ -68,6 +104,25 @@ export default function UserGate({ children }) {
       };
       setError(messages[code] || `تعذر إكمال العملية (${code}).`);
     } finally {
+      setBusy(false);
+    }
+  }
+
+  async function enterAsGuest(){
+    setBusy(true);
+    setError('');
+    setSuccess('');
+    try{
+      if(auth){
+        const cred=await signInAnonymously(auth);
+        setUser(cred.user);
+      }
+      try{sessionStorage.setItem('maurione_guest','1')}catch{}
+      setGuest(true);
+    }catch{
+      try{sessionStorage.setItem('maurione_guest','1')}catch{}
+      setGuest(true);
+    }finally{
       setBusy(false);
     }
   }
@@ -110,6 +165,8 @@ export default function UserGate({ children }) {
   if (loading) {
     return <main className="userAuthPage"><div className="userAuthLoading">جارٍ التحقق من الحساب...</div></main>;
   }
+
+  if (guest || user?.isAnonymous) return <>{children}</>;
 
   if (!user) {
     return <main className="userAuthPage" dir="rtl">
@@ -169,6 +226,10 @@ export default function UserGate({ children }) {
               <span>{busy ? 'جارٍ التنفيذ...' : mode === 'signup' ? 'إنشاء الحساب' : 'دخول'}</span>
             </button>
           </form>
+
+          <button type="button" className="userAuthGuest" onClick={enterAsGuest} disabled={busy}>
+            <UserRound/><span>الدخول كزائر</span>
+          </button>
 
           <div className="userAuthDivider"><span>أو</span></div>
           <button className="userAuthSwitch" onClick={switchMode}>
