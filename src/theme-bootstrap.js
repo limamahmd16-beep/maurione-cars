@@ -1,7 +1,5 @@
-const paletteVersion = 'maurione_cars_palette_v3';
 try {
-  if (!localStorage.getItem(paletteVersion)) {
-    localStorage.setItem('maurione_cars_theme', 'light');
-    localStorage.setItem(paletteVersion, '1');
-  }
+  localStorage.setItem('maurione_cars_theme', 'light');
 } catch (_) {}
+document.documentElement.dataset.theme = 'light';
+document.documentElement.style.colorScheme = 'light';
