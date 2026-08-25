@@ -67,9 +67,7 @@ export default function UserGate({ children }) {
     }
   }
 
-  if (!firebaseReady) {
-    return <>{children}</>;
-  }
+  if (!firebaseReady) return <>{children}</>;
 
   if (loading) {
     return <main className="userAuthPage"><div className="userAuthCard">جارٍ التحقق من الحساب...</div></main>;
@@ -78,9 +76,9 @@ export default function UserGate({ children }) {
   if (!user) {
     return <main className="userAuthPage" dir="rtl">
       <section className="userAuthCard">
-        <div className="userAuthBrand"><span>MauriOne</span><small>السيارات</small></div>
+        <div className="userAuthBrand"><span><b>Mauri</b><i>One</i></span><small>السوق الأول للسيارات في موريتانيا</small></div>
         <div className="userAuthIcon">{mode === 'signup' ? <UserPlus/> : <LogIn/>}</div>
-        <span className="userAuthEyebrow">حساب MauriOne السيارات</span>
+        <span className="userAuthEyebrow">حساب MauriOne</span>
         <h1>{mode === 'signup' ? 'إنشاء حساب جديد' : 'تسجيل الدخول'}</h1>
         <p>لكل مستخدم حساب مستقل للوصول إلى MauriOne السيارات.</p>
         <form onSubmit={submit}>
