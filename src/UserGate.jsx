@@ -184,21 +184,12 @@ export default function UserGate({ children }) {
   if (guest || user?.isAnonymous) return <>{children}</>;
 
   if (!user && showWelcome) {
-    return <main className="welcomePage" dir="rtl">
-      <section className="welcomeStage" aria-label="مرحبًا بك في MauriOne">
-        <div className="welcomeBrand" aria-label="MauriOne"><b>Mauri</b><span>One</span></div>
-        <div className="welcomeCopy">
-          <h1>مرحبًا بك</h1>
-          <p>اكتشف السيارات بسهولة، وتعرّف على المواصفات والأسعار والتفاصيل في مكان واحد.</p>
-        </div>
-        <div className="welcomeCars" aria-hidden="true">
-          <img className="welcomeArtwork" src="/welcome-cars-fast.webp?v=1" alt="" draggable="false" fetchPriority="high" decoding="async" />
-        </div>
-        <div className="welcomeActions">
-          <button type="button" className="welcomeLogin" onClick={openLogin}>تسجيل الدخول</button>
-          <button type="button" className="welcomeGuest" onClick={enterAsGuest} disabled={busy}>{busy?'جارٍ الدخول...':'الدخول كزائر'}</button>
-        </div>
-      </section>
+    return <main className="welcomePage welcomeExactPage" dir="rtl">
+      <div className="welcomeExactStage">
+        <img className="welcomeFullArtwork" alt="مرحبًا بك في MauriOne" draggable="false" decoding="async" />
+        <button type="button" className="welcomeExactHotspot welcomeExactLogin" onClick={openLogin} aria-label="تسجيل الدخول" />
+        <button type="button" className="welcomeExactHotspot welcomeExactGuest" onClick={enterAsGuest} disabled={busy} aria-label="الدخول كزائر" />
+      </div>
     </main>;
   }
 
