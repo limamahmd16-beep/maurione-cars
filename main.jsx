@@ -5,6 +5,7 @@ import App from './src/App.jsx';
 import UserGate from './src/UserGate.jsx';
 import './src/styles.css';
 import './src/premium.css';
+import './src/brand-fix.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
