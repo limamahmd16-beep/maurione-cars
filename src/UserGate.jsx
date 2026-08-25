@@ -180,15 +180,13 @@ export default function UserGate({ children }) {
   }
 
   if (!firebaseReady) return <>{children}</>;
-
   if (loading) return null;
-
   if (guest || user?.isAnonymous) return <>{children}</>;
 
   if (!user && showWelcome) {
     return <main className="welcomePage" dir="rtl">
       <div className="welcomeStage">
-        <img className="welcomeArtwork" src="/maurione-welcome.webp" alt="MauriOne" draggable="false"/>
+        <img className="welcomeArtwork" src="/maurione-welcome.webp?v=2" alt="MauriOne" draggable="false"/>
         <button type="button" className="welcomeHotspot welcomeLoginHotspot" onClick={openLogin} aria-label="تسجيل الدخول">تسجيل الدخول</button>
         <button type="button" className="welcomeHotspot welcomeGuestHotspot" onClick={enterAsGuest} disabled={busy} aria-label="الدخول كزائر">الدخول كزائر</button>
         {busy&&<div className="welcomeBusy">جارٍ الدخول...</div>}
