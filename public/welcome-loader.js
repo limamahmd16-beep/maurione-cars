@@ -1,19 +1,25 @@
 (() => {
   const parts = ['00','01','02','03','04a','04b','04c','05'];
+  let artworkPromise;
 
-  const artworkPromise = Promise.all(parts.map(part =>
-    fetch(`/welcome-parts/${part}.txt?v=8`, { cache: 'force-cache' }).then(response => {
-      if (!response.ok) throw new Error(`welcome-part-${part}`);
-      return response.text();
-    })
-  )).then(chunks => `data:image/webp;base64,${chunks.join('')}`);
+  function loadArtwork() {
+    if (!artworkPromise) {
+      artworkPromise = Promise.all(parts.map(part =>
+        fetch(`/welcome-parts/${part}.txt?v=9`, { cache: 'force-cache' }).then(response => {
+          if (!response.ok) throw new Error(`welcome-part-${part}`);
+          return response.text();
+        })
+      )).then(chunks => `data:image/webp;base64,${chunks.join('')}`);
+    }
+    return artworkPromise;
+  }
 
   function applyArtwork() {
-    const image = document.querySelector('.welcomeArtwork');
+    const image = document.querySelector('.welcomeFullArtwork');
     if (!image || image.dataset.exactWelcome === '1') return;
     image.dataset.exactWelcome = '1';
 
-    artworkPromise.then(src => {
+    loadArtwork().then(src => {
       const preload = new Image();
       preload.decoding = 'async';
       preload.onload = () => {
