@@ -1,0 +1,19 @@
+/* Functional overlays only — preserves the approved MauriOne layout. */
+.mxFunctionBackdrop{position:fixed;inset:0;z-index:300;background:rgba(10,16,27,.32);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;padding:14px}
+.mxFunctionSheet{position:relative;width:min(100%,560px);max-height:min(82svh,720px);overflow:auto;background:#fff;border:1px solid #e4e6ea;border-radius:28px;padding:28px 20px 22px;box-shadow:0 30px 90px rgba(15,23,42,.22);color:#111}
+.mxFunctionClose{position:absolute;left:15px;top:15px;width:40px;height:40px;border:1px solid #e5e7eb;background:#fff;border-radius:13px;display:grid;place-items:center;color:#111}
+.mxFunctionClose svg{width:21px;height:21px}
+.mxFunctionIcon{width:58px;height:58px;border-radius:18px;background:#fff1e9;color:#ff5a12;display:grid;place-items:center;margin:2px auto 12px}
+.mxFunctionIcon svg{width:29px;height:29px}
+.mxFunctionSheet h2{text-align:center;margin:0 0 20px;font-size:25px}
+.mxFunctionEmpty{border:1px dashed #d9dde3;border-radius:18px;background:#fafbfc;color:#7b8088;padding:34px 18px;text-align:center}
+.mxAccountInfo{display:grid;gap:7px;border:1px solid #eceef1;border-radius:18px;padding:16px;background:#fafafa;margin-bottom:14px}
+.mxAccountInfo span{font-size:11px;color:#8a8f97}.mxAccountInfo strong{font-size:15px;word-break:break-word;margin-bottom:4px}
+.mxFunctionPrimary{width:100%;height:52px;border:0;border-radius:15px;background:#ff5a12;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;gap:7px}
+.mxFunctionPrimary svg{width:20px}
+.mxNotificationList{display:grid;gap:9px}.mxNotificationList>div{display:grid;gap:4px;border:1px solid #eceef1;border-radius:16px;padding:13px;background:#fff}.mxNotificationList strong{font-size:13px;line-height:1.5}.mxNotificationList small{font-size:10px;color:#8a8f97}
+.mxFavoriteList{display:grid;gap:10px}.mxFavoriteList>button{width:100%;border:1px solid #e7e9ed;background:#fff;border-radius:17px;padding:0;overflow:hidden;display:grid;grid-template-columns:96px 1fr;direction:ltr;text-align:right;color:#111}.mxFavoriteList img,.mxFavoriteList>button>div{width:96px;height:88px;object-fit:cover;background:#eef0f3}.mxFavoriteList span{direction:rtl;padding:12px;display:grid;align-content:center;gap:3px;min-width:0}.mxFavoriteList strong{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mxFavoriteList small{font-size:11px;color:#888d95}.mxFavoriteList b{font-size:14px;color:#ff5a12;direction:ltr;text-align:right}
+/* Until full admin user-directory permissions are available, do not expose a dead control. */
+.mxAdminQuick>button:nth-child(2){display:none!important}
+.mxAdminQuick{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+@media(min-width:700px){.mxFunctionBackdrop{align-items:center}.mxFunctionSheet{border-radius:26px}}
