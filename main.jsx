@@ -13,6 +13,7 @@ import './src/functional-enhancer.css';
 import './src/auth-final.css';
 import './src/guest-login.css';
 import './src/welcome.css';
+import './src/welcome-fix.js';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
