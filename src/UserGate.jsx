@@ -192,7 +192,7 @@ export default function UserGate({ children }) {
           <p>اكتشف السيارات بسهولة، وتعرّف على المواصفات والأسعار والتفاصيل في مكان واحد.</p>
         </div>
         <div className="welcomeCars" aria-hidden="true">
-          <img className="welcomeArtwork" src="/maurione-welcome-approved-exact.webp?v=4" alt="" draggable="false" />
+          <img className="welcomeArtwork" src="/welcome-cars-fast.webp?v=1" alt="" draggable="false" fetchPriority="high" decoding="async" />
         </div>
         <div className="welcomeActions">
           <button type="button" className="welcomeLogin" onClick={openLogin}>تسجيل الدخول</button>
