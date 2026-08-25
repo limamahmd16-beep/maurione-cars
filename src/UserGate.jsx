@@ -186,24 +186,9 @@ export default function UserGate({ children }) {
   if (!user && showWelcome) {
     return <main className="welcomePage" dir="rtl">
       <div className="welcomeStage">
-        <div className="welcomeCars" aria-hidden="true">
-          <img className="welcomeCar welcomeCarMain" src="https://images.unsplash.com/photo-1580274437636-1c384e567539?auto=format&fit=crop&w=1400&q=90" alt=""/>
-          <img className="welcomeCar welcomeCarSideA" src="https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&w=1000&q=90" alt=""/>
-          <img className="welcomeCar welcomeCarSideB" src="https://images.unsplash.com/photo-1623869675781-80aa31012a5a?auto=format&fit=crop&w=1000&q=90" alt=""/>
-        </div>
-        <div className="welcomeShade" aria-hidden="true"/>
-
-        <div className="welcomeContent">
-          <div className="welcomeBrand" aria-label="MauriOne"><span>Mauri</span><b>One</b></div>
-          <div className="welcomeAccent" aria-hidden="true"/>
-          <h1>مرحبًا بك</h1>
-          <p>اكتشف مجموعة مختارة من السيارات بسهولة، وتعرّف على المواصفات والأسعار والتفاصيل في مكان واحد.</p>
-        </div>
-
-        <div className="welcomeActions">
-          <button type="button" className="welcomeLoginButton" onClick={openLogin}>تسجيل الدخول</button>
-          <button type="button" className="welcomeGuestButton" onClick={enterAsGuest} disabled={busy}>الدخول كزائر</button>
-        </div>
+        <img className="welcomeArtwork" src="/maurione-welcome-approved.webp?v=1" alt="MauriOne" draggable="false"/>
+        <button type="button" className="welcomeHotspot welcomeLoginHotspot" onClick={openLogin} aria-label="تسجيل الدخول">تسجيل الدخول</button>
+        <button type="button" className="welcomeHotspot welcomeGuestHotspot" onClick={enterAsGuest} disabled={busy} aria-label="الدخول كزائر">الدخول كزائر</button>
         {busy&&<div className="welcomeBusy">جارٍ الدخول...</div>}
       </div>
     </main>;
