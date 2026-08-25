@@ -162,9 +162,7 @@ export default function UserGate({ children }) {
 
   if (!firebaseReady) return <>{children}</>;
 
-  if (loading) {
-    return <main className="userAuthPage"><div className="userAuthLoading">جارٍ التحقق من الحساب...</div></main>;
-  }
+  if (loading) return null;
 
   if (guest || user?.isAnonymous) return <>{children}</>;
 
