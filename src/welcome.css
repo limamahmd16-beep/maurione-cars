@@ -1,22 +1,9 @@
-/* Approved MauriOne welcome screen */
-.welcomePage{position:fixed;inset:0;z-index:500;background:#fff;overflow:hidden;display:grid;place-items:center;color:#101010}
-.welcomeStage{position:relative;width:min(100vw,560px);height:100dvh;min-height:640px;overflow:hidden;background:linear-gradient(180deg,#fff 0%,#fff 74%,#fbfbfb 100%);display:flex;flex-direction:column;align-items:center;padding:calc(env(safe-area-inset-top) + 30px) 28px calc(env(safe-area-inset-bottom) + 24px);box-sizing:border-box}
-.welcomeStage::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 43%,rgba(255,121,25,.035),transparent 44%);z-index:0}
-.welcomeBrand{position:relative;z-index:3;font:900 clamp(44px,11vw,64px)/1 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:-3px;margin-top:6px;color:#090909;white-space:nowrap}
-.welcomeBrand b{font-weight:900}.welcomeBrand span{color:#ff6a16;font-weight:900}
-.welcomeCopy{position:relative;z-index:3;text-align:center;max-width:470px;margin-top:34px}
-.welcomeCopy h1{margin:0;font:900 clamp(38px,9vw,52px)/1.15 system-ui,-apple-system,"Segoe UI",sans-serif;color:#111}
-.welcomeCopy h1::after{content:"";display:block;width:58px;height:4px;border-radius:999px;background:#ff7a18;margin:16px auto 0}
-.welcomeCopy p{font-size:0;margin:22px auto 0;max-width:455px;color:#202020}
-.welcomeCopy p::before{content:"منصة موثوقة لبيع السيارات في موريتانيا، تتيح لك استعراض السيارات المتاحة، مقارنة الأسعار، والاطلاع على المواصفات والتفاصيل بسهولة.";display:block;font:500 clamp(16px,4.15vw,20px)/1.9 system-ui,-apple-system,"Segoe UI",sans-serif;color:#242424}
-.welcomeCars{position:relative;z-index:1;width:calc(100% + 56px);height:min(43dvh,430px);min-height:285px;margin-top:14px;overflow:hidden;background:#fff}
-.welcomeCars::before{content:"";position:absolute;z-index:2;inset:0;pointer-events:none;background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,0) 10%,rgba(255,255,255,0) 82%,#fff 100%)}
-.welcomeCars::after{content:"";position:absolute;z-index:3;left:8%;right:8%;bottom:1%;height:16%;background:radial-gradient(ellipse at center,rgba(145,145,145,.13),transparent 70%);filter:blur(15px);pointer-events:none}
-.welcomeArtwork{position:absolute;z-index:1;left:50%;top:52%;width:122%;height:auto;max-width:none;display:block;transform:translate(-50%,-52%);user-select:none;-webkit-user-drag:none;filter:saturate(.98) contrast(1.025) brightness(1.02)}
-.welcomeActions{position:relative;z-index:4;width:100%;display:grid;gap:15px;margin-top:auto;padding:0 4px 0;box-sizing:border-box}
-.welcomeActions button{width:100%;height:70px;border-radius:22px;font:800 21px/1 system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:transform .14s ease,box-shadow .14s ease,opacity .14s ease}
-.welcomeActions button:active{transform:scale(.988)}.welcomeActions button:disabled{opacity:.65;cursor:wait}
-.welcomeLogin{border:0;background:#ff7a18;color:#fff;box-shadow:0 15px 28px rgba(255,122,24,.2)}
-.welcomeGuest{border:0;background:#fff;color:#171717;box-shadow:0 10px 28px rgba(28,33,40,.1)}
-@media(max-height:780px){.welcomeStage{padding-top:calc(env(safe-area-inset-top) + 18px);padding-bottom:calc(env(safe-area-inset-bottom) + 14px)}.welcomeBrand{font-size:42px}.welcomeCopy{margin-top:22px}.welcomeCopy h1{font-size:35px}.welcomeCopy h1::after{margin-top:12px}.welcomeCopy p{margin-top:14px}.welcomeCopy p::before{font-size:15px;line-height:1.65}.welcomeCars{height:36dvh;min-height:230px;margin-top:6px}.welcomeArtwork{width:124%}.welcomeActions{gap:10px}.welcomeActions button{height:58px;border-radius:18px;font-size:19px}}
-@media(min-width:620px){.welcomeStage{box-shadow:0 0 80px rgba(0,0,0,.06)}}
+.welcomeExactPage{position:fixed;inset:0;z-index:500;background:#fff;overflow:hidden;display:grid;place-items:center}
+.welcomeExactStage{position:relative;width:min(100vw,760px);height:100dvh;overflow:hidden;background:#fff}
+.welcomeFullArtwork{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;opacity:0;transition:opacity .12s ease;user-select:none;-webkit-user-drag:none}
+.welcomeFullArtwork.isReady{opacity:1}
+.welcomeExactHotspot{position:absolute;left:9%;right:9%;border:0;background:transparent;z-index:5;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.welcomeExactLogin{top:78.8%;height:7.9%}
+.welcomeExactGuest{top:87.7%;height:7.8%}
+.welcomeExactHotspot:disabled{pointer-events:none}
+@media(min-width:761px){.welcomeExactStage{box-shadow:0 0 70px rgba(0,0,0,.06)}}
