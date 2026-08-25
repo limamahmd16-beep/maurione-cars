@@ -6,17 +6,36 @@
 .mxFunctionIcon{width:58px;height:58px;border-radius:18px;background:#fff1e9;color:#ff5a12;display:grid;place-items:center;margin:2px auto 12px}
 .mxFunctionIcon svg{width:29px;height:29px}
 .mxFunctionSheet h2{text-align:center;margin:0 0 20px;font-size:25px}
-.mxFunctionEmpty{border:1px dashed #d9dde3;border-radius:18px;background:#fafbfc;color:#7b8088;padding:34px 18px;text-align:center}
+.mxFunctionEmpty{min-height:150px;border:1px dashed #d9dde3;border-radius:18px;background:#fafbfc;color:#7b8088;padding:34px 18px;text-align:center;display:grid;place-items:center}
 .mxAccountInfo{display:grid;gap:7px;border:1px solid #eceef1;border-radius:18px;padding:16px;background:#fafafa;margin-bottom:14px}
 .mxAccountInfo span{font-size:11px;color:#8a8f97}.mxAccountInfo strong{font-size:15px;word-break:break-word;margin-bottom:4px}
 .mxFunctionPrimary{width:100%;height:52px;border:0;border-radius:15px;background:#ff5a12;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;gap:7px}
 .mxFunctionPrimary svg{width:20px}
 .mxNotificationList{display:grid;gap:9px}.mxNotificationList>div{display:grid;gap:4px;border:1px solid #eceef1;border-radius:16px;padding:13px;background:#fff}.mxNotificationList strong{font-size:13px;line-height:1.5}.mxNotificationList small{font-size:10px;color:#8a8f97}
 .mxFavoriteList{display:grid;gap:10px}.mxFavoriteList>button{width:100%;border:1px solid #e7e9ed;background:#fff;border-radius:17px;padding:0;overflow:hidden;display:grid;grid-template-columns:96px 1fr;direction:ltr;text-align:right;color:#111}.mxFavoriteList img,.mxFavoriteList>button>div{width:96px;height:88px;object-fit:cover;background:#eef0f3}.mxFavoriteList span{direction:rtl;padding:12px;display:grid;align-content:center;gap:3px;min-width:0}.mxFavoriteList strong{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mxFavoriteList small{font-size:11px;color:#888d95}.mxFavoriteList b{font-size:14px;color:#ff5a12;direction:ltr;text-align:right}
+.mxFunctionText{color:#666b73;line-height:1.85;text-align:right;margin:5px 0 18px}.mxFunctionInfoList{display:grid;gap:10px}.mxFunctionInfoList p{margin:0;padding:12px 14px;border:1px solid #eceef1;border-radius:15px;background:#fafafa}.mxFunctionSuccess,.mxFunctionError{padding:12px 14px;border-radius:14px;margin:10px 0;font-size:13px;line-height:1.6}.mxFunctionSuccess{background:#effaf3;color:#17733e;border:1px solid #cfead9}.mxFunctionError{background:#fff2f0;color:#a33b31;border:1px solid #f3cec8}.mxAccountEditField{display:grid;gap:8px;margin:12px 0;color:#565b63;font-size:13px}.mxAccountEditField input{height:52px;border:1px solid #dfe2e6;border-radius:15px;background:#fff;color:#111;padding:0 14px;outline:0}.mxAccountEditField input:focus{border-color:#ffad84;box-shadow:0 0 0 4px rgba(255,90,18,.08)}.mxAccountEditField input[readonly]{background:#f7f8fa;color:#7c8189}
+
+/* Approved full light account page */
+.mxAccountPage{position:fixed;inset:0;z-index:350;background:#fff;color:#111;overflow:auto;overscroll-behavior:contain;direction:rtl}
+.mxAccountHeader{position:sticky;top:0;z-index:4;height:104px;background:rgba(255,255,255,.97);backdrop-filter:blur(16px);display:grid;grid-template-columns:52px 1fr 52px;align-items:center;padding:10px 18px;border-bottom:1px solid #f0f1f3}
+.mxAccountHeader>button{width:46px;height:46px;border:1px solid #e5e7eb;background:#fff;border-radius:14px;display:grid;place-items:center;color:#111;padding:0}.mxAccountHeader>button svg{width:23px;height:23px}.mxAccountHeader>span{width:46px;height:46px}
+.mxAccountBrand{text-align:center;font-size:42px;font-weight:850;letter-spacing:-2.5px;line-height:1;white-space:nowrap}.mxAccountBrand b{color:#111;font-weight:850}.mxAccountBrand i{font-style:normal;color:#ff5a12;font-weight:800}
+.mxAccountBody{width:min(calc(100% - 28px),650px);margin:0 auto;padding:28px 0 36px}
+.mxAccountProfile{display:grid;grid-template-columns:116px minmax(0,1fr);direction:ltr;align-items:center;gap:20px;padding:24px;background:#fff;border:1px solid #e7e9ed;border-radius:28px;box-shadow:0 12px 34px rgba(15,23,42,.07);margin-bottom:20px}
+.mxAccountAvatar{width:116px;height:116px;border-radius:50%;background:#fff3ec;color:#ff5a12;display:grid;place-items:center;border:1px solid #ffe0d1}.mxAccountAvatar svg{width:58px;height:58px;stroke-width:1.5}.mxAccountProfile>div:last-child{direction:rtl;text-align:right;min-width:0;display:grid;gap:7px}.mxAccountProfile strong{font-size:25px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mxAccountProfile span{font-size:15px;color:#7f848c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right}
+.mxAccountMenu{display:grid;gap:12px}.mxAccountMenu>button{min-height:86px;width:100%;border:1px solid #e7e9ed;border-radius:22px;background:#fff;box-shadow:0 8px 24px rgba(15,23,42,.055);display:grid;grid-template-columns:56px minmax(0,1fr) 24px;align-items:center;gap:12px;padding:12px 16px;color:#111;text-align:right}.mxAccountMenu>button>svg:first-child{width:48px;height:48px;padding:11px;border-radius:15px;background:#fff2ea;color:#ff5a12;stroke-width:1.7}.mxAccountMenu>button>svg:last-child{width:21px;height:21px;color:#9aa0a8}.mxAccountMenu span{display:grid;gap:4px}.mxAccountMenu strong{font-size:18px;line-height:1.2}.mxAccountMenu small{color:#8a8f97;font-size:12px;line-height:1.35}
+.mxAccountLogout{width:100%;height:64px;margin-top:18px;border:0;border-radius:20px;background:linear-gradient(105deg,#ff6412 0%,#ff4d00 100%);color:#fff;font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 12px 28px rgba(255,90,18,.18)}.mxAccountLogout svg{width:24px}
+.mxAccountGuest{min-height:62svh;display:grid;justify-items:center;align-content:center;text-align:center;gap:13px}.mxAccountGuest .mxAccountAvatar{width:104px;height:104px}.mxAccountGuest h1{font-size:34px;margin:4px 0 0}.mxAccountGuest p{max-width:390px;margin:0;color:#7d828a;line-height:1.8}.mxAccountGuest button{height:56px;border:0;border-radius:16px;background:#ff5a12;color:#fff;font-weight:800;padding:0 24px;display:flex;align-items:center;gap:7px}
+
 /* Never leave an inactive contact button visible. */
 .mxContact{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))!important}
 .mxContact .disabled{display:none!important}
 /* Until full admin user-directory permissions are available, do not expose a dead control. */
 .mxAdminQuick>button:nth-child(2){display:none!important}
 .mxAdminQuick{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+
+@media(max-width:520px){
+  .mxAccountHeader{height:90px;padding-inline:14px;grid-template-columns:46px 1fr 46px}.mxAccountHeader>button{width:42px;height:42px}.mxAccountBrand{font-size:34px;letter-spacing:-2px}
+  .mxAccountBody{width:min(calc(100% - 24px),650px);padding-top:20px}.mxAccountProfile{grid-template-columns:92px minmax(0,1fr);gap:15px;padding:18px;border-radius:24px}.mxAccountAvatar{width:92px;height:92px}.mxAccountAvatar svg{width:46px;height:46px}.mxAccountProfile strong{font-size:21px}.mxAccountProfile span{font-size:13px}.mxAccountMenu>button{min-height:78px;border-radius:20px;grid-template-columns:50px minmax(0,1fr) 21px;padding:10px 13px}.mxAccountMenu>button>svg:first-child{width:44px;height:44px}.mxAccountMenu strong{font-size:16px}.mxAccountMenu small{font-size:11px}.mxAccountLogout{height:60px;font-size:18px}
+}
 @media(min-width:700px){.mxFunctionBackdrop{align-items:center}.mxFunctionSheet{border-radius:26px}}
