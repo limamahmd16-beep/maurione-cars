@@ -1,11 +1,11 @@
 (() => {
-  const parts = ['00','01','02','03','04','05'];
+  const parts = ['00','01','02','03','04a','04b','04c','05'];
   let artworkPromise;
 
   function loadArtwork() {
     if (!artworkPromise) {
       artworkPromise = Promise.all(parts.map(part =>
-        fetch(`/welcome-parts/${part}.txt?v=6`, { cache: 'force-cache' }).then(response => {
+        fetch(`/welcome-parts/${part}.txt?v=7`, { cache: 'force-cache' }).then(response => {
           if (!response.ok) throw new Error(`welcome-part-${part}`);
           return response.text();
         })
