@@ -186,7 +186,7 @@ export default function UserGate({ children }) {
   if (!user && showWelcome) {
     return <main className="welcomePage" dir="rtl">
       <div className="welcomeStage">
-        <img className="welcomeArtwork" src="/maurione-welcome-approved.webp?v=1" alt="MauriOne" draggable="false"/>
+        <img className="welcomeArtwork" src="/maurione-welcome-approved-exact.webp?v=1" alt="MauriOne" draggable="false"/>
         <button type="button" className="welcomeHotspot welcomeLoginHotspot" onClick={openLogin} aria-label="تسجيل الدخول">تسجيل الدخول</button>
         <button type="button" className="welcomeHotspot welcomeGuestHotspot" onClick={enterAsGuest} disabled={busy} aria-label="الدخول كزائر">الدخول كزائر</button>
         {busy&&<div className="welcomeBusy">جارٍ الدخول...</div>}
