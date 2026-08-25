@@ -1,15 +1,12 @@
 /* Exact approved MauriOne Toyota welcome screen */
-.welcomePage{position:fixed;inset:0;z-index:500;background:#fff;overflow:hidden;display:grid;place-items:center;color:#111}
-.welcomeStage{position:relative;width:100%;height:100svh;max-width:620px;overflow:hidden;isolation:isolate;background:#fff url('/maurione-welcome-approved-v2.webp?v=2') center center/cover no-repeat;animation:welcomeArtworkBreathe 7s ease-in-out infinite alternate;will-change:background-size}
+.welcomePage{position:fixed;inset:0;z-index:500;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#111}
+.welcomeStage{position:relative;height:100svh;width:auto;aspect-ratio:853/1844;max-width:100vw;overflow:hidden;isolation:isolate;background:#fff url('/maurione-welcome-approved-v3.webp?v=3') center center/100% 100% no-repeat}
 .welcomeArtwork{display:none!important}
-.welcomeStage::after{content:"";position:absolute;z-index:2;inset:-30%;pointer-events:none;background:linear-gradient(112deg,transparent 37%,rgba(255,97,8,0) 44%,rgba(255,97,8,.045) 49%,rgba(255,255,255,.10) 50%,rgba(255,97,8,.035) 52%,transparent 61%);transform:translateX(-65%) rotate(-7deg);animation:welcomeLightSweep 8s ease-in-out infinite}
 .welcomeHotspot{position:absolute;z-index:5;left:7.5%;right:7.5%;border:0;background:transparent;color:transparent;padding:0;margin:0;border-radius:24px;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .welcomeHotspot:focus-visible{outline:3px solid rgba(255,94,8,.75);outline-offset:2px}
 .welcomeHotspot:disabled{cursor:wait}
-.welcomeLoginHotspot{top:83.4%;height:5.8%}
-.welcomeGuestHotspot{top:89.6%;height:5.8%}
+.welcomeLoginHotspot{top:83.45%;height:5.35%}
+.welcomeGuestHotspot{top:89.65%;height:5.55%}
 .welcomeBusy{position:absolute;z-index:7;left:50%;bottom:1.2%;transform:translateX(-50%);font:700 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;color:#fff;background:rgba(20,20,20,.68);backdrop-filter:blur(9px);padding:8px 14px;border-radius:999px;white-space:nowrap}
-@keyframes welcomeArtworkBreathe{from{background-size:100% auto}to{background-size:100.4% auto}}
-@keyframes welcomeLightSweep{0%,22%{transform:translateX(-65%) rotate(-7deg);opacity:0}44%{opacity:1}67%,100%{transform:translateX(65%) rotate(-7deg);opacity:0}}
+@media(max-aspect-ratio:853/1844){.welcomeStage{width:100vw;height:auto;max-height:100svh}}
 @media(min-width:621px){.welcomeStage{box-shadow:0 0 70px rgba(0,0,0,.10)}}
-@media(prefers-reduced-motion:reduce){.welcomeStage,.welcomeStage::after{animation:none!important}}
