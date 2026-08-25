@@ -1,5 +1,5 @@
 import React,{useEffect,useMemo,useState}from'react';
-import{Bell,Heart,LogOut,UserRound,X}from'lucide-react';
+import{Bell,Heart,LogIn,LogOut,UserRound,X}from'lucide-react';
 import{auth}from'./lib/firebase.js';
 import{onAuthStateChanged,signOut}from'firebase/auth';
 
@@ -9,21 +9,25 @@ function getSavedNotifications(uid){
 function saveNotifications(uid,list){
   try{localStorage.setItem(`maurione_notifications_${uid||'guest'}`,JSON.stringify(list.slice(0,30)))}catch{}
 }
+function guestSession(){try{return sessionStorage.getItem('maurione_guest')==='1'}catch{return false}}
 
 export default function FunctionalEnhancer(){
   const[user,setUser]=useState(()=>auth?.currentUser||null);
   const[panel,setPanel]=useState(null);
   const[notifications,setNotifications]=useState(()=>getSavedNotifications(auth?.currentUser?.uid));
   const[favorites,setFavorites]=useState([]);
+  const[guest,setGuest]=useState(()=>guestSession()||Boolean(auth?.currentUser?.isAnonymous));
 
   useEffect(()=>{
     if(!auth)return;
     return onAuthStateChanged(auth,u=>{
       setUser(u||null);
+      setGuest(Boolean(u?.isAnonymous)||guestSession());
       setNotifications(getSavedNotifications(u?.uid));
     });
   },[]);
 
+  const isGuest=guest||!user||Boolean(user?.isAnonymous);
   const unread=useMemo(()=>notifications.some(n=>!n.read),[notifications]);
 
   function collectFavorites(){
@@ -54,6 +58,11 @@ export default function FunctionalEnhancer(){
     setPanel('notifications');
   }
 
+  function requestLogin(){
+    setPanel(null);
+    window.dispatchEvent(new CustomEvent('maurione:show-auth'));
+  }
+
   useEffect(()=>{
     const clickHandler=e=>{
       const bell=e.target.closest?.('.mxBell');
@@ -68,12 +77,16 @@ export default function FunctionalEnhancer(){
 
       const drawer=e.target.closest?.('.mxDrawer button');
       if(drawer){
+        const text=drawer.textContent||'';
         const buttons=[...drawer.parentElement.querySelectorAll('button')];
         if(buttons.indexOf(drawer)===2){
           e.preventDefault();
           setPanel('account');
           setTimeout(()=>document.querySelector('.mxHeaderBar .mxHeaderIcon:last-child')?.click(),0);
           return;
+        }
+        if(isGuest&&text.includes('تسجيل الخروج')){
+          e.preventDefault();e.stopPropagation();requestLogin();return;
         }
       }
 
@@ -98,7 +111,7 @@ export default function FunctionalEnhancer(){
     };
     document.addEventListener('click',clickHandler,true);
     return()=>document.removeEventListener('click',clickHandler,true);
-  },[panel,notifications,user]);
+  },[panel,notifications,user,isGuest]);
 
   useEffect(()=>{
     const applyBadge=()=>{
@@ -120,8 +133,13 @@ export default function FunctionalEnhancer(){
       {panel==='account'&&<>
         <div className="mxFunctionIcon"><UserRound/></div>
         <h2>حسابي</h2>
-        <div className="mxAccountInfo"><span>الاسم</span><strong>{user?.displayName||'مستخدم MauriOne'}</strong><span>البريد الإلكتروني</span><strong dir="ltr">{user?.email||'—'}</strong></div>
-        <button className="mxFunctionPrimary" onClick={()=>signOut(auth)}><LogOut/> تسجيل الخروج</button>
+        {isGuest?<>
+          <p className="mxGuestAccountText">أنت تتصفح MauriOne كزائر. يمكنك تسجيل الدخول أو إنشاء حساب في أي وقت.</p>
+          <button className="mxFunctionPrimary" onClick={requestLogin}><LogIn/> تسجيل الدخول</button>
+        </>:<>
+          <div className="mxAccountInfo"><span>الاسم</span><strong>{user?.displayName||'مستخدم MauriOne'}</strong><span>البريد الإلكتروني</span><strong dir="ltr">{user?.email||'—'}</strong></div>
+          <button className="mxFunctionPrimary" onClick={()=>signOut(auth)}><LogOut/> تسجيل الخروج</button>
+        </>}
       </>}
 
       {panel==='notifications'&&<>
