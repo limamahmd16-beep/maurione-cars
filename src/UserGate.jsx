@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Eye, EyeOff, LockKeyhole, LogIn, LogOut, Mail, UserPlus, UserRound } from 'lucide-react';
 import { auth, db, firebaseReady } from './lib/firebase.js';
 import {
@@ -18,6 +18,8 @@ export default function UserGate({ children }) {
     try{return sessionStorage.getItem('maurione_guest')==='1'}catch{return false}
   });
   const [loading, setLoading] = useState(firebaseReady);
+  const [showWelcome, setShowWelcome] = useState(true);
+  const skipWelcomeRef = useRef(false);
   const [mode, setMode] = useState('login');
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [busy, setBusy] = useState(false);
@@ -41,6 +43,13 @@ export default function UserGate({ children }) {
       }else{
         let saved=false;try{saved=sessionStorage.getItem('maurione_guest')==='1'}catch{}
         setGuest(saved);
+        if(!saved){
+          if(skipWelcomeRef.current){
+            skipWelcomeRef.current=false;
+          }else{
+            setShowWelcome(true);
+          }
+        }
       }
       setLoading(false);
     });
@@ -48,6 +57,8 @@ export default function UserGate({ children }) {
 
   useEffect(()=>{
     async function showAuth(){
+      skipWelcomeRef.current=true;
+      setShowWelcome(false);
       try{sessionStorage.removeItem('maurione_guest')}catch{}
       setGuest(false);
       setError('');
@@ -160,11 +171,30 @@ export default function UserGate({ children }) {
     setShowPassword(false);
   }
 
+  function openLogin(){
+    setError('');
+    setSuccess('');
+    setMode('login');
+    setShowPassword(false);
+    setShowWelcome(false);
+  }
+
   if (!firebaseReady) return <>{children}</>;
 
   if (loading) return null;
 
   if (guest || user?.isAnonymous) return <>{children}</>;
+
+  if (!user && showWelcome) {
+    return <main className="welcomePage" dir="rtl">
+      <div className="welcomeStage">
+        <img className="welcomeArtwork" src="/maurione-welcome.webp" alt="MauriOne" draggable="false"/>
+        <button type="button" className="welcomeHotspot welcomeLoginHotspot" onClick={openLogin} aria-label="تسجيل الدخول">تسجيل الدخول</button>
+        <button type="button" className="welcomeHotspot welcomeGuestHotspot" onClick={enterAsGuest} disabled={busy} aria-label="الدخول كزائر">الدخول كزائر</button>
+        {busy&&<div className="welcomeBusy">جارٍ الدخول...</div>}
+      </div>
+    </main>;
+  }
 
   if (!user) {
     return <main className="userAuthPage" dir="rtl">
