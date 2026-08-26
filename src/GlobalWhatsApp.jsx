@@ -12,7 +12,7 @@ export default function GlobalWhatsApp(){
       aria-label="واتساب"
       onClick={e=>{if(!number)e.preventDefault()}}
     >
-      <img src="/whatsapp-icon.svg?v=34" alt="" />
+      <img src="/whatsapp-icon.svg?v=35" alt="" />
     </a>
     <style>{`
       .mxGlobalWhatsApp{
@@ -34,6 +34,9 @@ export default function GlobalWhatsApp(){
         visibility:visible;
         transform:translateZ(0);
         -webkit-tap-highlight-color:transparent;
+      }
+      body:has(.userAuthPage) .mxGlobalWhatsApp{
+        display:none!important;
       }
       .mxGlobalWhatsApp img{
         width:27px;
