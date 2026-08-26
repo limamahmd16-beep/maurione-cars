@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import UserGate from './UserGate.jsx';
 
-const ARTWORK = '/maurione-welcome-approved-exact.webp?v=19';
+const WELCOME_PARTS = [
+  '/welcome-jpg/00.txt?v=20',
+  '/welcome-jpg/01.txt?v=20',
+];
 
 export default function SafeEntry({ children }) {
   const [entry, setEntry] = useState(() => {
@@ -11,8 +14,44 @@ export default function SafeEntry({ children }) {
       return 'welcome';
     }
   });
+  const [imageSrc, setImageSrc] = useState('');
   const [imageReady, setImageReady] = useState(false);
   const [imageFailed, setImageFailed] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadWelcomeArtwork() {
+      try {
+        const responses = await Promise.all(
+          WELCOME_PARTS.map((url) => fetch(url, { cache: 'no-store' }))
+        );
+
+        if (responses.some((response) => !response.ok)) {
+          throw new Error('welcome-artwork-request-failed');
+        }
+
+        const parts = await Promise.all(responses.map((response) => response.text()));
+        const base64 = parts.join('').replace(/\s+/g, '');
+
+        if (!base64.startsWith('/9j/')) {
+          throw new Error('welcome-artwork-invalid-jpeg');
+        }
+
+        if (!cancelled) {
+          setImageSrc(`data:image/jpeg;base64,${base64}`);
+        }
+      } catch {
+        if (!cancelled) setImageFailed(true);
+      }
+    }
+
+    if (entry === 'welcome') loadWelcomeArtwork();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [entry]);
 
   useEffect(() => {
     if (entry !== 'auth') return;
@@ -53,7 +92,7 @@ export default function SafeEntry({ children }) {
         style={{
           position: 'relative',
           width: 'min(100vw, 760px)',
-          aspectRatio: '3 / 4',
+          height: '100dvh',
           maxHeight: '100dvh',
           overflow: 'hidden',
           background: '#fff',
@@ -100,9 +139,9 @@ export default function SafeEntry({ children }) {
           </button>
         </div>
 
-        {!imageFailed && (
+        {!!imageSrc && !imageFailed && (
           <img
-            src={ARTWORK}
+            src={imageSrc}
             alt="MauriOne Cars"
             draggable="false"
             onLoad={() => setImageReady(true)}
