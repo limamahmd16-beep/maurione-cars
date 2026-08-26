@@ -12,33 +12,43 @@ export default function GlobalWhatsApp(){
       aria-label="واتساب"
       onClick={e=>{if(!number)e.preventDefault()}}
     >
-      <img src="/whatsapp-icon.svg?v=33" alt="" />
+      <img src="/whatsapp-icon.svg?v=34" alt="" />
     </a>
     <style>{`
       .mxGlobalWhatsApp{
         position:fixed;
-        right:max(18px,env(safe-area-inset-right));
-        bottom:max(96px,calc(env(safe-area-inset-bottom) + 92px));
+        right:max(16px,env(safe-area-inset-right));
+        bottom:max(94px,calc(env(safe-area-inset-bottom) + 90px));
         z-index:9999;
-        width:62px;
-        height:62px;
+        width:50px;
+        height:50px;
+        min-width:50px;
+        min-height:50px;
         border-radius:50%;
         background:#25D366;
         display:grid;
         place-items:center;
-        box-shadow:0 12px 30px rgba(37,211,102,.34);
+        box-shadow:0 6px 16px rgba(0,0,0,.18);
         text-decoration:none;
-        opacity:1;
+        opacity:1!important;
         visibility:visible;
         transform:translateZ(0);
         -webkit-tap-highlight-color:transparent;
       }
-      .mxGlobalWhatsApp img{width:34px;height:34px;display:block}
+      .mxGlobalWhatsApp img{
+        width:27px;
+        height:27px;
+        display:block;
+        opacity:1!important;
+      }
       .mxGlobalWhatsApp:active{transform:scale(.96)}
-      .mxGlobalWhatsApp.disabled{opacity:.55}
+      .mxGlobalWhatsApp.disabled{
+        opacity:1!important;
+        filter:none!important;
+      }
       @media(min-width:800px){
-        .mxGlobalWhatsApp{right:28px;bottom:28px;width:64px;height:64px}
-        .mxGlobalWhatsApp img{width:35px;height:35px}
+        .mxGlobalWhatsApp{right:24px;bottom:24px;width:52px;height:52px;min-width:52px;min-height:52px}
+        .mxGlobalWhatsApp img{width:28px;height:28px}
       }
     `}</style>
   </>;
