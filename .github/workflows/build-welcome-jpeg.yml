@@ -16,11 +16,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Rebuild verified showroom JPEG from chunks
+      - name: Rebuild and crop verified showroom JPEG
         run: |
+          python3 -m pip install --quiet pillow
           python3 - <<'PY'
           from pathlib import Path
           import base64
+          from PIL import Image
 
           names = ['00a.txt', '00b.txt', '01.txt', '02.txt', '03.txt', '04.txt']
           encoded = ''.join(''.join(Path('public/q60', name).read_text().split()) for name in names)
@@ -31,17 +33,24 @@ jobs:
           if not data.startswith(b'\xff\xd8\xff') or not data.endswith(b'\xff\xd9'):
               raise SystemExit('Invalid JPEG output')
 
-          Path('public/showroom-720.jpg').write_bytes(data)
-          print('JPEG bytes:', len(data))
+          source = Path('public/showroom-720.jpg')
+          source.write_bytes(data)
+
+          with Image.open(source) as im:
+              if im.size != (720, 464):
+                  raise SystemExit(f'Unexpected image dimensions: {im.size}')
+              clean = im.crop((0, 46, 720, 464)).convert('RGB')
+              clean.save('public/showroom-clean.jpg', 'JPEG', quality=94, optimize=True, progressive=True)
+              print('Clean showroom size:', clean.size)
           PY
-      - name: Commit showroom JPEG
+      - name: Commit showroom JPEGs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/showroom-720.jpg
+          git add public/showroom-720.jpg public/showroom-clean.jpg
           if git diff --cached --quiet; then
             echo "No change"
           else
-            git commit -m "Rebuild verified welcome showroom JPEG"
+            git commit -m "Add clean cropped welcome showroom image"
             git push
           fi
