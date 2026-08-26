@@ -1,10 +1,10 @@
 (() => {
-  const SRC = '/showroom-720.jpg?v=26';
+  const SRC = '/showroom-clean.jpg?v=28';
 
   function applyArtwork() {
     document.querySelectorAll('img[alt="سيارات MauriOne"]').forEach((image) => {
-      if (image.dataset.boundWelcome === '26') return;
-      image.dataset.boundWelcome = '26';
+      if (image.dataset.boundWelcome === '28') return;
+      image.dataset.boundWelcome = '28';
       image.src = SRC;
       image.style.display = 'block';
       image.style.width = '100%';
