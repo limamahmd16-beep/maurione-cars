@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './src/theme-bootstrap.js';
 import AppExact from './src/AppExact.jsx';
 import FunctionalEnhancer from './src/functional-enhancer.jsx';
-import UserGate from './src/UserGate.jsx';
+import SafeEntry from './src/SafeEntry.jsx';
 import './src/styles.css';
 import './src/premium.css';
 import './src/brand-fix.css';
@@ -16,9 +16,9 @@ import './src/welcome.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <UserGate>
+    <SafeEntry>
       <AppExact />
       <FunctionalEnhancer />
-    </UserGate>
+    </SafeEntry>
   </React.StrictMode>
 );
