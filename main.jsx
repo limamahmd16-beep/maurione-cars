@@ -14,6 +14,7 @@ import './src/auth-final.css';
 import './src/guest-login.css';
 import './src/auth-approved.css';
 import './src/welcome.css';
+import './src/whatsapp-detail.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
