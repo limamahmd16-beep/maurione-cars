@@ -1,0 +1,68 @@
+/* WhatsApp-only contact control on vehicle detail pages. */
+.mxDetail .mxContact{
+  position:fixed!important;
+  right:max(18px,env(safe-area-inset-right))!important;
+  bottom:max(22px,calc(env(safe-area-inset-bottom) + 18px))!important;
+  z-index:90!important;
+  width:64px!important;
+  height:64px!important;
+  margin:0!important;
+  padding:0!important;
+  display:block!important;
+}
+
+.mxDetail .mxContact>a{
+  display:none!important;
+}
+
+.mxDetail .mxContact>a:first-child{
+  width:64px!important;
+  height:64px!important;
+  min-width:64px!important;
+  min-height:64px!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:50%!important;
+  background:#25D366!important;
+  box-shadow:0 12px 28px rgba(37,211,102,.32)!important;
+  display:grid!important;
+  place-items:center!important;
+  text-decoration:none!important;
+  font-size:0!important;
+  color:transparent!important;
+}
+
+.mxDetail .mxContact>a:first-child svg{
+  display:none!important;
+}
+
+.mxDetail .mxContact>a:first-child::before{
+  content:"";
+  width:34px;
+  height:34px;
+  display:block;
+  background:url('/whatsapp-icon.svg?v=31') center/contain no-repeat;
+}
+
+.mxDetail .mxContact>a:first-child.disabled{
+  display:grid!important;
+  opacity:.48!important;
+  pointer-events:none!important;
+}
+
+@media(max-width:520px){
+  .mxDetail .mxContact{
+    right:max(16px,env(safe-area-inset-right))!important;
+    bottom:max(18px,calc(env(safe-area-inset-bottom) + 14px))!important;
+    width:60px!important;
+    height:60px!important;
+  }
+  .mxDetail .mxContact>a:first-child{
+    width:60px!important;
+    height:60px!important;
+    min-width:60px!important;
+    min-height:60px!important;
+  }
+  .mxDetail .mxContact>a:first-child::before{width:32px;height:32px}
+}
