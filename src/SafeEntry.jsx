@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import UserGate from './UserGate.jsx';
 
-const APPROVED_SVG = '/welcome-approved-site.svg?v=22';
+const WELCOME_PARTS = [
+  '/welcome-jpg/00.txt?v=23',
+  '/welcome-jpg/01.txt?v=23',
+  '/welcome-jpg/02.txt?v=23',
+  '/welcome-jpg/03.txt?v=23',
+];
 
 export default function SafeEntry({ children }) {
   const [entry, setEntry] = useState(() => {
@@ -20,18 +25,20 @@ export default function SafeEntry({ children }) {
 
     async function loadWelcomeArtwork() {
       try {
-        const response = await fetch(APPROVED_SVG, { cache: 'no-store' });
-        if (!response.ok) throw new Error('welcome-svg-request-failed');
-
-        const svg = await response.text();
-        const match = svg.match(/data:image\/jpeg;base64,([^\"']+)/i);
-        if (!match || !match[1] || !match[1].startsWith('/9j/')) {
-          throw new Error('welcome-jpeg-not-found');
+        const responses = await Promise.all(
+          WELCOME_PARTS.map((url) => fetch(url, { cache: 'no-store' }))
+        );
+        if (responses.some((response) => !response.ok)) {
+          throw new Error('welcome-artwork-request-failed');
         }
 
-        if (!cancelled) {
-          setImageSrc(`data:image/jpeg;base64,${match[1]}`);
+        const parts = await Promise.all(responses.map((response) => response.text()));
+        const base64 = parts.join('').replace(/\s+/g, '');
+        if (!base64.startsWith('/9j/') || base64.length < 60000) {
+          throw new Error('welcome-artwork-invalid-jpeg');
         }
+
+        if (!cancelled) setImageSrc(`data:image/jpeg;base64,${base64}`);
       } catch {
         if (!cancelled) setImageFailed(true);
       }
@@ -111,18 +118,10 @@ export default function SafeEntry({ children }) {
           </p>
           <div style={{ flex: 1, minHeight: 60 }} />
           {imageFailed && <div style={{ color: '#8a8f97', fontSize: 12, marginBottom: 12 }}>MauriOne Cars</div>}
-          <button
-            type="button"
-            onClick={openLogin}
-            style={{ width: '100%', minHeight: 58, border: 0, borderRadius: 18, background: '#ff5a12', color: '#fff', fontSize: 20, fontWeight: 800 }}
-          >
+          <button type="button" onClick={openLogin} style={{ width: '100%', minHeight: 58, border: 0, borderRadius: 18, background: '#ff5a12', color: '#fff', fontSize: 20, fontWeight: 800 }}>
             تسجيل الدخول
           </button>
-          <button
-            type="button"
-            onClick={enterGuest}
-            style={{ width: '100%', minHeight: 58, marginTop: 12, border: '1px solid #ff5a12', borderRadius: 18, background: '#fff', color: '#ff5a12', fontSize: 19, fontWeight: 800 }}
-          >
+          <button type="button" onClick={enterGuest} style={{ width: '100%', minHeight: 58, marginTop: 12, border: '1px solid #ff5a12', borderRadius: 18, background: '#fff', color: '#ff5a12', fontSize: 19, fontWeight: 800 }}>
             الدخول كزائر
           </button>
         </div>
@@ -136,11 +135,13 @@ export default function SafeEntry({ children }) {
             onError={() => setImageFailed(true)}
             style={{
               position: 'absolute',
-              inset: 0,
+              left: 0,
+              top: '50%',
+              transform: 'translateY(-50%)',
               width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center center',
+              height: 'auto',
+              maxHeight: '100%',
+              objectFit: 'contain',
               display: 'block',
               opacity: imageReady ? 1 : 0,
               transition: 'opacity .12s linear',
@@ -152,18 +153,8 @@ export default function SafeEntry({ children }) {
 
         {imageReady && (
           <>
-            <button
-              type="button"
-              onClick={openLogin}
-              aria-label="تسجيل الدخول"
-              style={{ position: 'absolute', left: '9%', right: '9%', top: '78.8%', height: '7.9%', border: 0, background: 'transparent', zIndex: 5, WebkitTapHighlightColor: 'transparent' }}
-            />
-            <button
-              type="button"
-              onClick={enterGuest}
-              aria-label="الدخول كزائر"
-              style={{ position: 'absolute', left: '9%', right: '9%', top: '87.7%', height: '7.8%', border: 0, background: 'transparent', zIndex: 5, WebkitTapHighlightColor: 'transparent' }}
-            />
+            <button type="button" onClick={openLogin} aria-label="تسجيل الدخول" style={{ position: 'absolute', left: '9%', right: '9%', top: '78.8%', height: '7.9%', border: 0, background: 'transparent', zIndex: 5, WebkitTapHighlightColor: 'transparent' }} />
+            <button type="button" onClick={enterGuest} aria-label="الدخول كزائر" style={{ position: 'absolute', left: '9%', right: '9%', top: '87.7%', height: '7.8%', border: 0, background: 'transparent', zIndex: 5, WebkitTapHighlightColor: 'transparent' }} />
           </>
         )}
       </section>
