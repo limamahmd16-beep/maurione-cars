@@ -12,6 +12,7 @@ import './src/no-messages.css';
 import './src/functional-enhancer.css';
 import './src/auth-final.css';
 import './src/guest-login.css';
+import './src/auth-approved.css';
 import './src/welcome.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
