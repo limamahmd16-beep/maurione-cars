@@ -1,0 +1,88 @@
+/* Final approved MauriOne login composition */
+.userAuthPage{
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  padding-bottom:max(30px,env(safe-area-inset-bottom))!important;
+  background:
+    radial-gradient(circle at 72% 18%,rgba(255,90,18,.055) 0 55px,transparent 56px),
+    linear-gradient(180deg,#fff 0%,#fff 82%,#fcfcfc 100%)!important;
+}
+.userAuthShell{
+  padding-top:max(70px,env(safe-area-inset-top))!important;
+}
+.userAuthBrand{
+  margin:0 auto 72px!important;
+}
+.userAuthBrand span{
+  font-size:clamp(52px,11vw,72px)!important;
+}
+.userAuthBackdrop{
+  top:150px!important;
+  height:200px!important;
+  opacity:.32!important;
+}
+.userAuthCard{
+  width:min(100%,700px)!important;
+  box-sizing:border-box!important;
+  border-radius:36px!important;
+  border-color:#eceef1!important;
+  box-shadow:0 20px 65px rgba(15,23,42,.075)!important;
+}
+.userAuthForgot{
+  color:var(--auth-orange)!important;
+}
+.userAuthPrimary{
+  box-shadow:0 12px 28px rgba(255,90,18,.18)!important;
+}
+.userAuthSwitch b{color:var(--auth-orange)!important}
+
+@media(max-width:520px){
+  .userAuthPage{
+    padding-inline:14px!important;
+    padding-bottom:max(24px,env(safe-area-inset-bottom))!important;
+  }
+  .userAuthShell{
+    padding-top:max(60px,env(safe-area-inset-top))!important;
+  }
+  .userAuthBrand{
+    margin-bottom:42px!important;
+  }
+  .userAuthBrand span{
+    font-size:52px!important;
+    letter-spacing:-3px!important;
+  }
+  .userAuthBackdrop{
+    top:145px!important;
+    height:150px!important;
+    opacity:.24!important;
+  }
+  .userAuthCard{
+    width:100%!important;
+    padding:34px 18px 28px!important;
+    border-radius:30px!important;
+  }
+  .userAuthIcon{
+    width:72px!important;
+    height:72px!important;
+    border-radius:22px!important;
+    margin-bottom:16px!important;
+  }
+  .userAuthIcon svg{width:34px!important;height:34px!important}
+  .userAuthCard h1{font-size:40px!important}
+  .userAuthCard>p{
+    margin-bottom:26px!important;
+    font-size:16px!important;
+    line-height:1.7!important;
+  }
+  .userAuthForgot{
+    margin-top:-4px!important;
+    font-size:14px!important;
+  }
+}
+
+@media(max-height:760px){
+  .userAuthShell{padding-top:28px!important}
+  .userAuthBrand{margin-bottom:30px!important}
+  .userAuthBackdrop{top:110px!important;height:135px!important}
+  .userAuthCard{padding-top:26px!important}
+}
