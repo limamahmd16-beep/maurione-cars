@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import UserGate from './UserGate.jsx';
 
-const WELCOME_PARTS = [
-  '/welcome-jpg/00.txt?v=24',
-  '/welcome-jpg/01.txt?v=24',
-  '/welcome-jpg/02.txt?v=24',
-  '/welcome-jpg/03.txt?v=24',
-];
+const CARS_ARTWORK = 'data:image/jpeg;base64,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...';
 
 export default function SafeEntry({ children }) {
   const [entry, setEntry] = useState(() => {
@@ -16,42 +11,10 @@ export default function SafeEntry({ children }) {
       return 'welcome';
     }
   });
-  const [imageSrc, setImageSrc] = useState('');
-  const [imageReady, setImageReady] = useState(false);
-  const [imageFailed, setImageFailed] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadWelcomeArtwork() {
-      try {
-        const responses = await Promise.all(
-          WELCOME_PARTS.map((url) => fetch(url, { cache: 'no-store' }))
-        );
-        if (responses.some((response) => !response.ok)) {
-          throw new Error('welcome-artwork-request-failed');
-        }
-
-        const parts = await Promise.all(responses.map((response) => response.text()));
-        const base64 = parts.join('').replace(/\s+/g, '');
-        if (!base64.startsWith('/9j/')) {
-          throw new Error('welcome-artwork-invalid-jpeg');
-        }
-
-        if (!cancelled) setImageSrc(`data:image/jpeg;base64,${base64}`);
-      } catch {
-        if (!cancelled) setImageFailed(true);
-      }
-    }
-
-    if (entry === 'welcome') loadWelcomeArtwork();
-    return () => { cancelled = true; };
-  }, [entry]);
 
   useEffect(() => {
     if (entry !== 'auth') return;
-    const fire = () => window.dispatchEvent(new Event('maurione:show-auth'));
-    const timer = window.setTimeout(fire, 60);
+    const timer = window.setTimeout(() => window.dispatchEvent(new Event('maurione:show-auth')), 60);
     return () => window.clearTimeout(timer);
   }, [entry]);
 
@@ -65,98 +28,30 @@ export default function SafeEntry({ children }) {
     setEntry('app');
   }
 
-  if (entry !== 'welcome') {
-    return <UserGate>{children}</UserGate>;
-  }
+  if (entry !== 'welcome') return <UserGate>{children}</UserGate>;
 
   return (
-    <main
-      dir="rtl"
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 10000,
-        overflow: 'hidden',
-        display: 'grid',
-        placeItems: 'center',
-        background: '#fff',
-        fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif',
-      }}
-    >
-      <section
-        style={{
-          position: 'relative',
-          width: 'min(100vw, 760px)',
-          height: '100dvh',
-          maxHeight: '100dvh',
-          overflow: 'hidden',
-          background: '#fff',
-        }}
-      >
-        <div
-          aria-hidden={imageReady}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '7% 8%',
-            textAlign: 'center',
-            background: 'linear-gradient(180deg,#ffffff 0%,#fbfbfb 100%)',
-            color: '#151515',
-          }}
-        >
-          <div style={{ direction: 'ltr', fontSize: 'clamp(42px,10vw,72px)', fontWeight: 850, letterSpacing: '-3px', lineHeight: 1 }}>
+    <main dir="rtl" style={{ position: 'fixed', inset: 0, zIndex: 10000, overflowY: 'auto', overflowX: 'hidden', background: '#fff', fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif' }}>
+      <section style={{ width: 'min(100%,760px)', minHeight: '100dvh', margin: '0 auto', display: 'flex', flexDirection: 'column', background: '#fff', color: '#151515' }}>
+        <header style={{ padding: 'clamp(28px,4.5dvh,58px) 8% 0', textAlign: 'center', flex: '0 0 auto' }}>
+          <div style={{ direction: 'ltr', fontSize: 'clamp(46px,10vw,72px)', fontWeight: 850, letterSpacing: '-3px', lineHeight: 1 }}>
             <span style={{ color: '#111' }}>Mauri</span><span style={{ color: '#ff5a12' }}>One</span>
           </div>
-          <h1 style={{ margin: '7% 0 2%', fontSize: 'clamp(30px,7vw,48px)', fontWeight: 800 }}>مرحبًا بك</h1>
-          <div style={{ width: 58, height: 5, borderRadius: 99, background: '#ff5a12', marginBottom: '5%' }} />
-          <p style={{ margin: 0, maxWidth: 560, color: '#555b64', fontSize: 'clamp(14px,3.4vw,21px)', lineHeight: 2 }}>
-            منصة موثوقة لبيع السيارات في موريتانيا، تتيح لك استعراض السيارات المتاحة ومقارنة الأسعار والتفاصيل بسهولة.
+          <h1 style={{ margin: 'clamp(28px,3.5dvh,46px) 0 10px', fontSize: 'clamp(34px,7.2vw,50px)', lineHeight: 1.25, fontWeight: 800 }}>مرحبًا بك</h1>
+          <div style={{ width: 58, height: 5, borderRadius: 999, background: '#ff5a12', margin: '0 auto clamp(20px,2.5dvh,34px)' }} />
+          <p style={{ margin: 0, color: '#555b64', fontSize: 'clamp(15px,3.35vw,21px)', lineHeight: 2 }}>
+            منصة موثوقة لبيع السيارات في موريتانيا، تتيح لك استعراض<br />السيارات المتاحة ومقارنة الأسعار والتفاصيل بسهولة.
           </p>
-          <div style={{ flex: 1, minHeight: 60 }} />
-          {imageFailed && <div style={{ color: '#8a8f97', fontSize: 12, marginBottom: 12 }}>MauriOne Cars</div>}
-          <button type="button" onClick={openLogin} style={{ width: '100%', minHeight: 58, border: 0, borderRadius: 18, background: '#ff5a12', color: '#fff', fontSize: 20, fontWeight: 800 }}>
-            تسجيل الدخول
-          </button>
-          <button type="button" onClick={enterGuest} style={{ width: '100%', minHeight: 58, marginTop: 12, border: '1px solid #ff5a12', borderRadius: 18, background: '#fff', color: '#ff5a12', fontSize: 19, fontWeight: 800 }}>
-            الدخول كزائر
-          </button>
+        </header>
+
+        <div style={{ width: '100%', flex: '1 1 auto', minHeight: 'clamp(315px,38dvh,520px)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginTop: 'clamp(6px,1dvh,14px)' }}>
+          <img src={CARS_ARTWORK} alt="سيارات MauriOne" draggable="false" style={{ display: 'block', width: '100%', height: 'auto', objectFit: 'contain', objectPosition: 'center', userSelect: 'none', WebkitUserSelect: 'none' }} />
         </div>
 
-        {!!imageSrc && !imageFailed && (
-          <img
-            src={imageSrc}
-            alt="MauriOne Cars"
-            draggable="false"
-            onLoad={() => setImageReady(true)}
-            onError={() => setImageFailed(true)}
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: '100%',
-              height: 'auto',
-              maxHeight: '100%',
-              objectFit: 'contain',
-              display: 'block',
-              opacity: imageReady ? 1 : 0,
-              transition: 'opacity .12s linear',
-              userSelect: 'none',
-              WebkitUserSelect: 'none',
-            }}
-          />
-        )}
-
-        {imageReady && (
-          <>
-            <button type="button" onClick={openLogin} aria-label="تسجيل الدخول" style={{ position: 'absolute', left: '9%', right: '9%', top: '78.8%', height: '7.9%', border: 0, background: 'transparent', zIndex: 5, WebkitTapHighlightColor: 'transparent' }} />
-            <button type="button" onClick={enterGuest} aria-label="الدخول كزائر" style={{ position: 'absolute', left: '9%', right: '9%', top: '87.7%', height: '7.8%', border: 0, background: 'transparent', zIndex: 5, WebkitTapHighlightColor: 'transparent' }} />
-          </>
-        )}
+        <footer style={{ width: '100%', boxSizing: 'border-box', padding: '0 8% calc(max(26px, env(safe-area-inset-bottom)))', flex: '0 0 auto' }}>
+          <button type="button" onClick={openLogin} style={{ width: '100%', minHeight: 64, border: 0, borderRadius: 20, background: '#ff5a12', color: '#fff', fontSize: 'clamp(20px,4.2vw,27px)', fontWeight: 800, WebkitTapHighlightColor: 'transparent' }}>تسجيل الدخول</button>
+          <button type="button" onClick={enterGuest} style={{ width: '100%', minHeight: 64, marginTop: 14, border: '2px solid #ff5a12', borderRadius: 20, background: '#fff', color: '#ff5a12', fontSize: 'clamp(19px,4vw,26px)', fontWeight: 800, WebkitTapHighlightColor: 'transparent' }}>الدخول كزائر</button>
+        </footer>
       </section>
     </main>
   );
