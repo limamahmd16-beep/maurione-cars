@@ -1,0 +1,44 @@
+/* Slightly smaller MauriOne header — preserve the approved design */
+.mxHeaderBar{
+  height:108px!important;
+  padding:8px 20px 6px!important;
+}
+.mxHeaderIcon{
+  top:30px!important;
+  width:40px!important;
+  height:40px!important;
+}
+.mxHeaderIcon:first-child{left:24px!important}
+.mxHeaderIcon:last-child{right:24px!important}
+.mxHeaderIcon svg{
+  width:30px!important;
+  height:30px!important;
+}
+.mxBell span{
+  width:8px!important;
+  height:8px!important;
+  right:5px!important;
+  top:3px!important;
+}
+.mxBrandWord{
+  font-size:40px!important;
+  letter-spacing:-2.1px!important;
+}
+.mxBrandSub{
+  margin-top:10px!important;
+  font-size:12.5px!important;
+}
+.mxDrawer{
+  top:100px!important;
+}
+
+@media(max-width:560px){
+  .mxHeaderBar{height:102px!important;padding:7px 18px 5px!important}
+  .mxHeaderIcon{top:28px!important;width:38px!important;height:38px!important}
+  .mxHeaderIcon:first-child{left:21px!important}
+  .mxHeaderIcon:last-child{right:21px!important}
+  .mxHeaderIcon svg{width:28px!important;height:28px!important}
+  .mxBrandWord{font-size:38px!important;letter-spacing:-2px!important}
+  .mxBrandSub{margin-top:9px!important;font-size:12px!important}
+  .mxDrawer{top:95px!important}
+}
