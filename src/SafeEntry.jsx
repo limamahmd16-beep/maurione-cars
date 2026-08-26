@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import UserGate from './UserGate.jsx';
 
-const WELCOME_PARTS = [
-  '/welcome-jpg/00.txt?v=20',
-  '/welcome-jpg/01.txt?v=20',
-];
+const APPROVED_SVG = '/welcome-approved-site.svg?v=22';
 
 export default function SafeEntry({ children }) {
   const [entry, setEntry] = useState(() => {
@@ -23,23 +20,17 @@ export default function SafeEntry({ children }) {
 
     async function loadWelcomeArtwork() {
       try {
-        const responses = await Promise.all(
-          WELCOME_PARTS.map((url) => fetch(url, { cache: 'no-store' }))
-        );
+        const response = await fetch(APPROVED_SVG, { cache: 'no-store' });
+        if (!response.ok) throw new Error('welcome-svg-request-failed');
 
-        if (responses.some((response) => !response.ok)) {
-          throw new Error('welcome-artwork-request-failed');
-        }
-
-        const parts = await Promise.all(responses.map((response) => response.text()));
-        const base64 = parts.join('').replace(/\s+/g, '');
-
-        if (!base64.startsWith('/9j/')) {
-          throw new Error('welcome-artwork-invalid-jpeg');
+        const svg = await response.text();
+        const match = svg.match(/data:image\/jpeg;base64,([^\"']+)/i);
+        if (!match || !match[1] || !match[1].startsWith('/9j/')) {
+          throw new Error('welcome-jpeg-not-found');
         }
 
         if (!cancelled) {
-          setImageSrc(`data:image/jpeg;base64,${base64}`);
+          setImageSrc(`data:image/jpeg;base64,${match[1]}`);
         }
       } catch {
         if (!cancelled) setImageFailed(true);
@@ -47,10 +38,7 @@ export default function SafeEntry({ children }) {
     }
 
     if (entry === 'welcome') loadWelcomeArtwork();
-
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [entry]);
 
   useEffect(() => {
@@ -152,6 +140,7 @@ export default function SafeEntry({ children }) {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
+              objectPosition: 'center center',
               display: 'block',
               opacity: imageReady ? 1 : 0,
               transition: 'opacity .12s linear',
