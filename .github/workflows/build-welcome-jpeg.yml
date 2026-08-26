@@ -22,13 +22,10 @@ jobs:
           from pathlib import Path
           import base64
 
-          parts = []
-          for i in range(5):
-              p = Path(f'public/q60/{i:02}.txt')
-              text = ''.join(p.read_text().split())
-              parts.append(text)
+          names = ['00a.txt', '00b.txt', '01.txt', '02.txt', '03.txt', '04.txt']
+          encoded = ''.join(''.join(Path('public/q60', name).read_text().split()) for name in names)
+          data = base64.b64decode(encoded, validate=True)
 
-          data = base64.b64decode(''.join(parts), validate=True)
           if len(data) != 40407:
               raise SystemExit(f'Unexpected JPEG size: {len(data)}')
           if not data.startswith(b'\xff\xd8\xff') or not data.endswith(b'\xff\xd9'):
