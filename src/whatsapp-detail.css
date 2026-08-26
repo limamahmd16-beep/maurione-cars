@@ -1,14 +1,18 @@
 /* WhatsApp-only contact control on vehicle detail pages. */
+.mxDetail .mxSummary{
+  position:relative!important;
+}
+
 .mxDetail .mxContact{
-  position:fixed!important;
-  right:max(18px,env(safe-area-inset-right))!important;
-  bottom:max(22px,calc(env(safe-area-inset-bottom) + 18px))!important;
-  z-index:90!important;
-  width:64px!important;
-  height:64px!important;
-  margin:0!important;
+  position:static!important;
+  z-index:auto!important;
+  width:100%!important;
+  height:auto!important;
+  margin:22px 0 0!important;
   padding:0!important;
-  display:block!important;
+  display:flex!important;
+  justify-content:flex-start!important;
+  align-items:center!important;
 }
 
 .mxDetail .mxContact>a{
@@ -16,21 +20,23 @@
 }
 
 .mxDetail .mxContact>a:first-child{
-  width:64px!important;
-  height:64px!important;
-  min-width:64px!important;
-  min-height:64px!important;
+  width:60px!important;
+  height:60px!important;
+  min-width:60px!important;
+  min-height:60px!important;
   padding:0!important;
   margin:0!important;
   border:0!important;
   border-radius:50%!important;
   background:#25D366!important;
-  box-shadow:0 12px 28px rgba(37,211,102,.32)!important;
+  box-shadow:0 10px 24px rgba(37,211,102,.28)!important;
   display:grid!important;
   place-items:center!important;
   text-decoration:none!important;
   font-size:0!important;
   color:transparent!important;
+  opacity:1!important;
+  overflow:hidden!important;
 }
 
 .mxDetail .mxContact>a:first-child svg{
@@ -39,30 +45,31 @@
 
 .mxDetail .mxContact>a:first-child::before{
   content:"";
-  width:34px;
-  height:34px;
+  width:32px;
+  height:32px;
   display:block;
-  background:url('/whatsapp-icon.svg?v=31') center/contain no-repeat;
+  background:url('/whatsapp-icon.svg?v=32') center/contain no-repeat;
 }
 
+/* Keep the icon visually correct even before a WhatsApp number is configured. */
 .mxDetail .mxContact>a:first-child.disabled{
   display:grid!important;
-  opacity:.48!important;
+  opacity:1!important;
   pointer-events:none!important;
 }
 
 @media(max-width:520px){
   .mxDetail .mxContact{
-    right:max(16px,env(safe-area-inset-right))!important;
-    bottom:max(18px,calc(env(safe-area-inset-bottom) + 14px))!important;
-    width:60px!important;
-    height:60px!important;
+    margin-top:18px!important;
   }
   .mxDetail .mxContact>a:first-child{
-    width:60px!important;
-    height:60px!important;
-    min-width:60px!important;
-    min-height:60px!important;
+    width:56px!important;
+    height:56px!important;
+    min-width:56px!important;
+    min-height:56px!important;
   }
-  .mxDetail .mxContact>a:first-child::before{width:32px;height:32px}
+  .mxDetail .mxContact>a:first-child::before{
+    width:30px;
+    height:30px;
+  }
 }
