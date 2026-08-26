@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/build-welcome-jpeg.yml'
-      - 'public/maurione-welcome-approved-exact.webp'
+      - 'public/q60/*.txt'
   workflow_dispatch:
 
 permissions:
@@ -16,31 +16,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Convert approved binary artwork to JPEG
+      - name: Rebuild verified showroom JPEG from chunks
         run: |
-          python3 -m pip install --quiet pillow
           python3 - <<'PY'
           from pathlib import Path
-          from PIL import Image
+          import base64
 
-          source = Path('public/maurione-welcome-approved-exact.webp')
-          with Image.open(source) as im:
-              print('SOURCE:', im.format, im.size, im.mode)
-              out = im.convert('RGB')
-              out.save('public/welcome-approved.jpg', 'JPEG', quality=94, optimize=True, progressive=True)
-          data = Path('public/welcome-approved.jpg').read_bytes()
-          if not data.startswith(b'\xff\xd8\xff'):
+          parts = []
+          for i in range(5):
+              p = Path(f'public/q60/{i:02}.txt')
+              text = ''.join(p.read_text().split())
+              parts.append(text)
+
+          data = base64.b64decode(''.join(parts), validate=True)
+          if len(data) != 40407:
+              raise SystemExit(f'Unexpected JPEG size: {len(data)}')
+          if not data.startswith(b'\xff\xd8\xff') or not data.endswith(b'\xff\xd9'):
               raise SystemExit('Invalid JPEG output')
+
+          Path('public/showroom-720.jpg').write_bytes(data)
           print('JPEG bytes:', len(data))
           PY
-      - name: Commit JPEG
+      - name: Commit showroom JPEG
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/welcome-approved.jpg
+          git add public/showroom-720.jpg
           if git diff --cached --quiet; then
             echo "No change"
           else
-            git commit -m "Add real approved welcome JPEG"
+            git commit -m "Rebuild verified welcome showroom JPEG"
             git push
           fi
