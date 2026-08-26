@@ -1,0 +1,15 @@
+/* Final mobile navigation: keep only the four primary destinations. */
+.mxBottom{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+.mxBottom>button:nth-child(4){
+  display:none!important;
+}
+
+/* Authentication and welcome screens stay visually clean. */
+.userAuthPage .mxBottom,
+.welcomePage .mxBottom,
+.welcomeExactPage .mxBottom,
+.mxDetail .mxBottom{
+  display:none!important;
+}
