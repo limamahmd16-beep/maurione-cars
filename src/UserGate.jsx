@@ -179,19 +179,21 @@ export default function UserGate({ children }) {
     setShowWelcome(false);
   }
 
-  if (!firebaseReady) return <>{children}</>;
-  if (loading) return null;
-  if (guest || user?.isAnonymous) return <>{children}</>;
-
-  if (!user && showWelcome) {
-    return <main className="welcomePage welcomeExactPage" dir="rtl">
-      <div className="welcomeExactStage">
-        <img className="welcomeFullArtwork" alt="مرحبًا بك في MauriOne" draggable="false" decoding="async" />
+  const welcomeScreen = (interactive = true) => <main className="welcomePage welcomeExactPage" dir="rtl">
+    <div className="welcomeExactStage">
+      <img className="welcomeFullArtwork" alt="" aria-hidden="true" draggable="false" decoding="async" />
+      {interactive && <>
         <button type="button" className="welcomeExactHotspot welcomeExactLogin" onClick={openLogin} aria-label="تسجيل الدخول" />
         <button type="button" className="welcomeExactHotspot welcomeExactGuest" onClick={enterAsGuest} disabled={busy} aria-label="الدخول كزائر" />
-      </div>
-    </main>;
-  }
+      </>}
+    </div>
+  </main>;
+
+  if (!firebaseReady) return <>{children}</>;
+  if (loading) return welcomeScreen(false);
+  if (guest || user?.isAnonymous) return <>{children}</>;
+
+  if (!user && showWelcome) return welcomeScreen(true);
 
   if (!user) {
     return <main className="userAuthPage" dir="rtl">
