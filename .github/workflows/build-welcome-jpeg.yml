@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/build-welcome-jpeg.yml'
-      - 'public/welcome-approved-site.svg'
+      - 'public/welcome-parts/**'
   workflow_dispatch:
 
 permissions:
@@ -16,20 +16,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Extract real JPEG from approved artwork
+      - name: Rebuild approved artwork as a real JPEG
         run: |
+          python3 -m pip install --quiet pillow
           python3 - <<'PY'
           from pathlib import Path
-          import base64, re
-          src = Path('public/welcome-approved-site.svg').read_text(encoding='utf-8')
-          m = re.search(r'data:image/jpeg;base64,([^"\']+)', src)
-          if not m:
-              raise SystemExit('JPEG data not found')
-          data = base64.b64decode(m.group(1))
-          if not data.startswith(b'\xff\xd8\xff'):
-              raise SystemExit('Invalid JPEG')
-          Path('public/welcome-approved.jpg').write_bytes(data)
-          print('JPEG bytes:', len(data))
+          import base64, io
+          from PIL import Image
+
+          names = ['00','01','02','03','04a','04b','04c','05']
+          encoded = ''.join(Path(f'public/welcome-parts/{name}.txt').read_text().strip() for name in names)
+          data = base64.b64decode(encoded)
+          if data[:4] != b'RIFF' or data[8:12] != b'WEBP':
+              raise SystemExit('Invalid reconstructed WEBP')
+
+          im = Image.open(io.BytesIO(data)).convert('RGB')
+          im.save('public/welcome-approved.jpg', 'JPEG', quality=92, optimize=True, progressive=True)
+          out = Path('public/welcome-approved.jpg').read_bytes()
+          if not out.startswith(b'\xff\xd8\xff'):
+              raise SystemExit('Invalid output JPEG')
+          print('JPEG size:', len(out), 'dimensions:', im.size)
           PY
       - name: Commit JPEG
         run: |
@@ -39,6 +45,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No change"
           else
-            git commit -m "Add real welcome JPEG"
+            git commit -m "Add real approved welcome JPEG"
             git push
           fi
