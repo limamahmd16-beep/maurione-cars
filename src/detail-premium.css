@@ -1,0 +1,182 @@
+/* Premium car-detail screen */
+.mxDetail{
+  width:min(calc(100% - 24px),980px)!important;
+  margin:0 auto!important;
+  padding:18px 0 104px!important;
+}
+.mxDetail .mxBack{
+  min-height:44px!important;
+  margin:0 2px 12px auto!important;
+  padding:0!important;
+  color:#646a73!important;
+  font-size:15px!important;
+  font-weight:700!important;
+  gap:4px!important;
+}
+.mxDetail .mxDetailGrid{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:16px!important;
+  margin-top:0!important;
+}
+.mxDetail .mxGallery{
+  width:100%!important;
+  height:auto!important;
+  aspect-ratio:1.08/1!important;
+  border:1px solid #e2e5e9!important;
+  border-radius:26px!important;
+  background:#f3f4f6!important;
+  overflow:hidden!important;
+  box-shadow:0 8px 24px rgba(15,23,42,.055)!important;
+}
+.mxDetail .mxGallery img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center!important;
+}
+.mxDetail .mxThumbs{
+  margin:10px 2px 0!important;
+  gap:8px!important;
+}
+.mxDetail .mxSummary{
+  position:relative!important;
+  border:1px solid #e1e4e8!important;
+  border-radius:25px!important;
+  padding:26px 24px 24px!important;
+  background:#fff!important;
+  box-shadow:0 10px 28px rgba(15,23,42,.065)!important;
+  text-align:right!important;
+}
+.mxDetail .mxSummary>span{
+  display:inline-flex!important;
+  align-items:center!important;
+  min-height:28px!important;
+  color:#f45b21!important;
+  font-size:15px!important;
+  font-weight:800!important;
+  margin-bottom:4px!important;
+}
+.mxDetail .mxSummary h1{
+  margin:2px 0 13px!important;
+  color:#101114!important;
+  font-size:32px!important;
+  line-height:1.15!important;
+  font-weight:820!important;
+  letter-spacing:-.6px!important;
+}
+.mxDetail .mxDetailPrice{
+  margin:0 0 18px!important;
+  color:#ff5a12!important;
+  font-size:35px!important;
+  line-height:1!important;
+  font-weight:900!important;
+  direction:ltr!important;
+  text-align:right!important;
+  letter-spacing:-.6px!important;
+}
+.mxDetail .mxSummary p{
+  margin:0!important;
+  padding-top:17px!important;
+  border-top:1px solid #f0f1f3!important;
+  color:#70757d!important;
+  font-size:15px!important;
+  line-height:1.9!important;
+}
+.mxDetail .mxContact{
+  display:none!important;
+}
+.mxDetail .mxDetailSpecs{
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  width:100%!important;
+  margin:0!important;
+  padding:17px 4px!important;
+  border:1px solid #e1e4e8!important;
+  border-radius:22px!important;
+  background:#fff!important;
+  box-shadow:0 7px 20px rgba(15,23,42,.045)!important;
+  overflow:hidden!important;
+}
+.mxDetail .mxDetailSpecs .mxSpec{
+  min-height:63px!important;
+  grid-template-rows:23px 19px 17px!important;
+  gap:4px!important;
+  padding:0 4px!important;
+  border-right:1px solid #e7e9ec!important;
+}
+.mxDetail .mxDetailSpecs .mxSpec:first-child{
+  border-right:0!important;
+}
+.mxDetail .mxDetailSpecs .mxSpec svg{
+  width:22px!important;
+  height:22px!important;
+  stroke-width:1.8!important;
+}
+.mxDetail .mxDetailSpecs .mxSpec strong{
+  color:#111!important;
+  font-size:12px!important;
+  font-weight:750!important;
+}
+.mxDetail .mxDetailSpecs .mxSpec small{
+  color:#92969d!important;
+  font-size:9.5px!important;
+}
+
+/* The detail screen gets one clear, fixed WhatsApp CTA instead of a floating bubble. */
+body:has(.mxDetail) .mxGlobalWhatsApp{
+  left:50%!important;
+  right:auto!important;
+  bottom:max(14px,env(safe-area-inset-bottom))!important;
+  width:min(calc(100% - 28px),680px)!important;
+  height:58px!important;
+  min-width:0!important;
+  min-height:58px!important;
+  border-radius:18px!important;
+  transform:translateX(-50%)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:10px!important;
+  background:#25D366!important;
+  box-shadow:0 10px 24px rgba(37,211,102,.28)!important;
+  padding:0 18px!important;
+  box-sizing:border-box!important;
+}
+body:has(.mxDetail) .mxGlobalWhatsApp::after{
+  content:'تواصل عبر واتساب';
+  color:#fff;
+  font-size:16px;
+  line-height:1;
+  font-weight:800;
+  direction:rtl;
+}
+body:has(.mxDetail) .mxGlobalWhatsApp img{
+  width:27px!important;
+  height:27px!important;
+  flex:none!important;
+}
+body:has(.mxDetail) .mxGlobalWhatsApp:active{
+  transform:translateX(-50%) scale(.985)!important;
+}
+
+@media(max-width:560px){
+  .mxDetail{width:calc(100% - 20px)!important;padding-top:12px!important;padding-bottom:96px!important}
+  .mxDetail .mxBack{margin-bottom:9px!important}
+  .mxDetail .mxGallery{border-radius:24px!important;aspect-ratio:1.07/1!important}
+  .mxDetail .mxSummary{padding:23px 20px 22px!important;border-radius:23px!important}
+  .mxDetail .mxSummary h1{font-size:29px!important}
+  .mxDetail .mxDetailPrice{font-size:33px!important}
+  .mxDetail .mxSummary p{font-size:14px!important}
+  .mxDetail .mxDetailSpecs{padding:14px 2px!important;border-radius:20px!important}
+  .mxDetail .mxDetailSpecs .mxSpec{padding:0 2px!important}
+  body:has(.mxDetail) .mxGlobalWhatsApp{height:56px!important;min-height:56px!important;width:calc(100% - 24px)!important;border-radius:17px!important}
+}
+
+@media(min-width:760px){
+  .mxDetail .mxDetailGrid{grid-template-columns:1.18fr .82fr!important;gap:22px!important;align-items:start!important}
+  .mxDetail .mxGallery{aspect-ratio:auto!important;height:520px!important}
+  .mxDetail .mxSummary{position:sticky!important;top:146px!important}
+  .mxDetail .mxDetailSpecs{margin-top:20px!important}
+}
