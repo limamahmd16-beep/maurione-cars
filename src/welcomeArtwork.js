@@ -1,0 +1,1 @@
+export const welcomeArtwork = 'data:image/webp;base64,UklGRqjqAQBXRUJQVlA4IJzqAQBQbwedASo+BKgFPjEYikQiIa...';
