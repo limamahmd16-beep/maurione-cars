@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import UserGate from './UserGate.jsx';
 
 const WELCOME_PARTS = [
-  '/welcome-jpg/00.txt?v=23',
-  '/welcome-jpg/01.txt?v=23',
-  '/welcome-jpg/02.txt?v=23',
-  '/welcome-jpg/03.txt?v=23',
+  '/welcome-jpg/00.txt?v=24',
+  '/welcome-jpg/01.txt?v=24',
+  '/welcome-jpg/02.txt?v=24',
+  '/welcome-jpg/03.txt?v=24',
 ];
 
 export default function SafeEntry({ children }) {
@@ -34,7 +34,7 @@ export default function SafeEntry({ children }) {
 
         const parts = await Promise.all(responses.map((response) => response.text()));
         const base64 = parts.join('').replace(/\s+/g, '');
-        if (!base64.startsWith('/9j/') || base64.length < 60000) {
+        if (!base64.startsWith('/9j/')) {
           throw new Error('welcome-artwork-invalid-jpeg');
         }
 
