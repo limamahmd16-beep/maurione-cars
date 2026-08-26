@@ -4,6 +4,7 @@ import './src/theme-bootstrap.js';
 import AppExact from './src/AppExact.jsx';
 import FunctionalEnhancer from './src/functional-enhancer.jsx';
 import SafeEntry from './src/SafeEntry.jsx';
+import GlobalWhatsApp from './src/GlobalWhatsApp.jsx';
 import './src/styles.css';
 import './src/premium.css';
 import './src/brand-fix.css';
@@ -22,5 +23,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <AppExact />
       <FunctionalEnhancer />
     </SafeEntry>
+    <GlobalWhatsApp />
   </React.StrictMode>
 );
