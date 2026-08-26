@@ -1,16 +1,16 @@
 (() => {
-  const SRC = '/welcome-approved-site.svg?v=13';
+  const SRC = '/showroom-720.jpg?v=26';
 
   function applyArtwork() {
-    document.querySelectorAll('.welcomeFullArtwork').forEach((image) => {
-      if (image.dataset.boundWelcome === '13') return;
-      image.dataset.boundWelcome = '13';
-      image.alt = '';
-      image.classList.add('isReady');
+    document.querySelectorAll('img[alt="سيارات MauriOne"]').forEach((image) => {
+      if (image.dataset.boundWelcome === '26') return;
+      image.dataset.boundWelcome = '26';
       image.src = SRC;
-      image.onerror = () => {
-        image.classList.add('isReady');
-      };
+      image.style.display = 'block';
+      image.style.width = '100%';
+      image.style.height = 'auto';
+      image.style.objectFit = 'contain';
+      image.style.objectPosition = 'center';
     });
   }
 
