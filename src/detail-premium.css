@@ -2,11 +2,11 @@
 .mxDetail{
   width:min(calc(100% - 24px),980px)!important;
   margin:0 auto!important;
-  padding:18px 0 104px!important;
+  padding:14px 0 170px!important;
 }
 .mxDetail .mxBack{
-  min-height:44px!important;
-  margin:0 2px 12px auto!important;
+  min-height:42px!important;
+  margin:0 2px 8px auto!important;
   padding:0!important;
   color:#646a73!important;
   font-size:15px!important;
@@ -16,13 +16,13 @@
 .mxDetail .mxDetailGrid{
   display:grid!important;
   grid-template-columns:1fr!important;
-  gap:16px!important;
+  gap:14px!important;
   margin-top:0!important;
 }
 .mxDetail .mxGallery{
   width:100%!important;
   height:auto!important;
-  aspect-ratio:1.08/1!important;
+  aspect-ratio:1.22/1!important;
   border:1px solid #e2e5e9!important;
   border-radius:26px!important;
   background:#f3f4f6!important;
@@ -37,141 +37,129 @@
   object-position:center!important;
 }
 .mxDetail .mxThumbs{
-  margin:10px 2px 0!important;
+  margin:8px 2px 0!important;
   gap:8px!important;
 }
 .mxDetail .mxSummary{
   position:relative!important;
   border:1px solid #e1e4e8!important;
-  border-radius:25px!important;
-  padding:26px 24px 24px!important;
+  border-radius:24px!important;
+  padding:22px 22px 20px!important;
   background:#fff!important;
-  box-shadow:0 10px 28px rgba(15,23,42,.065)!important;
+  box-shadow:0 10px 28px rgba(15,23,42,.055)!important;
   text-align:right!important;
 }
 .mxDetail .mxSummary>span{
   display:inline-flex!important;
   align-items:center!important;
-  min-height:28px!important;
+  min-height:24px!important;
   color:#f45b21!important;
-  font-size:15px!important;
+  font-size:14px!important;
   font-weight:800!important;
-  margin-bottom:4px!important;
+  margin-bottom:2px!important;
 }
 .mxDetail .mxSummary h1{
-  margin:2px 0 13px!important;
+  margin:2px 0 11px!important;
   color:#101114!important;
-  font-size:32px!important;
-  line-height:1.15!important;
+  font-size:30px!important;
+  line-height:1.12!important;
   font-weight:820!important;
-  letter-spacing:-.6px!important;
+  letter-spacing:-.5px!important;
 }
 .mxDetail .mxDetailPrice{
-  margin:0 0 18px!important;
+  margin:0 0 14px!important;
   color:#ff5a12!important;
-  font-size:35px!important;
+  font-size:33px!important;
   line-height:1!important;
   font-weight:900!important;
   direction:ltr!important;
   text-align:right!important;
-  letter-spacing:-.6px!important;
+  letter-spacing:-.5px!important;
 }
 .mxDetail .mxSummary p{
   margin:0!important;
-  padding-top:17px!important;
+  padding-top:14px!important;
   border-top:1px solid #f0f1f3!important;
   color:#70757d!important;
-  font-size:15px!important;
-  line-height:1.9!important;
+  font-size:14px!important;
+  line-height:1.75!important;
 }
-.mxDetail .mxContact{
-  display:none!important;
-}
+.mxDetail .mxContact{display:none!important}
 .mxDetail .mxDetailSpecs{
   display:grid!important;
   grid-template-columns:repeat(5,minmax(0,1fr))!important;
   width:100%!important;
   margin:0!important;
-  padding:17px 4px!important;
+  padding:14px 3px!important;
   border:1px solid #e1e4e8!important;
-  border-radius:22px!important;
+  border-radius:21px!important;
   background:#fff!important;
-  box-shadow:0 7px 20px rgba(15,23,42,.045)!important;
+  box-shadow:0 7px 20px rgba(15,23,42,.04)!important;
   overflow:hidden!important;
 }
 .mxDetail .mxDetailSpecs .mxSpec{
-  min-height:63px!important;
-  grid-template-rows:23px 19px 17px!important;
-  gap:4px!important;
-  padding:0 4px!important;
+  min-height:59px!important;
+  grid-template-rows:22px 18px 16px!important;
+  gap:3px!important;
+  padding:0 3px!important;
   border-right:1px solid #e7e9ec!important;
 }
-.mxDetail .mxDetailSpecs .mxSpec:first-child{
-  border-right:0!important;
-}
-.mxDetail .mxDetailSpecs .mxSpec svg{
-  width:22px!important;
-  height:22px!important;
-  stroke-width:1.8!important;
-}
-.mxDetail .mxDetailSpecs .mxSpec strong{
-  color:#111!important;
-  font-size:12px!important;
-  font-weight:750!important;
-}
-.mxDetail .mxDetailSpecs .mxSpec small{
-  color:#92969d!important;
-  font-size:9.5px!important;
-}
+.mxDetail .mxDetailSpecs .mxSpec:first-child{border-right:0!important}
+.mxDetail .mxDetailSpecs .mxSpec svg{width:21px!important;height:21px!important;stroke-width:1.8!important}
+.mxDetail .mxDetailSpecs .mxSpec strong{color:#111!important;font-size:11.5px!important;font-weight:750!important}
+.mxDetail .mxDetailSpecs .mxSpec small{color:#92969d!important;font-size:9px!important}
 
-/* The detail screen gets one clear, fixed WhatsApp CTA instead of a floating bubble. */
+/* One fixed WhatsApp CTA on detail pages, kept low and compact so it does not mask the listing. */
 body:has(.mxDetail) .mxGlobalWhatsApp{
   left:50%!important;
   right:auto!important;
-  bottom:max(14px,env(safe-area-inset-bottom))!important;
-  width:min(calc(100% - 28px),680px)!important;
-  height:58px!important;
+  bottom:max(10px,env(safe-area-inset-bottom))!important;
+  width:min(calc(100% - 38px),620px)!important;
+  height:52px!important;
   min-width:0!important;
-  min-height:58px!important;
-  border-radius:18px!important;
+  min-height:52px!important;
+  border-radius:17px!important;
   transform:translateX(-50%)!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
-  gap:10px!important;
+  gap:9px!important;
   background:#25D366!important;
-  box-shadow:0 10px 24px rgba(37,211,102,.28)!important;
-  padding:0 18px!important;
+  box-shadow:0 8px 20px rgba(37,211,102,.24)!important;
+  padding:0 16px!important;
   box-sizing:border-box!important;
 }
 body:has(.mxDetail) .mxGlobalWhatsApp::after{
   content:'تواصل عبر واتساب';
   color:#fff;
-  font-size:16px;
+  font-size:15px;
   line-height:1;
   font-weight:800;
   direction:rtl;
 }
 body:has(.mxDetail) .mxGlobalWhatsApp img{
-  width:27px!important;
-  height:27px!important;
+  width:25px!important;
+  height:25px!important;
   flex:none!important;
 }
-body:has(.mxDetail) .mxGlobalWhatsApp:active{
-  transform:translateX(-50%) scale(.985)!important;
-}
+body:has(.mxDetail) .mxGlobalWhatsApp:active{transform:translateX(-50%) scale(.985)!important}
 
 @media(max-width:560px){
-  .mxDetail{width:calc(100% - 20px)!important;padding-top:12px!important;padding-bottom:96px!important}
-  .mxDetail .mxBack{margin-bottom:9px!important}
-  .mxDetail .mxGallery{border-radius:24px!important;aspect-ratio:1.07/1!important}
-  .mxDetail .mxSummary{padding:23px 20px 22px!important;border-radius:23px!important}
-  .mxDetail .mxSummary h1{font-size:29px!important}
-  .mxDetail .mxDetailPrice{font-size:33px!important}
-  .mxDetail .mxSummary p{font-size:14px!important}
-  .mxDetail .mxDetailSpecs{padding:14px 2px!important;border-radius:20px!important}
+  .mxDetail{width:calc(100% - 20px)!important;padding-top:10px!important;padding-bottom:180px!important}
+  .mxDetail .mxBack{margin-bottom:6px!important}
+  .mxDetail .mxGallery{border-radius:23px!important;aspect-ratio:1.24/1!important}
+  .mxDetail .mxSummary{padding:20px 19px 19px!important;border-radius:22px!important}
+  .mxDetail .mxSummary h1{font-size:28px!important}
+  .mxDetail .mxDetailPrice{font-size:31px!important}
+  .mxDetail .mxSummary p{font-size:13.5px!important}
+  .mxDetail .mxDetailSpecs{padding:13px 2px!important;border-radius:19px!important}
   .mxDetail .mxDetailSpecs .mxSpec{padding:0 2px!important}
-  body:has(.mxDetail) .mxGlobalWhatsApp{height:56px!important;min-height:56px!important;width:calc(100% - 24px)!important;border-radius:17px!important}
+  body:has(.mxDetail) .mxGlobalWhatsApp{
+    height:50px!important;
+    min-height:50px!important;
+    width:calc(100% - 36px)!important;
+    border-radius:16px!important;
+  }
 }
 
 @media(min-width:760px){
