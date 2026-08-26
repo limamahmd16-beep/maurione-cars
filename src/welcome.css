@@ -1,5 +1,5 @@
 .welcomeExactPage{position:fixed;inset:0;z-index:500;background:#fff;overflow:hidden;display:grid;place-items:center}
-.welcomeExactStage{position:relative;width:min(100vw,760px);height:100dvh;overflow:hidden;background-color:#fff;background-image:url('/welcome-approved-site.svg?v=16');background-position:center;background-size:cover;background-repeat:no-repeat}
+.welcomeExactStage{position:relative;width:min(100vw,760px);height:100svh;height:100dvh;overflow:hidden;background-color:#fff;background-image:url('/maurione-welcome-approved-exact.webp?v=17');background-position:center;background-size:cover;background-repeat:no-repeat}
 .welcomeFullArtwork{display:none!important}
 .welcomeExactHotspot{position:absolute;left:9%;right:9%;border:0;background:transparent;z-index:5;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .welcomeExactLogin{top:78.8%;height:7.9%}
