@@ -1,0 +1,95 @@
+/* MauriOne Cars dark theme — loaded last */
+html[data-theme='dark'],html[data-theme='dark'] body,html[data-theme='dark'] #root,html[data-theme='dark'] .mxApp{background:#0d0f12!important;color:#f4f5f7!important;color-scheme:dark!important}
+html[data-theme='dark'] body{background:#0d0f12!important}
+
+/* Header + drawer */
+html[data-theme='dark'] .mxHeader{background:rgba(13,15,18,.96)!important;border-color:#262a30!important}
+html[data-theme='dark'] .mxHeaderIcon{color:#f5f6f7!important}
+html[data-theme='dark'] .mxBrandWord b{color:#f7f7f8!important}
+html[data-theme='dark'] .mxBrandSub{color:#9da3ac!important}
+html[data-theme='dark'] .mxDrawer{background:#15181c!important;border-color:#2a2f36!important;box-shadow:0 22px 60px rgba(0,0,0,.42)!important}
+html[data-theme='dark'] .mxDrawer button{background:#15181c!important;color:#f4f5f7!important}
+html[data-theme='dark'] .mxDrawer button:hover{background:#1d2126!important}
+.mxThemeToggle{display:flex!important;align-items:center!important;gap:10px!important;text-align:right!important}
+.mxThemeGlyph{width:24px;height:24px;display:grid;place-items:center;flex:none}
+.mxThemeGlyph svg{width:21px!important;height:21px!important;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mxThemeLabel{flex:1}
+.mxThemeSwitch{width:42px;height:24px;border-radius:999px;background:#d7d9dd;position:relative;flex:none;transition:.2s ease}
+.mxThemeSwitch i{position:absolute;width:18px;height:18px;left:3px;top:3px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.18);transition:.2s ease}
+html[data-theme='dark'] .mxThemeSwitch{background:#ff5a12}
+html[data-theme='dark'] .mxThemeSwitch i{transform:translateX(18px)}
+
+/* Main/home */
+html[data-theme='dark'] .mxHome,html[data-theme='dark'] .mxHomeInner{background:#0d0f12!important}
+html[data-theme='dark'] .mxSearch,html[data-theme='dark'] .mxFilters>label,html[data-theme='dark'] .mxFilters>button,html[data-theme='dark'] .mxAdvanced{background:#15181c!important;border-color:#2b3037!important;box-shadow:0 7px 20px rgba(0,0,0,.24)!important;color:#f3f4f6!important}
+html[data-theme='dark'] .mxSearch input,html[data-theme='dark'] .mxFilters select,html[data-theme='dark'] .mxAdvanced select{color:#f3f4f6!important;background:#15181c!important}
+html[data-theme='dark'] .mxSearch input::placeholder{color:#737a84!important}
+html[data-theme='dark'] .mxSearch svg,html[data-theme='dark'] .mxFilters svg{color:#f1f3f5!important}
+html[data-theme='dark'] .mxAdvanced label{color:#a7adb6!important}
+html[data-theme='dark'] .mxAdvanced select{border-color:#343941!important}
+html[data-theme='dark'] .mxAdvanced button{background:#211913!important;border-color:#59301d!important;color:#ff7b3d!important}
+html[data-theme='dark'] .mxEmpty{background:#121519!important;border-color:#343940!important;color:#969da7!important}
+
+/* Car cards */
+html[data-theme='dark'] .mxCard{background:#15181c!important;border-color:#2c3138!important;box-shadow:0 10px 25px rgba(0,0,0,.28)!important}
+html[data-theme='dark'] .mxCardInfo{background:#15181c!important}
+html[data-theme='dark'] .mxCardInfo h3,html[data-theme='dark'] .mxSpec,html[data-theme='dark'] .mxSpec strong{color:#f5f6f7!important}
+html[data-theme='dark'] .mxTrim,html[data-theme='dark'] .mxSpec small{color:#9299a3!important}
+html[data-theme='dark'] .mxSpecs{border-color:#292e34!important}
+html[data-theme='dark'] .mxSpec{border-color:#30353d!important}
+
+/* Bottom navigation */
+html[data-theme='dark'] .mxBottom{background:rgba(21,24,28,.97)!important;border-color:#30353c!important;box-shadow:0 14px 34px rgba(0,0,0,.42)!important}
+html[data-theme='dark'] .mxBottom button{color:#9aa1aa!important}
+html[data-theme='dark'] .mxBottom .active{color:#ff641f!important}
+
+/* Detail screen */
+html[data-theme='dark'] .mxDetail{background:#0d0f12!important}
+html[data-theme='dark'] .mxBack{color:#a9afb8!important}
+html[data-theme='dark'] .mxGallery{background:#171a1f!important;border-color:#2c3138!important;box-shadow:0 8px 24px rgba(0,0,0,.25)!important}
+html[data-theme='dark'] .mxSummary,html[data-theme='dark'] .mxDetailSpecs{background:#15181c!important;border-color:#2c3138!important;box-shadow:0 10px 28px rgba(0,0,0,.28)!important}
+html[data-theme='dark'] .mxSummary h1{color:#f7f7f8!important}
+html[data-theme='dark'] .mxSummary p{color:#a0a7b0!important;border-color:#2b3036!important}
+html[data-theme='dark'] .mxDetailSpecs .mxSpec{border-color:#30353c!important}
+html[data-theme='dark'] .mxDetailSpecs .mxSpec strong{color:#f4f5f6!important}
+html[data-theme='dark'] .mxThumbs button{background:#1b1f24!important}
+
+/* Account + function sheets */
+html[data-theme='dark'] .mxAccountPage,html[data-theme='dark'] .mxAccountBody{background:#0d0f12!important;color:#f4f5f7!important}
+html[data-theme='dark'] .mxAccountHeader,html[data-theme='dark'] .mxAccountProfile,html[data-theme='dark'] .mxAccountMenu,html[data-theme='dark'] .mxAccountGuest{background:#15181c!important;border-color:#2b3037!important;color:#f4f5f7!important}
+html[data-theme='dark'] .mxAccountHeader button,html[data-theme='dark'] .mxAccountMenu button{color:#f4f5f7!important}
+html[data-theme='dark'] .mxAccountMenu button{border-color:#2b3037!important;background:#15181c!important}
+html[data-theme='dark'] .mxAccountMenu small,html[data-theme='dark'] .mxAccountProfile span,html[data-theme='dark'] .mxAccountGuest p{color:#989fa8!important}
+html[data-theme='dark'] .mxFunctionBackdrop{background:rgba(0,0,0,.66)!important}
+html[data-theme='dark'] .mxFunctionSheet{background:#15181c!important;border-color:#2d3239!important;color:#f4f5f7!important}
+html[data-theme='dark'] .mxFunctionSheet h2,html[data-theme='dark'] .mxFunctionText,html[data-theme='dark'] .mxAccountInfo strong{color:#f4f5f7!important}
+html[data-theme='dark'] .mxAccountEditField input,html[data-theme='dark'] .mxAccountInfo,html[data-theme='dark'] .mxNotificationList>div,html[data-theme='dark'] .mxFavoriteList button{background:#1b1f24!important;border-color:#31363e!important;color:#f4f5f7!important}
+html[data-theme='dark'] .mxFunctionEmpty{color:#9ba2ab!important}
+
+/* Authentication */
+html[data-theme='dark'] .userAuthPage{--auth-ink:#f6f7f8;--auth-muted:#9ba2ab;background:radial-gradient(circle at 72% 18%,rgba(255,90,18,.08) 0 55px,transparent 56px),linear-gradient(180deg,#0d0f12 0%,#0d0f12 82%,#111419 100%)!important;color:#f4f5f7!important}
+html[data-theme='dark'] .userAuthBrand span,html[data-theme='dark'] .userAuthBrand b{color:#f7f7f8!important}
+html[data-theme='dark'] .userAuthCard{background:rgba(21,24,28,.98)!important;border-color:#2b3037!important;box-shadow:0 22px 70px rgba(0,0,0,.42)!important}
+html[data-theme='dark'] .userAuthCard h1{color:#f7f7f8!important}
+html[data-theme='dark'] .userAuthCard>p,html[data-theme='dark'] .userAuthField,html[data-theme='dark'] .userAuthSwitch{color:#9fa6af!important}
+html[data-theme='dark'] .userAuthInputWrap{background:#111419!important;border-color:#343a42!important}
+html[data-theme='dark'] .userAuthInputWrap input{color:#f5f6f7!important}
+html[data-theme='dark'] .userAuthInputWrap input::placeholder{color:#747b85!important}
+html[data-theme='dark'] .userAuthInputWrap>svg,html[data-theme='dark'] .userAuthEye{color:#989fa8!important}
+html[data-theme='dark'] .userAuthDivider{color:#8f969f!important}
+html[data-theme='dark'] .userAuthDivider:before,html[data-theme='dark'] .userAuthDivider:after{background:#30353c!important}
+html[data-theme='dark'] .userAuthLoading{background:#15181c!important;border-color:#2c3138!important;color:#a1a8b1!important}
+html[data-theme='dark'] .userAuthDune{background:linear-gradient(180deg,rgba(52,57,65,.18),rgba(34,39,46,.62))!important}
+
+/* Admin */
+html[data-theme='dark'] .mxAdmin{background:#0f1216!important;color:#f4f5f7!important}
+html[data-theme='dark'] .mxAdminHeader,html[data-theme='dark'] .mxMetric,html[data-theme='dark'] .mxPanel,html[data-theme='dark'] .mxAdminList article{background:#15181c!important;border-color:#2c3138!important;color:#f4f5f7!important}
+html[data-theme='dark'] .mxAdminHeader>button,html[data-theme='dark'] .mxAdminActions button:last-child,html[data-theme='dark'] .mxRowButtons button{background:#1b1f24!important;border-color:#333840!important;color:#f4f5f7!important}
+html[data-theme='dark'] .mxAdminTitle p,html[data-theme='dark'] .mxMetric small,html[data-theme='dark'] .mxMetric em{color:#969da7!important}
+
+/* Welcome artwork remains intact; only the surrounding canvas follows theme. */
+html[data-theme='dark'] .welcomeExactPage{background:#0d0f12!important}
+
+/* Native controls and smooth theme transition */
+html[data-theme='dark'] input,html[data-theme='dark'] select,html[data-theme='dark'] textarea{color-scheme:dark}
+@media(prefers-reduced-motion:no-preference){.mxHeader,.mxDrawer,.mxCard,.mxCardInfo,.mxBottom,.mxSummary,.mxDetailSpecs,.mxSearch,.mxFilters>label,.mxFilters>button,.userAuthPage,.userAuthCard,.userAuthInputWrap,.mxAccountPage,.mxFunctionSheet{transition:background-color .2s ease,border-color .2s ease,color .2s ease,box-shadow .2s ease}}
