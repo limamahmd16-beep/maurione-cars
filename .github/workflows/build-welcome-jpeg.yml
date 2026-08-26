@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/build-welcome-jpeg.yml'
-      - 'public/welcome-parts/**'
+      - 'public/maurione-welcome-approved-exact.webp'
   workflow_dispatch:
 
 permissions:
@@ -16,26 +16,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Rebuild approved artwork as a real JPEG
+      - name: Convert approved binary artwork to JPEG
         run: |
           python3 -m pip install --quiet pillow
           python3 - <<'PY'
           from pathlib import Path
-          import base64, io
           from PIL import Image
 
-          names = ['00','01','02','03','04a','04b','04c','05']
-          encoded = ''.join(Path(f'public/welcome-parts/{name}.txt').read_text().strip() for name in names)
-          data = base64.b64decode(encoded)
-          if data[:4] != b'RIFF' or data[8:12] != b'WEBP':
-              raise SystemExit('Invalid reconstructed WEBP')
-
-          im = Image.open(io.BytesIO(data)).convert('RGB')
-          im.save('public/welcome-approved.jpg', 'JPEG', quality=92, optimize=True, progressive=True)
-          out = Path('public/welcome-approved.jpg').read_bytes()
-          if not out.startswith(b'\xff\xd8\xff'):
-              raise SystemExit('Invalid output JPEG')
-          print('JPEG size:', len(out), 'dimensions:', im.size)
+          source = Path('public/maurione-welcome-approved-exact.webp')
+          with Image.open(source) as im:
+              print('SOURCE:', im.format, im.size, im.mode)
+              out = im.convert('RGB')
+              out.save('public/welcome-approved.jpg', 'JPEG', quality=94, optimize=True, progressive=True)
+          data = Path('public/welcome-approved.jpg').read_bytes()
+          if not data.startswith(b'\xff\xd8\xff'):
+              raise SystemExit('Invalid JPEG output')
+          print('JPEG bytes:', len(data))
           PY
       - name: Commit JPEG
         run: |
