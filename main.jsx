@@ -18,6 +18,7 @@ import './src/welcome.css';
 import './src/whatsapp-detail.css';
 import './src/navigation-refine.css';
 import './src/detail-premium.css';
+import './src/header-compact.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
