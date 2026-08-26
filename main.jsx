@@ -22,6 +22,7 @@ import './src/detail-premium.css';
 import './src/header-compact.css';
 import './src/dark-mode.css';
 
+// Dark mode is applied globally and can be toggled from the main menu.
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <SafeEntry>
