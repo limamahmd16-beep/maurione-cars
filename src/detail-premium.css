@@ -21,24 +21,43 @@
 }
 .mxDetail .mxGallery{
   width:100%!important;
-  height:auto!important;
-  aspect-ratio:1.22/1!important;
+  height:clamp(300px,88vw,420px)!important;
+  aspect-ratio:auto!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
   border:1px solid #e2e5e9!important;
   border-radius:26px!important;
   background:#f3f4f6!important;
   overflow:hidden!important;
   box-shadow:0 8px 24px rgba(15,23,42,.055)!important;
+  box-sizing:border-box!important;
 }
 .mxDetail .mxGallery img{
   display:block!important;
   width:100%!important;
   height:100%!important;
-  object-fit:cover!important;
-  object-position:center!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  flex:none!important;
 }
 .mxDetail .mxThumbs{
+  width:100%!important;
+  max-width:100%!important;
   margin:8px 2px 0!important;
   gap:8px!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  flex-wrap:nowrap!important;
+  box-sizing:border-box!important;
+  -webkit-overflow-scrolling:touch!important;
+}
+.mxDetail .mxThumbs button{
+  flex:0 0 auto!important;
 }
 .mxDetail .mxSummary{
   position:relative!important;
@@ -147,7 +166,7 @@ body:has(.mxDetail) .mxGlobalWhatsApp:active{transform:translateX(-50%) scale(.9
 @media(max-width:560px){
   .mxDetail{width:calc(100% - 20px)!important;padding-top:10px!important;padding-bottom:180px!important}
   .mxDetail .mxBack{margin-bottom:6px!important}
-  .mxDetail .mxGallery{border-radius:23px!important;aspect-ratio:1.24/1!important}
+  .mxDetail .mxGallery{height:clamp(300px,88vw,360px)!important;border-radius:23px!important}
   .mxDetail .mxSummary{padding:20px 19px 19px!important;border-radius:22px!important}
   .mxDetail .mxSummary h1{font-size:28px!important}
   .mxDetail .mxDetailPrice{font-size:31px!important}
@@ -164,7 +183,7 @@ body:has(.mxDetail) .mxGlobalWhatsApp:active{transform:translateX(-50%) scale(.9
 
 @media(min-width:760px){
   .mxDetail .mxDetailGrid{grid-template-columns:1.18fr .82fr!important;gap:22px!important;align-items:start!important}
-  .mxDetail .mxGallery{aspect-ratio:auto!important;height:520px!important}
+  .mxDetail .mxGallery{height:520px!important}
   .mxDetail .mxSummary{position:sticky!important;top:146px!important}
   .mxDetail .mxDetailSpecs{margin-top:20px!important}
 }
