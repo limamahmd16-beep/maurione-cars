@@ -49,9 +49,32 @@ export default function GlobalWhatsApp(){
         opacity:1!important;
         filter:none!important;
       }
+
+      /* On a car-detail page the wide CTA belongs below the content,
+         so it never covers year / mileage / fuel / transmission / drive. */
+      body:has(.mxDetail) .mxGlobalWhatsApp{
+        position:relative!important;
+        left:auto!important;
+        right:auto!important;
+        bottom:auto!important;
+        top:auto!important;
+        transform:none!important;
+        margin:14px auto max(18px,env(safe-area-inset-bottom))!important;
+        z-index:30!important;
+      }
+      body:has(.mxDetail) .mxGlobalWhatsApp:active{
+        transform:scale(.985)!important;
+      }
+
       @media(min-width:800px){
         .mxGlobalWhatsApp{right:24px;bottom:24px;width:52px;height:52px;min-width:52px;min-height:52px}
         .mxGlobalWhatsApp img{width:28px;height:28px}
+        body:has(.mxDetail) .mxGlobalWhatsApp{
+          left:auto!important;
+          right:auto!important;
+          bottom:auto!important;
+          margin:16px auto 22px!important;
+        }
       }
     `}</style>
   </>;
