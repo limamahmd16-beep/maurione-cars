@@ -1,8 +1,19 @@
-/* Premium car-detail screen */
+/* Premium car-detail screen — isolated safe gallery test */
+html:has(.mxDetail),
+body:has(.mxDetail),
+#root:has(.mxDetail){
+  width:100%!important;
+  max-width:100%!important;
+  overflow-x:hidden!important;
+}
 .mxDetail{
   width:min(calc(100% - 24px),980px)!important;
+  max-width:100%!important;
+  min-width:0!important;
   margin:0 auto!important;
-  padding:14px 0 170px!important;
+  padding:14px 0 185px!important;
+  box-sizing:border-box!important;
+  overflow-x:hidden!important;
 }
 .mxDetail .mxBack{
   min-height:42px!important;
@@ -15,33 +26,82 @@
 }
 .mxDetail .mxDetailGrid{
   display:grid!important;
-  grid-template-columns:1fr!important;
+  grid-template-columns:minmax(0,1fr)!important;
   gap:14px!important;
   margin-top:0!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
 }
+.mxDetail .mxDetailGrid>section,
+.mxDetail .mxDetailGrid>aside{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+}
+.mxDetail .mxDetailGrid>section{overflow:hidden!important}
 .mxDetail .mxGallery{
   width:100%!important;
-  height:auto!important;
-  aspect-ratio:1.22/1!important;
+  max-width:100%!important;
+  min-width:0!important;
+  height:clamp(290px,82vw,390px)!important;
+  aspect-ratio:auto!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
   border:1px solid #e2e5e9!important;
   border-radius:26px!important;
-  background:#f3f4f6!important;
+  background:#111418!important;
   overflow:hidden!important;
   box-shadow:0 8px 24px rgba(15,23,42,.055)!important;
+  box-sizing:border-box!important;
+  padding:0!important;
 }
 .mxDetail .mxGallery img{
   display:block!important;
   width:100%!important;
   height:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:100%!important;
+  max-height:100%!important;
   object-fit:cover!important;
-  object-position:center!important;
+  object-position:center 56%!important;
+  flex:none!important;
+  border-radius:25px!important;
 }
 .mxDetail .mxThumbs{
-  margin:8px 2px 0!important;
+  display:flex!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:8px 0 0!important;
+  padding:0!important;
   gap:8px!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  flex-wrap:nowrap!important;
+  box-sizing:border-box!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior-x:contain!important;
+  scrollbar-width:none!important;
+}
+.mxDetail .mxThumbs::-webkit-scrollbar{display:none!important}
+.mxDetail .mxThumbs button{
+  flex:0 0 78px!important;
+  width:78px!important;
+  min-width:78px!important;
+  max-width:78px!important;
+  box-sizing:border-box!important;
 }
 .mxDetail .mxSummary{
   position:relative!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
   border:1px solid #e1e4e8!important;
   border-radius:24px!important;
   padding:22px 22px 20px!important;
@@ -89,6 +149,8 @@
   display:grid!important;
   grid-template-columns:repeat(5,minmax(0,1fr))!important;
   width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
   margin:0!important;
   padding:14px 3px!important;
   border:1px solid #e1e4e8!important;
@@ -96,9 +158,11 @@
   background:#fff!important;
   box-shadow:0 7px 20px rgba(15,23,42,.04)!important;
   overflow:hidden!important;
+  box-sizing:border-box!important;
 }
 .mxDetail .mxDetailSpecs .mxSpec{
   min-height:59px!important;
+  min-width:0!important;
   grid-template-rows:22px 18px 16px!important;
   gap:3px!important;
   padding:0 3px!important;
@@ -109,45 +173,47 @@
 .mxDetail .mxDetailSpecs .mxSpec strong{color:#111!important;font-size:11.5px!important;font-weight:750!important}
 .mxDetail .mxDetailSpecs .mxSpec small{color:#92969d!important;font-size:9px!important}
 
-/* One fixed WhatsApp CTA on detail pages, kept low and compact so it does not mask the listing. */
+/* One fixed WhatsApp CTA on detail pages. */
 body:has(.mxDetail) .mxGlobalWhatsApp{
   left:50%!important;
   right:auto!important;
-  bottom:max(10px,env(safe-area-inset-bottom))!important;
-  width:min(calc(100% - 38px),620px)!important;
-  height:52px!important;
+  bottom:max(9px,env(safe-area-inset-bottom))!important;
+  width:min(calc(100% - 52px),590px)!important;
+  max-width:calc(100% - 52px)!important;
+  height:47px!important;
   min-width:0!important;
-  min-height:52px!important;
-  border-radius:17px!important;
+  min-height:47px!important;
+  border-radius:15px!important;
   transform:translateX(-50%)!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
-  gap:9px!important;
+  gap:8px!important;
   background:#25D366!important;
-  box-shadow:0 8px 20px rgba(37,211,102,.24)!important;
-  padding:0 16px!important;
+  box-shadow:0 8px 18px rgba(37,211,102,.22)!important;
+  padding:0 14px!important;
   box-sizing:border-box!important;
 }
 body:has(.mxDetail) .mxGlobalWhatsApp::after{
   content:'تواصل عبر واتساب';
   color:#fff;
-  font-size:15px;
+  font-size:14px;
   line-height:1;
   font-weight:800;
   direction:rtl;
 }
 body:has(.mxDetail) .mxGlobalWhatsApp img{
-  width:25px!important;
-  height:25px!important;
+  width:23px!important;
+  height:23px!important;
   flex:none!important;
 }
 body:has(.mxDetail) .mxGlobalWhatsApp:active{transform:translateX(-50%) scale(.985)!important}
 
 @media(max-width:560px){
-  .mxDetail{width:calc(100% - 20px)!important;padding-top:10px!important;padding-bottom:180px!important}
+  .mxDetail{width:calc(100% - 20px)!important;padding-top:10px!important;padding-bottom:195px!important}
   .mxDetail .mxBack{margin-bottom:6px!important}
-  .mxDetail .mxGallery{border-radius:23px!important;aspect-ratio:1.24/1!important}
+  .mxDetail .mxGallery{height:clamp(285px,82vw,330px)!important;border-radius:23px!important;padding:0!important}
+  .mxDetail .mxGallery img{border-radius:22px!important;object-position:center 56%!important}
   .mxDetail .mxSummary{padding:20px 19px 19px!important;border-radius:22px!important}
   .mxDetail .mxSummary h1{font-size:28px!important}
   .mxDetail .mxDetailPrice{font-size:31px!important}
@@ -155,16 +221,17 @@ body:has(.mxDetail) .mxGlobalWhatsApp:active{transform:translateX(-50%) scale(.9
   .mxDetail .mxDetailSpecs{padding:13px 2px!important;border-radius:19px!important}
   .mxDetail .mxDetailSpecs .mxSpec{padding:0 2px!important}
   body:has(.mxDetail) .mxGlobalWhatsApp{
-    height:50px!important;
-    min-height:50px!important;
-    width:calc(100% - 36px)!important;
-    border-radius:16px!important;
+    height:46px!important;
+    min-height:46px!important;
+    width:calc(100% - 52px)!important;
+    max-width:calc(100% - 52px)!important;
+    border-radius:15px!important;
   }
 }
 
 @media(min-width:760px){
-  .mxDetail .mxDetailGrid{grid-template-columns:1.18fr .82fr!important;gap:22px!important;align-items:start!important}
-  .mxDetail .mxGallery{aspect-ratio:auto!important;height:520px!important}
+  .mxDetail .mxDetailGrid{grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr)!important;gap:22px!important;align-items:start!important}
+  .mxDetail .mxGallery{height:500px!important}
   .mxDetail .mxSummary{position:sticky!important;top:146px!important}
   .mxDetail .mxDetailSpecs{margin-top:20px!important}
 }
