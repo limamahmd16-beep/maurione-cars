@@ -20,5 +20,36 @@
     <script src="/welcome-loader.js?v=29"></script>
     <script type="module" src="/src/admin-insights-v3.js"></script>
     <script type="module" src="/main.jsx"></script>
+    <style id="mx-detail-image-final">
+      .mxDetail .mxGallery{
+        display:grid!important;
+        place-items:center!important;
+        padding:6px!important;
+        overflow:hidden!important;
+        border-radius:24px!important;
+      }
+      .mxDetail .mxGallery>img{
+        position:static!important;
+        top:auto!important;
+        left:auto!important;
+        right:auto!important;
+        bottom:auto!important;
+        transform:none!important;
+        display:block!important;
+        width:auto!important;
+        height:auto!important;
+        max-width:100%!important;
+        max-height:100%!important;
+        margin:auto!important;
+        object-fit:contain!important;
+        object-position:center!important;
+        border-radius:18px!important;
+        overflow:hidden!important;
+      }
+      @media(max-width:560px){
+        .mxDetail .mxGallery{padding:5px!important;border-radius:23px!important}
+        .mxDetail .mxGallery>img{border-radius:17px!important}
+      }
+    </style>
   </body>
 </html>
