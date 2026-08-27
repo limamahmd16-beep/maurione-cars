@@ -53,24 +53,24 @@ body:has(.mxDetail),
   justify-content:center!important;
   border:1px solid #e2e5e9!important;
   border-radius:26px!important;
-  background:#f3f4f6!important;
+  background:#111418!important;
   overflow:hidden!important;
   box-shadow:0 8px 24px rgba(15,23,42,.055)!important;
   box-sizing:border-box!important;
-  padding:6px!important;
+  padding:0!important;
 }
 .mxDetail .mxGallery img{
   display:block!important;
-  width:auto!important;
-  height:auto!important;
+  width:100%!important;
+  height:100%!important;
   min-width:0!important;
   min-height:0!important;
   max-width:100%!important;
   max-height:100%!important;
-  object-fit:contain!important;
-  object-position:center center!important;
+  object-fit:cover!important;
+  object-position:center 56%!important;
   flex:none!important;
-  border-radius:18px!important;
+  border-radius:25px!important;
 }
 .mxDetail .mxThumbs{
   display:flex!important;
@@ -212,8 +212,8 @@ body:has(.mxDetail) .mxGlobalWhatsApp:active{transform:translateX(-50%) scale(.9
 @media(max-width:560px){
   .mxDetail{width:calc(100% - 20px)!important;padding-top:10px!important;padding-bottom:195px!important}
   .mxDetail .mxBack{margin-bottom:6px!important}
-  .mxDetail .mxGallery{height:clamp(285px,82vw,330px)!important;border-radius:23px!important;padding:5px!important}
-  .mxDetail .mxGallery img{border-radius:16px!important}
+  .mxDetail .mxGallery{height:clamp(285px,82vw,330px)!important;border-radius:23px!important;padding:0!important}
+  .mxDetail .mxGallery img{border-radius:22px!important;object-position:center 56%!important}
   .mxDetail .mxSummary{padding:20px 19px 19px!important;border-radius:22px!important}
   .mxDetail .mxSummary h1{font-size:28px!important}
   .mxDetail .mxDetailPrice{font-size:31px!important}
