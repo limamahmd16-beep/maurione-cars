@@ -27,29 +27,32 @@
   width:100%!important;
   max-width:100%!important;
   min-width:0!important;
-  height:auto!important;
-  aspect-ratio:auto!important;
+  height:460px!important;
   border:1px solid #e2e5e9!important;
   border-radius:26px!important;
-  background:#fff!important;
+  background:#f5f6f7!important;
   overflow:hidden!important;
   box-shadow:0 8px 24px rgba(15,23,42,.055)!important;
-  contain:none!important;
+  display:grid!important;
+  place-items:center!important;
 }
-.mxDetail .mxGallery img{
+.mxDetail .mxGallery>img{
   position:static!important;
   inset:auto!important;
   display:block!important;
-  width:100%!important;
+  width:auto!important;
+  height:100%!important;
   max-width:100%!important;
-  height:auto!important;
-  max-height:none!important;
-  margin:0!important;
+  max-height:100%!important;
+  min-width:0!important;
+  margin:auto!important;
   object-fit:contain!important;
-  object-position:center!important;
+  object-position:center center!important;
   opacity:1!important;
   visibility:visible!important;
   transform:none!important;
+  justify-self:center!important;
+  align-self:center!important;
 }
 .mxDetail .mxThumbs{
   width:100%!important;
@@ -198,8 +201,26 @@ body:has(.mxDetail) *{box-sizing:border-box}
 @media(max-width:560px){
   .mxDetail{width:calc(100% - 20px)!important;max-width:calc(100% - 20px)!important;padding-top:10px!important;padding-bottom:180px!important}
   .mxDetail .mxBack{margin-bottom:6px!important}
-  .mxDetail .mxGallery{border-radius:23px!important;aspect-ratio:auto!important;height:auto!important}
-  .mxDetail .mxGallery img{position:static!important;width:100%!important;max-width:100%!important;height:auto!important;object-fit:contain!important}
+  .mxDetail .mxGallery{
+    height:clamp(250px,68vw,300px)!important;
+    min-height:0!important;
+    max-height:300px!important;
+    border-radius:23px!important;
+    display:grid!important;
+    place-items:center!important;
+  }
+  .mxDetail .mxGallery>img{
+    position:static!important;
+    width:auto!important;
+    height:100%!important;
+    max-width:100%!important;
+    max-height:100%!important;
+    margin:auto!important;
+    object-fit:contain!important;
+    object-position:center center!important;
+    justify-self:center!important;
+    align-self:center!important;
+  }
   .mxDetail .mxSummary{padding:20px 19px 19px!important;border-radius:22px!important}
   .mxDetail .mxSummary h1{font-size:28px!important}
   .mxDetail .mxDetailPrice{font-size:31px!important}
@@ -216,8 +237,8 @@ body:has(.mxDetail) *{box-sizing:border-box}
 
 @media(min-width:760px){
   .mxDetail .mxDetailGrid{grid-template-columns:1.18fr .82fr!important;gap:22px!important;align-items:start!important}
-  .mxDetail .mxGallery{aspect-ratio:auto!important;height:auto!important;max-height:620px!important;display:flex!important;align-items:center!important;justify-content:center!important}
-  .mxDetail .mxGallery img{position:static!important;width:100%!important;height:auto!important;max-height:620px!important;object-fit:contain!important}
+  .mxDetail .mxGallery{height:520px!important;display:grid!important;place-items:center!important}
+  .mxDetail .mxGallery>img{position:static!important;width:auto!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;margin:auto!important}
   .mxDetail .mxSummary{position:sticky!important;top:146px!important}
   .mxDetail .mxDetailSpecs{margin-top:20px!important}
 }
