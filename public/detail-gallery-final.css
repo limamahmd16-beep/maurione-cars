@@ -1,22 +1,21 @@
-/* Final mobile gallery fix: native image, fixed visual frame, no JS overlay. */
+/* Final mobile gallery fix: native image centered in a fixed frame. */
 @media (max-width: 560px) {
   html body #root .mxApp .mxDetail .mxGallery {
+    position: relative !important;
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
     height: clamp(240px, 62vw, 320px) !important;
     min-height: 0 !important;
     max-height: 320px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    display: block !important;
     overflow: hidden !important;
     background: #f5f6f7 !important;
   }
 
   html body #root .mxApp .mxDetail .mxGallery > img {
-    position: static !important;
-    inset: auto !important;
+    position: absolute !important;
+    inset: 0 !important;
     display: block !important;
     width: 100% !important;
     height: 100% !important;
@@ -25,10 +24,9 @@
     min-width: 0 !important;
     margin: 0 !important;
     object-fit: contain !important;
-    object-position: center center !important;
+    object-position: 50% 50% !important;
     transform: none !important;
     opacity: 1 !important;
     visibility: visible !important;
-    flex: 0 0 100% !important;
   }
 }
