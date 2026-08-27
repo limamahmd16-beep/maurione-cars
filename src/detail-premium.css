@@ -20,26 +20,30 @@
   margin-top:0!important;
 }
 .mxDetail .mxGallery{
+  position:relative!important;
   width:100%!important;
-  height:min(58vh,520px)!important;
-  min-height:320px!important;
+  height:clamp(280px,46vw,460px)!important;
+  min-height:0!important;
   border:1px solid #e2e5e9!important;
   border-radius:26px!important;
   background:#f6f7f8!important;
   overflow:hidden!important;
   box-shadow:0 8px 24px rgba(15,23,42,.055)!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
+  display:block!important;
 }
 .mxDetail .mxGallery img{
+  position:absolute!important;
+  inset:0!important;
   display:block!important;
   width:100%!important;
   height:100%!important;
-  max-width:100%!important;
-  max-height:100%!important;
+  max-width:none!important;
+  max-height:none!important;
+  margin:0!important;
   object-fit:contain!important;
   object-position:center!important;
+  opacity:1!important;
+  visibility:visible!important;
 }
 .mxDetail .mxThumbs{
   margin:8px 2px 0!important;
@@ -153,14 +157,18 @@ body:has(.mxDetail) .mxGlobalWhatsApp:active{transform:translateX(-50%) scale(.9
   .mxDetail{width:calc(100% - 20px)!important;padding-top:10px!important;padding-bottom:180px!important}
   .mxDetail .mxBack{margin-bottom:6px!important}
   .mxDetail .mxGallery{
-    height:min(52vh,410px)!important;
-    min-height:300px!important;
-    border-radius:23px!important;
+    height:clamp(220px,60vw,275px)!important;
+    min-height:0!important;
+    border-radius:21px!important;
+    background:#f5f6f7!important;
   }
   .mxDetail .mxGallery img{
+    position:absolute!important;
+    inset:0!important;
     width:100%!important;
     height:100%!important;
     object-fit:contain!important;
+    object-position:center!important;
   }
   .mxDetail .mxSummary{padding:20px 19px 19px!important;border-radius:22px!important}
   .mxDetail .mxSummary h1{font-size:28px!important}
@@ -179,7 +187,7 @@ body:has(.mxDetail) .mxGlobalWhatsApp:active{transform:translateX(-50%) scale(.9
 @media(min-width:760px){
   .mxDetail .mxDetailGrid{grid-template-columns:1.18fr .82fr!important;gap:22px!important;align-items:start!important}
   .mxDetail .mxGallery{height:520px!important;min-height:520px!important}
-  .mxDetail .mxGallery img{width:100%!important;height:100%!important;object-fit:contain!important}
+  .mxDetail .mxGallery img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:contain!important}
   .mxDetail .mxSummary{position:sticky!important;top:146px!important}
   .mxDetail .mxDetailSpecs{margin-top:20px!important}
 }
