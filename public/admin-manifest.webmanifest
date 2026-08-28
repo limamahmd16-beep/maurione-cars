@@ -1,0 +1,21 @@
+{
+  "id": "/admin",
+  "name": "لوحة التحكم | MauriOne",
+  "short_name": "لوحة التحكم",
+  "description": "لوحة التحكم الخاصة بمالك MauriOne",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/admin",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png?v=3",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
