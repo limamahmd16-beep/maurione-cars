@@ -50,8 +50,7 @@ export default function GlobalWhatsApp(){
         filter:none!important;
       }
 
-      /* On a car-detail page the wide CTA belongs below the content,
-         so it never covers year / mileage / fuel / transmission / drive. */
+      /* On car-detail pages the CTA touches the specs card directly. */
       body:has(.mxDetail) .mxGlobalWhatsApp{
         position:relative!important;
         left:auto!important;
@@ -59,7 +58,7 @@ export default function GlobalWhatsApp(){
         bottom:auto!important;
         top:auto!important;
         transform:none!important;
-        margin:14px auto max(18px,env(safe-area-inset-bottom))!important;
+        margin:0 auto max(18px,env(safe-area-inset-bottom))!important;
         z-index:30!important;
       }
       body:has(.mxDetail) .mxGlobalWhatsApp:active{
@@ -73,7 +72,7 @@ export default function GlobalWhatsApp(){
           left:auto!important;
           right:auto!important;
           bottom:auto!important;
-          margin:16px auto 22px!important;
+          margin:0 auto 22px!important;
         }
       }
     `}</style>
