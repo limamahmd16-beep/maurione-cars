@@ -2,30 +2,37 @@
   const STYLE_ID = 'mx-featured-badge-position';
 
   function ensureStyle() {
-    if (document.getElementById(STYLE_ID)) return;
-    const style = document.createElement('style');
-    style.id = STYLE_ID;
+    let style = document.getElementById(STYLE_ID);
+    if (!style) {
+      style = document.createElement('style');
+      style.id = STYLE_ID;
+      document.head.appendChild(style);
+    }
     style.textContent = `
       .mxRibbon.mxFeaturedBadge {
         top: 0 !important;
         right: 0 !important;
-        width: 80px !important;
-        height: 31px !important;
-        padding: 0 10px 0 16px !important;
+        width: 76px !important;
+        height: 28px !important;
+        padding: 2px 8px 0 15px !important;
         transform: none !important;
         transform-origin: initial !important;
-        border-radius: 0 22px 0 14px !important;
-        clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%) !important;
+        border-radius: 0 22px 0 13px !important;
+        clip-path: polygon(24% 0, 100% 0, 100% 100%, 0 100%) !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        font-size: 12px !important;
+        font-size: 11.5px !important;
         line-height: 1 !important;
         font-weight: 800 !important;
         white-space: nowrap !important;
+        z-index: 4 !important;
+      }
+
+      .mxCardInfo:has(.mxRibbon.mxFeaturedBadge) h3 {
+        padding-top: 3px !important;
       }
     `;
-    document.head.appendChild(style);
   }
 
   function apply() {
