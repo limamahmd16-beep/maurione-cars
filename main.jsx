@@ -120,7 +120,7 @@ function AdminDashboardV2(){
       if(title&&!title.querySelector('.mxAdminV2Status')){
         const statusEl=document.createElement('div');
         statusEl.className='mxAdminV2Status';
-        statusEl.innerHTML='<i></i><span>لوحة الإدارة متصلة</span>';
+        statusEl.innerHTML='<i></i><span>لوحة التحكم متصلة</span>';
         title.appendChild(statusEl);
       }
 
@@ -181,15 +181,21 @@ function AdminDashboardV2(){
   return null;
 }
 
-// Dark mode is applied globally and can be toggled from the main menu.
+const isPrivateAdminPath=window.location.pathname==='/admin'||window.location.pathname.startsWith('/admin/');
+
+// The private control panel bypasses the public welcome/auth gate completely.
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <SafeEntry>
+    {isPrivateAdminPath ? (
       <AppExact />
-      <FunctionalEnhancer />
-    </SafeEntry>
+    ) : (
+      <SafeEntry>
+        <AppExact />
+        <FunctionalEnhancer />
+      </SafeEntry>
+    )}
     <DarkModeController />
     <AdminDashboardV2 />
-    <GlobalWhatsApp />
+    {!isPrivateAdminPath && <GlobalWhatsApp />}
   </React.StrictMode>
 );
