@@ -8,18 +8,23 @@
       style.id = STYLE_ID;
       document.head.appendChild(style);
     }
+
     style.textContent = `
       .mxRibbon.mxFeaturedBadge {
-        top: 0 !important;
-        right: 0 !important;
+        position: static !important;
+        top: auto !important;
+        right: auto !important;
+        left: auto !important;
         width: 54px !important;
         min-width: 54px !important;
         height: 24px !important;
-        padding: 0 4px 0 8px !important;
+        padding: 0 8px !important;
+        margin: -9px 0 10px 0 !important;
+        align-self: flex-end !important;
         transform: none !important;
         transform-origin: initial !important;
-        border-radius: 0 21px 0 10px !important;
-        clip-path: polygon(24% 0, 100% 0, 100% 100%, 0 100%) !important;
+        border-radius: 8px !important;
+        clip-path: none !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -34,8 +39,17 @@
 
   function apply() {
     ensureStyle();
+
     document.querySelectorAll('.mxRibbon').forEach((badge) => {
-      badge.classList.toggle('mxFeaturedBadge', badge.textContent.trim() === 'مميز');
+      const featured = badge.textContent.trim() === 'مميز';
+      badge.classList.toggle('mxFeaturedBadge', featured);
+      if (!featured) return;
+
+      const cardInfo = badge.closest('.mxCardInfo');
+      const price = cardInfo?.querySelector('.mxPrice');
+      if (price && price.nextElementSibling !== badge) {
+        price.insertAdjacentElement('afterend', badge);
+      }
     });
   }
 
