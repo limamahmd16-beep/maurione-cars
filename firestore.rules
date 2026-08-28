@@ -16,9 +16,61 @@ service cloud.firestore {
       );
     }
 
+    function validStats(data) {
+      return data.keys().hasOnly([
+        'views',
+        'whatsappClicks',
+        'phoneClicks',
+        'favoriteAdds',
+        'updatedAt'
+      ])
+      && data.views is int
+      && data.whatsappClicks is int
+      && data.phoneClicks is int
+      && data.favoriteAdds is int
+      && data.views >= 0
+      && data.whatsappClicks >= 0
+      && data.phoneClicks >= 0
+      && data.favoriteAdds >= 0;
+    }
+
     match /cars/{carId} {
       allow read: if signedIn();
       allow create, update, delete: if isAdmin();
+    }
+
+    match /carStats/{carId} {
+      allow read, delete: if isAdmin();
+
+      allow create: if signedIn()
+        && validStats(request.resource.data)
+        && request.resource.data.views <= 1
+        && request.resource.data.whatsappClicks <= 1
+        && request.resource.data.phoneClicks <= 1
+        && request.resource.data.favoriteAdds <= 1
+        && (
+          request.resource.data.views
+          + request.resource.data.whatsappClicks
+          + request.resource.data.phoneClicks
+          + request.resource.data.favoriteAdds
+        ) <= 1;
+
+      allow update: if signedIn()
+        && validStats(request.resource.data)
+        && request.resource.data.views >= resource.data.views
+        && request.resource.data.whatsappClicks >= resource.data.whatsappClicks
+        && request.resource.data.phoneClicks >= resource.data.phoneClicks
+        && request.resource.data.favoriteAdds >= resource.data.favoriteAdds
+        && request.resource.data.views <= resource.data.views + 1
+        && request.resource.data.whatsappClicks <= resource.data.whatsappClicks + 1
+        && request.resource.data.phoneClicks <= resource.data.phoneClicks + 1
+        && request.resource.data.favoriteAdds <= resource.data.favoriteAdds + 1
+        && (
+          (request.resource.data.views - resource.data.views)
+          + (request.resource.data.whatsappClicks - resource.data.whatsappClicks)
+          + (request.resource.data.phoneClicks - resource.data.phoneClicks)
+          + (request.resource.data.favoriteAdds - resource.data.favoriteAdds)
+        ) <= 1;
     }
 
     match /users/{userId} {
