@@ -12,18 +12,18 @@
       .mxRibbon.mxFeaturedBadge {
         top: 0 !important;
         right: 0 !important;
-        width: 64px !important;
-        min-width: 64px !important;
-        height: 27px !important;
-        padding: 0 5px 0 10px !important;
+        width: 54px !important;
+        min-width: 54px !important;
+        height: 24px !important;
+        padding: 0 4px 0 8px !important;
         transform: none !important;
         transform-origin: initial !important;
-        border-radius: 0 21px 0 11px !important;
-        clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%) !important;
+        border-radius: 0 21px 0 10px !important;
+        clip-path: polygon(24% 0, 100% 0, 100% 100%, 0 100%) !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        font-size: 11px !important;
+        font-size: 10px !important;
         line-height: 1 !important;
         font-weight: 800 !important;
         white-space: nowrap !important;
