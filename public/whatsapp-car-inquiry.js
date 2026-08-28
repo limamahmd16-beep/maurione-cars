@@ -1,0 +1,98 @@
+(() => {
+  const clean = (value) => (value || '').replace(/\s+/g, ' ').trim();
+
+  function absoluteUrl(value) {
+    if (!value) return '';
+    try { return new URL(value, window.location.href).href; } catch { return value; }
+  }
+
+  function whatsappNumber(link) {
+    const href = link?.getAttribute('href') || '';
+    const match = href.match(/(?:wa\.me\/|[?&]phone=)(\d+)/i);
+    return match?.[1] || '';
+  }
+
+  function readCarDetails() {
+    const detail = document.querySelector('.mxDetail');
+    if (!detail) return null;
+
+    const brand = clean(detail.querySelector('.mxSummary > span')?.textContent);
+    const title = clean(detail.querySelector('.mxSummary h1')?.textContent);
+    const price = clean(detail.querySelector('.mxDetailPrice')?.textContent);
+    const image = absoluteUrl(detail.querySelector('.mxGallery img')?.getAttribute('src'));
+    const adUrl = `${window.location.origin}${window.location.pathname}`;
+
+    const specs = {};
+    detail.querySelectorAll('.mxDetailSpecs .mxSpec').forEach((item) => {
+      const label = clean(item.querySelector('small')?.textContent);
+      const value = clean(item.querySelector('strong')?.textContent);
+      if (label) specs[label] = value;
+    });
+
+    return { brand, title, price, image, adUrl, specs };
+  }
+
+  function buildMessage(car) {
+    const lines = [
+      'مرحبًا، أريد الاستفسار عن هذه السيارة في MauriOne:',
+      '',
+      `🚗 السيارة: ${clean(`${car.brand} ${car.title}`)}`,
+      car.price ? `💰 السعر: ${car.price}` : '',
+      car.specs['السنة'] ? `📅 السنة: ${car.specs['السنة']}` : '',
+      car.specs['كم'] ? `🛣️ الكيلومترات: ${car.specs['كم']} كم` : '',
+      car.specs['الوقود'] ? `⛽ الوقود: ${car.specs['الوقود']}` : '',
+      car.specs['ناقل الحركة'] ? `⚙️ ناقل الحركة: ${car.specs['ناقل الحركة']}` : '',
+      car.specs['الدفع'] ? `🚙 الدفع: ${car.specs['الدفع']}` : '',
+      '',
+      car.image ? '📷 صورة السيارة:' : '',
+      car.image || '',
+      '',
+      '🔗 رابط الإعلان:',
+      car.adUrl,
+    ];
+    return lines.filter((line, index, array) => line !== '' || (index > 0 && array[index - 1] !== '')).join('\n').trim();
+  }
+
+  function apply() {
+    const car = readCarDetails();
+    if (!car) return;
+
+    const links = [
+      ...document.querySelectorAll('.mxDetail .mxContact a.wa'),
+      ...document.querySelectorAll('a.mxGlobalWhatsApp'),
+    ];
+
+    let fallbackNumber = '';
+    for (const link of links) {
+      fallbackNumber = whatsappNumber(link) || fallbackNumber;
+    }
+    if (!fallbackNumber) return;
+
+    const message = buildMessage(car);
+    links.forEach((link) => {
+      const number = whatsappNumber(link) || fallbackNumber;
+      link.href = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+      link.target = '_blank';
+      link.rel = 'noreferrer';
+    });
+  }
+
+  function start() {
+    apply();
+    const root = document.getElementById('root') || document.body;
+    const observer = new MutationObserver(apply);
+    observer.observe(root, { childList: true, subtree: true, attributes: true, attributeFilter: ['src', 'href'] });
+    window.addEventListener('popstate', () => setTimeout(apply, 0));
+    document.addEventListener('click', (event) => {
+      if (event.target.closest?.('.mxDetail .mxContact a.wa, a.mxGlobalWhatsApp, .mxThumbs button')) {
+        setTimeout(apply, 0);
+      }
+    }, true);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start, { once: true });
+  } else {
+    start();
+  }
+})();
