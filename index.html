@@ -33,19 +33,15 @@
     <div id="root"></div>
     <script>
       (()=>{
-        const admin=window.__MAURIONE_ADMIN_PATH__===true;
-        if(admin)return;
-        const add=(src,type)=>{
+        if(window.__MAURIONE_ADMIN_PATH__===true)return;
+        const add=src=>{
           const script=document.createElement('script');
           script.src=src;
-          if(type)script.type=type;
           document.body.appendChild(script);
         };
         add('/welcome-loader.js?v=29');
         add('/featured-badge-position.js?v=5');
         add('/whatsapp-car-inquiry.js?v=1');
-        add('/src/private-admin-guard.js?v=4','module');
-        add('/src/car-analytics.js?v=1','module');
       })();
     </script>
     <script type="module" src="/main.jsx"></script>
