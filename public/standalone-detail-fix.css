@@ -1,0 +1,26 @@
+@media (display-mode: standalone) and (max-width: 560px) {
+  html body:has(.mxDetail) a.mxGlobalWhatsApp {
+    position: fixed !important;
+    left: 10px !important;
+    right: 10px !important;
+    top: auto !important;
+    bottom: max(10px, env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    max-width: none !important;
+    height: 46px !important;
+    min-height: 46px !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 10050 !important;
+    border-radius: 15px !important;
+    transform: none !important;
+  }
+
+  html body:has(.mxDetail) {
+    padding-bottom: calc(66px + env(safe-area-inset-bottom)) !important;
+  }
+}
