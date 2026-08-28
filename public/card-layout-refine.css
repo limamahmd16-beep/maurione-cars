@@ -1,0 +1,21 @@
+/* MauriOne car-card refinement: image + transmission only */
+.mxCard{
+  grid-template-columns:45% 55% !important;
+}
+
+.mxSpecs{
+  grid-template-columns:.95fr .95fr .95fr 1.35fr .95fr !important;
+}
+
+.mxSpecs .mxSpec:nth-child(4){
+  padding-inline:0 !important;
+}
+
+.mxSpecs .mxSpec:nth-child(4) strong{
+  max-width:none !important;
+  overflow:visible !important;
+  text-overflow:clip !important;
+  white-space:nowrap !important;
+  font-size:10px !important;
+  letter-spacing:-.15px !important;
+}
