@@ -16,6 +16,7 @@
     <script>
       (()=>{
         const admin=location.pathname==='/admin'||location.pathname.startsWith('/admin/');
+        window.__MAURIONE_ADMIN_PATH__=admin;
         if(!admin)return;
         document.title='لوحة التحكم | MauriOne';
         const manifest=document.getElementById('mxAppManifest');
@@ -30,12 +31,23 @@
   </head>
   <body>
     <div id="root"></div>
-    <script src="/welcome-loader.js?v=29"></script>
-    <script src="/featured-badge-position.js?v=5"></script>
-    <script src="/whatsapp-car-inquiry.js?v=1"></script>
-    <script type="module" src="/src/private-admin-guard.js?v=3"></script>
-    <script type="module" src="/src/admin-insights-v3.js"></script>
-    <script type="module" src="/src/car-analytics.js?v=1"></script>
+    <script>
+      (()=>{
+        const admin=window.__MAURIONE_ADMIN_PATH__===true;
+        if(admin)return;
+        const add=(src,type)=>{
+          const script=document.createElement('script');
+          script.src=src;
+          if(type)script.type=type;
+          document.body.appendChild(script);
+        };
+        add('/welcome-loader.js?v=29');
+        add('/featured-badge-position.js?v=5');
+        add('/whatsapp-car-inquiry.js?v=1');
+        add('/src/private-admin-guard.js?v=4','module');
+        add('/src/car-analytics.js?v=1','module');
+      })();
+    </script>
     <script type="module" src="/main.jsx"></script>
     <!-- stable-recovery-20260827 -->
   </body>
