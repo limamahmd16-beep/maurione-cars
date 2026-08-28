@@ -1,10 +1,37 @@
-import React from 'react';
+import React,{useEffect,useRef}from'react';
 
 export default function GlobalWhatsApp(){
   const number=(import.meta.env.VITE_CARS_WHATSAPP||'').replace(/\D/g,'');
   const href=number?`https://wa.me/${number}?text=${encodeURIComponent('مرحبًا، أريد الاستفسار عبر MauriOne Cars')}`:'#';
+  const homeRef=useRef(null);
+  const buttonRef=useRef(null);
+
+  useEffect(()=>{
+    const place=()=>{
+      const button=buttonRef.current;
+      const home=homeRef.current;
+      if(!button||!home)return;
+      const specs=document.querySelector('.mxDetail .mxDetailSpecs');
+      if(specs){
+        if(button.previousElementSibling!==specs)specs.insertAdjacentElement('afterend',button);
+      }else if(home.nextElementSibling!==button){
+        home.insertAdjacentElement('afterend',button);
+      }
+    };
+    place();
+    const observer=new MutationObserver(place);
+    observer.observe(document.getElementById('root')||document.body,{childList:true,subtree:true});
+    window.addEventListener('popstate',place);
+    return()=>{
+      observer.disconnect();
+      window.removeEventListener('popstate',place);
+    };
+  },[]);
+
   return <>
+    <span ref={homeRef} className="mxWhatsAppHome" aria-hidden="true" />
     <a
+      ref={buttonRef}
       className={`mxGlobalWhatsApp${number?'':' disabled'}`}
       href={href}
       target={number?'_blank':undefined}
@@ -15,6 +42,7 @@ export default function GlobalWhatsApp(){
       <img src="/whatsapp-icon.svg?v=35" alt="" />
     </a>
     <style>{`
+      .mxWhatsAppHome{display:none!important}
       .mxGlobalWhatsApp{
         position:fixed;
         right:max(16px,env(safe-area-inset-right));
@@ -35,45 +63,50 @@ export default function GlobalWhatsApp(){
         transform:translateZ(0);
         -webkit-tap-highlight-color:transparent;
       }
-      body:has(.userAuthPage) .mxGlobalWhatsApp{
-        display:none!important;
-      }
-      .mxGlobalWhatsApp img{
-        width:27px;
-        height:27px;
-        display:block;
-        opacity:1!important;
-      }
+      body:has(.userAuthPage) .mxGlobalWhatsApp{display:none!important}
+      .mxGlobalWhatsApp img{width:27px;height:27px;display:block;opacity:1!important}
       .mxGlobalWhatsApp:active{transform:scale(.96)}
-      .mxGlobalWhatsApp.disabled{
-        opacity:1!important;
-        filter:none!important;
-      }
+      .mxGlobalWhatsApp.disabled{opacity:1!important;filter:none!important}
 
-      /* On car-detail pages the CTA touches the specs card directly. */
       body:has(.mxDetail) .mxGlobalWhatsApp{
         position:relative!important;
         left:auto!important;
         right:auto!important;
         bottom:auto!important;
         top:auto!important;
+        width:100%!important;
+        max-width:100%!important;
+        height:50px!important;
+        min-width:0!important;
+        min-height:50px!important;
+        margin:0!important;
+        border-radius:16px!important;
         transform:none!important;
-        margin:0 auto max(18px,env(safe-area-inset-bottom))!important;
+        display:flex!important;
+        align-items:center!important;
+        justify-content:center!important;
+        gap:9px!important;
+        background:#25D366!important;
+        box-shadow:0 8px 18px rgba(37,211,102,.22)!important;
+        padding:0 16px!important;
+        box-sizing:border-box!important;
         z-index:30!important;
       }
-      body:has(.mxDetail) .mxGlobalWhatsApp:active{
-        transform:scale(.985)!important;
+      body:has(.mxDetail) .mxGlobalWhatsApp::after{
+        content:'تواصل عبر واتساب';
+        color:#fff;
+        font-size:15px;
+        line-height:1;
+        font-weight:800;
+        direction:rtl;
       }
+      body:has(.mxDetail) .mxGlobalWhatsApp img{width:24px!important;height:24px!important;flex:none!important}
+      body:has(.mxDetail) .mxGlobalWhatsApp:active{transform:scale(.985)!important}
 
       @media(min-width:800px){
         .mxGlobalWhatsApp{right:24px;bottom:24px;width:52px;height:52px;min-width:52px;min-height:52px}
         .mxGlobalWhatsApp img{width:28px;height:28px}
-        body:has(.mxDetail) .mxGlobalWhatsApp{
-          left:auto!important;
-          right:auto!important;
-          bottom:auto!important;
-          margin:0 auto 22px!important;
-        }
+        body:has(.mxDetail) .mxGlobalWhatsApp{width:100%!important;height:52px!important;min-height:52px!important;margin:0!important}
       }
     `}</style>
   </>;
