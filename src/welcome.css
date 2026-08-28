@@ -1,8 +1,15 @@
 .welcomeExactPage{position:fixed;inset:0;z-index:500;background:#fff;overflow:hidden;display:grid;place-items:center}
 .welcomeExactStage{position:relative;width:min(100vw,760px);height:100svh;height:100dvh;overflow:hidden;background-color:#fff;background-image:url('/maurione-welcome-approved-exact.webp?v=17');background-position:center;background-size:cover;background-repeat:no-repeat}
 .welcomeFullArtwork{display:none!important}
-.welcomeExactHotspot{position:absolute;left:9%;right:9%;border:0;background:transparent;z-index:5;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-.welcomeExactLogin{top:78.8%;height:7.9%}
-.welcomeExactGuest{top:87.7%;height:7.8%}
-.welcomeExactHotspot:disabled{pointer-events:none}
+
+/* Cover only the original oversized baked-in buttons. */
+.welcomeExactStage::after{content:'';position:absolute;left:0;right:0;top:77.2%;bottom:2.8%;background:#fff;z-index:3;pointer-events:none}
+
+/* Smaller approved login controls. */
+.welcomeExactHotspot{position:absolute;left:10%;right:10%;height:5.6%;border-radius:22px;z-index:5;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center;font-size:clamp(18px,4.5vw,25px);font-weight:800;line-height:1;box-sizing:border-box}
+.welcomeExactLogin{top:80.0%;background:#ff5a12;border:2px solid #ff5a12;color:#fff}
+.welcomeExactGuest{top:87.0%;background:#fff;border:2px solid #ff5a12;color:#ff5a12}
+.welcomeExactLogin::before{content:'تسجيل الدخول'}
+.welcomeExactGuest::before{content:'الدخول كزائر'}
+.welcomeExactHotspot:disabled{pointer-events:none;opacity:.6}
 @media(min-width:761px){.welcomeExactStage{box-shadow:0 0 70px rgba(0,0,0,.06)}}
