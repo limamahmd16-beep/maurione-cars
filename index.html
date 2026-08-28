@@ -12,7 +12,18 @@
     <meta name="description" content="MauriOne السيارات — معرض سيارات مختارة بعناية، تفاصيل واضحة وتواصل مباشر." />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
     <link rel="icon" type="image/png" href="/apple-touch-icon.png?v=3" />
-    <link rel="manifest" href="/manifest.webmanifest?v=3" />
+    <link id="mxAppManifest" rel="manifest" href="/manifest.webmanifest?v=3" />
+    <script>
+      (()=>{
+        const admin=location.pathname==='/admin'||location.pathname.startsWith('/admin/');
+        if(!admin)return;
+        document.title='لوحة التحكم | MauriOne';
+        const manifest=document.getElementById('mxAppManifest');
+        if(manifest)manifest.href='/admin-manifest.webmanifest?v=1';
+        const appleTitle=document.querySelector('meta[name="apple-mobile-web-app-title"]');
+        if(appleTitle)appleTitle.content='لوحة التحكم';
+      })();
+    </script>
     <link rel="stylesheet" href="/standalone-detail-fix.css?v=1" />
     <link rel="stylesheet" href="/card-layout-refine.css?v=3" />
     <style>html,body,#root{min-height:100%;background:#fff;margin:0}</style>
@@ -22,7 +33,7 @@
     <script src="/welcome-loader.js?v=29"></script>
     <script src="/featured-badge-position.js?v=5"></script>
     <script src="/whatsapp-car-inquiry.js?v=1"></script>
-    <script type="module" src="/src/private-admin-guard.js?v=2"></script>
+    <script type="module" src="/src/private-admin-guard.js?v=3"></script>
     <script type="module" src="/src/admin-insights-v3.js"></script>
     <script type="module" src="/src/car-analytics.js?v=1"></script>
     <script type="module" src="/main.jsx"></script>
