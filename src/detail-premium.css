@@ -291,13 +291,13 @@ body:has(.mxDetail) .mxGlobalWhatsApp:active{transform:scale(.985)!important}
     border-radius:17px!important;
   }
   .mxDetail .mxDetailSpecs .mxSpec{
-    min-height:49px!important;
-    grid-template-rows:19px 16px 13px!important;
+    min-height:52px!important;
+    grid-template-rows:23px 16px 13px!important;
     gap:2px!important;
   }
   .mxDetail .mxDetailSpecs .mxSpec svg{
-    width:19px!important;
-    height:19px!important;
+    width:23px!important;
+    height:23px!important;
   }
   .mxDetail .mxDetailSpecs .mxSpec strong{
     font-size:10.5px!important;
