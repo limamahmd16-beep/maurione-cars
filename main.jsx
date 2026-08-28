@@ -74,6 +74,11 @@ async function bootPublicSite(){
       <GlobalWhatsApp/>
     </React.StrictMode>
   );
+
+  Promise.all([
+    import('./src/private-admin-guard.js'),
+    import('./src/car-analytics.js'),
+  ]).catch(error=>console.error('PUBLIC_HELPER_ERROR',error));
 }
 
 (isAdminPath?bootAdmin():bootPublicSite()).catch(showBootError);
