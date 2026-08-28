@@ -144,6 +144,7 @@ body:has(.mxDetail),
   font-size:14px!important;
   line-height:1.75!important;
 }
+.mxDetail .mxSummary p:empty{display:none!important}
 .mxDetail .mxContact{display:none!important}
 .mxDetail .mxDetailSpecs{
   display:grid!important;
@@ -216,10 +217,11 @@ body:has(.mxDetail) .mxGlobalWhatsApp:active{transform:scale(.985)!important}
   .mxDetail .mxBack{margin-bottom:6px!important}
   .mxDetail .mxGallery{height:clamp(285px,82vw,330px)!important;border-radius:23px!important;padding:0!important}
   .mxDetail .mxGallery img{border-radius:22px!important;object-position:center 56%!important}
-  .mxDetail .mxSummary{padding:20px 19px 19px!important;border-radius:22px!important}
-  .mxDetail .mxSummary h1{font-size:28px!important}
-  .mxDetail .mxDetailPrice{font-size:31px!important}
-  .mxDetail .mxSummary p{font-size:13.5px!important}
+  .mxDetail .mxSummary{padding:14px 16px 13px!important;border-radius:20px!important}
+  .mxDetail .mxSummary>span{min-height:18px!important;font-size:12.5px!important;margin-bottom:0!important}
+  .mxDetail .mxSummary h1{font-size:25px!important;margin:1px 0 6px!important;line-height:1.08!important}
+  .mxDetail .mxDetailPrice{font-size:28px!important;margin:0 0 8px!important}
+  .mxDetail .mxSummary p{font-size:12.5px!important;padding-top:9px!important;line-height:1.5!important}
   .mxDetail .mxDetailSpecs{padding:13px 2px!important;border-radius:19px!important}
   .mxDetail .mxDetailSpecs .mxSpec{padding:0 2px!important}
   body:has(.mxDetail) .mxGlobalWhatsApp{
