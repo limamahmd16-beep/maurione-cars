@@ -5,10 +5,10 @@
 /* Cover only the original oversized baked-in buttons. */
 .welcomeExactStage::after{content:'';position:absolute;left:0;right:0;top:77.2%;bottom:2.8%;background:#fff;z-index:3;pointer-events:none}
 
-/* Smaller approved login controls. */
-.welcomeExactHotspot{position:absolute;left:10%;right:10%;height:5.6%;border-radius:22px;z-index:5;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center;font-size:clamp(18px,4.5vw,25px);font-weight:800;line-height:1;box-sizing:border-box}
-.welcomeExactLogin{top:80.0%;background:#ff5a12;border:2px solid #ff5a12;color:#fff}
-.welcomeExactGuest{top:87.0%;background:#fff;border:2px solid #ff5a12;color:#ff5a12}
+/* Refined compact login controls. */
+.welcomeExactHotspot{position:absolute;left:10%;right:10%;height:4.3%;border-radius:18px;z-index:5;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center;font-size:clamp(16px,4vw,21px);font-weight:800;line-height:1;box-sizing:border-box}
+.welcomeExactLogin{top:80.4%;background:#ff5a12;border:2px solid #ff5a12;color:#fff}
+.welcomeExactGuest{top:86.0%;background:#fff;border:2px solid #ff5a12;color:#ff5a12}
 .welcomeExactLogin::before{content:'تسجيل الدخول'}
 .welcomeExactGuest::before{content:'الدخول كزائر'}
 .welcomeExactHotspot:disabled{pointer-events:none;opacity:.6}
