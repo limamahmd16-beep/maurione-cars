@@ -1,8 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import AppExact from './src/AppExact.jsx';
-import { auth, firebaseReady } from './src/lib/firebase.js';
 import './src/styles.css';
 import './src/premium.css';
 import './src/brand-fix.css';
@@ -11,8 +8,8 @@ import './src/dark-mode.css';
 
 const OWNER_UID='sC94v8XaXmUMHK6eineEy25GIst2';
 
-const pageStyle={minHeight:'100vh',display:'grid',placeItems:'center',padding:24,background:'#fff',fontFamily:'Arial,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif'};
-const cardStyle={width:'min(100%,430px)',padding:'30px 24px 24px',border:'1px solid #eceef1',borderRadius:28,background:'#fff',boxShadow:'0 20px 60px rgba(15,23,42,.10)',textAlign:'center'};
+const pageStyle={minHeight:'100vh',display:'grid',placeItems:'center',padding:24,background:'#fff',fontFamily:'Arial,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif',boxSizing:'border-box'};
+const cardStyle={width:'min(100%,430px)',padding:'30px 24px 24px',border:'1px solid #eceef1',borderRadius:28,background:'#fff',boxShadow:'0 20px 60px rgba(15,23,42,.10)',textAlign:'center',boxSizing:'border-box'};
 const inputStyle={boxSizing:'border-box',width:'100%',height:52,border:'1px solid #dfe3e8',borderRadius:15,padding:'0 15px',fontSize:16,background:'#fff',color:'#111',outline:'none',textAlign:'right'};
 const buttonStyle={width:'100%',height:52,border:0,borderRadius:15,background:'#ff5a12',color:'#fff',fontSize:17,fontWeight:900,cursor:'pointer'};
 
@@ -26,23 +23,52 @@ function AdminAccess({children}){
   const [password,setPassword]=React.useState('');
   const [busy,setBusy]=React.useState(false);
   const [error,setError]=React.useState('');
+  const servicesRef=React.useRef(null);
 
   React.useEffect(()=>{
+    let active=true;
+    let unsubscribe=()=>{};
+
     document.title='لوحة التحكم | MauriOne';
     document.documentElement.dataset.theme='light';
     document.documentElement.style.colorScheme='light';
     document.body.style.background='#fff';
 
-    if(!firebaseReady||!auth){
-      setState({loading:false,allowed:false});
-      setError('تعذر الاتصال بخدمة تسجيل الدخول.');
-      return;
-    }
+    (async()=>{
+      try{
+        const [firebaseModule,authModule]=await Promise.all([
+          import('./src/lib/firebase.js'),
+          import('firebase/auth')
+        ]);
+        if(!active)return;
+        const {auth,firebaseReady}=firebaseModule;
+        if(!firebaseReady||!auth){
+          setState({loading:false,allowed:false});
+          setError('تعذر الاتصال بخدمة تسجيل الدخول.');
+          return;
+        }
+        servicesRef.current={auth,...authModule};
+        unsubscribe=authModule.onAuthStateChanged(auth,user=>{
+          if(!active)return;
+          const allowed=Boolean(user&&!user.isAnonymous&&user.uid===OWNER_UID);
+          setState({loading:false,allowed});
+        },()=>{
+          if(!active)return;
+          setState({loading:false,allowed:false});
+          setError('تعذر التحقق من جلسة تسجيل الدخول.');
+        });
+      }catch(err){
+        console.error('MauriOne admin auth bootstrap failed',err);
+        if(!active)return;
+        setState({loading:false,allowed:false});
+        setError('تعذر تشغيل خدمة تسجيل الدخول. أعد تحميل الصفحة.');
+      }
+    })();
 
-    return onAuthStateChanged(auth,user=>{
-      const allowed=Boolean(user&&!user.isAnonymous&&user.uid===OWNER_UID);
-      setState({loading:false,allowed});
-    });
+    return()=>{
+      active=false;
+      try{unsubscribe()}catch{}
+    };
   },[]);
 
   React.useEffect(()=>{
@@ -52,7 +78,12 @@ function AdminAccess({children}){
 
   async function submit(event){
     event.preventDefault();
-    if(!auth)return;
+    const services=servicesRef.current;
+    if(!services){
+      setError('خدمة تسجيل الدخول لم تجهز بعد. أعد المحاولة.');
+      return;
+    }
+    const {auth,signInWithEmailAndPassword,signOut}=services;
     setBusy(true);
     setError('');
     try{
@@ -64,6 +95,7 @@ function AdminAccess({children}){
         await signOut(auth);
         throw new Error('NOT_OWNER');
       }
+      setState({loading:false,allowed:true});
     }catch(err){
       setError(err?.message==='NOT_OWNER'?'هذا الحساب غير مصرح له بالدخول.':'البريد الإلكتروني أو كلمة المرور غير صحيحة.');
     }finally{
@@ -72,7 +104,7 @@ function AdminAccess({children}){
   }
 
   if(state.loading){
-    return <main dir="rtl" style={pageStyle}><section style={cardStyle}><Logo/><h1 style={{fontSize:24,margin:'0 0 8px',color:'#111'}}>لوحة التحكم</h1><p style={{margin:0,color:'#777d86',fontSize:14}}>جارٍ التحقق...</p></section></main>;
+    return <main dir="rtl" style={pageStyle}><section style={cardStyle}><Logo/><h1 style={{fontSize:24,margin:'0 0 8px',color:'#111'}}>لوحة التحكم</h1><p style={{margin:0,color:'#777d86',fontSize:14}}>جارٍ تشغيل لوحة التحكم...</p></section></main>;
   }
 
   if(!state.allowed){
@@ -84,7 +116,7 @@ function AdminAccess({children}){
         <form onSubmit={submit} style={{display:'grid',gap:12}}>
           <input aria-label="البريد الإلكتروني" type="email" autoComplete="username" placeholder="البريد الإلكتروني" value={email} onChange={e=>setEmail(e.target.value)} required style={inputStyle}/>
           <input aria-label="كلمة المرور" type="password" autoComplete="current-password" placeholder="كلمة المرور" value={password} onChange={e=>setPassword(e.target.value)} required style={inputStyle}/>
-          <button type="submit" disabled={busy} style={{...buttonStyle,opacity:busy?.65:1}}>{busy?'جارٍ التحقق...':'تسجيل الدخول'}</button>
+          <button type="submit" disabled={busy} style={{...buttonStyle,opacity:busy?0.65:1}}>{busy?'جارٍ التحقق...':'تسجيل الدخول'}</button>
         </form>
         <div style={{minHeight:22,marginTop:10,color:'#c62828',fontSize:13,fontWeight:700}}>{error}</div>
         <a href="/" style={{display:'inline-block',marginTop:8,color:'#737982',fontSize:13,textDecoration:'none'}}>العودة إلى الموقع</a>
@@ -95,16 +127,19 @@ function AdminAccess({children}){
   return children;
 }
 
+const AdminApp=React.lazy(()=>import('./src/AppExact.jsx'));
+
 class AdminCrashBoundary extends React.Component{
   constructor(props){super(props);this.state={error:null};}
   static getDerivedStateFromError(error){return{error};}
+  componentDidCatch(error){console.error('MauriOne admin render failed',error);}
   render(){
     if(this.state.error){
       return <main dir="rtl" style={pageStyle}>
         <section style={cardStyle}>
           <Logo/>
           <h1 style={{fontSize:23,margin:'0 0 10px',color:'#111'}}>تعذر فتح لوحة التحكم</h1>
-          <p style={{margin:'0 0 18px',color:'#747982',lineHeight:1.7,fontSize:14}}>حدث خطأ في تشغيل اللوحة. أعد تحميل الصفحة مرة واحدة.</p>
+          <p style={{margin:'0 0 18px',color:'#747982',lineHeight:1.7,fontSize:14}}>تعذر تحميل مكوّن من اللوحة. اضغط إعادة التحميل.</p>
           <button onClick={()=>window.location.reload()} style={buttonStyle}>إعادة التحميل</button>
         </section>
       </main>;
@@ -113,13 +148,22 @@ class AdminCrashBoundary extends React.Component{
   }
 }
 
+function DashboardLoader(){
+  return <main dir="rtl" style={pageStyle}><section style={cardStyle}><Logo/><h1 style={{fontSize:24,margin:'0 0 8px',color:'#111'}}>لوحة التحكم</h1><p style={{margin:0,color:'#777d86',fontSize:14}}>جارٍ تحميل بيانات اللوحة...</p></section></main>;
+}
+
 const root=document.getElementById('root');
-ReactDOM.createRoot(root).render(
-  <React.StrictMode>
-    <AdminCrashBoundary>
-      <AdminAccess>
-        <AppExact />
-      </AdminAccess>
-    </AdminCrashBoundary>
-  </React.StrictMode>
-);
+if(root){
+  root.replaceChildren();
+  ReactDOM.createRoot(root).render(
+    <React.StrictMode>
+      <AdminCrashBoundary>
+        <AdminAccess>
+          <React.Suspense fallback={<DashboardLoader/>}>
+            <AdminApp/>
+          </React.Suspense>
+        </AdminAccess>
+      </AdminCrashBoundary>
+    </React.StrictMode>
+  );
+}
