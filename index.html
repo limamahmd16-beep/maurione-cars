@@ -31,20 +31,31 @@
   </head>
   <body>
     <div id="root"></div>
-    <script>
-      (()=>{
-        if(window.__MAURIONE_ADMIN_PATH__===true)return;
-        const add=src=>{
+    <script type="module">
+      const admin=window.__MAURIONE_ADMIN_PATH__===true;
+
+      function loadClassic(src){
+        return new Promise((resolve,reject)=>{
           const script=document.createElement('script');
           script.src=src;
+          script.onload=resolve;
+          script.onerror=reject;
           document.body.appendChild(script);
-        };
-        add('/welcome-loader.js?v=29');
-        add('/featured-badge-position.js?v=5');
-        add('/whatsapp-car-inquiry.js?v=1');
-      })();
+        });
+      }
+
+      if(admin){
+        import('/admin-main.jsx');
+      }else{
+        Promise.all([
+          loadClassic('/welcome-loader.js?v=29'),
+          loadClassic('/featured-badge-position.js?v=5'),
+          loadClassic('/whatsapp-car-inquiry.js?v=1'),
+          import('/src/private-admin-guard.js?v=3'),
+          import('/src/car-analytics.js?v=1')
+        ]).finally(()=>import('/main.jsx'));
+      }
     </script>
-    <script type="module" src="/main.jsx"></script>
-    <!-- stable-recovery-20260827 -->
+    <!-- stable-recovery-20260829-admin-isolated -->
   </body>
 </html>
