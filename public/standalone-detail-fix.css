@@ -45,6 +45,11 @@
     transform: none !important;
   }
 
+  /* Reserve real page space for the fixed WhatsApp bar so it never covers specs. */
+  html body:has(.mxDetail) .mxDetail {
+    padding-bottom: calc(78px + env(safe-area-inset-bottom)) !important;
+  }
+
   html body:has(.mxDetail) {
     padding-bottom: calc(66px + env(safe-area-inset-bottom)) !important;
   }
