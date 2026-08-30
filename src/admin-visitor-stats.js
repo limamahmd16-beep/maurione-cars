@@ -63,7 +63,7 @@ function render(){
       panel=document.createElement('section');
       panel.className=PANEL_CLASS;
       panel.innerHTML=`
-        <div class="${PANEL_CLASS}Head"><h2>إحصائيات الزوار</h2><span>زوار فريدون حسب الجهاز</span></div>
+        <div class="${PANEL_CLASS}Head"><h2>إحصائيات الزوار</h2><span>يشمل الزوار والحسابات المسجلة</span></div>
         <div class="${PANEL_CLASS}Grid">
           <div class="${PANEL_CLASS}Card accent" data-visitor-stat="today"><span>زوار اليوم</span><strong>0</strong></div>
           <div class="${PANEL_CLASS}Card" data-visitor-stat="last7"><span>آخر 7 أيام</span><strong>0</strong></div>
@@ -88,27 +88,40 @@ function start(){
   if(started||!db||!auth?.currentUser)return;
   if(!document.querySelector('.mxAdmin'))return;
   started=true;
-  stopStats=onSnapshot(collection(db,'visitorStats'),snapshot=>{
-    const byDay=new Map();
-    let uniqueTotal=0;
+  stopStats=onSnapshot(collection(db,'carStats'),snapshot=>{
+    const totalVisitors=new Set();
+    const visitorsByDay=new Map();
 
     snapshot.forEach(item=>{
-      const data=item.data()||{};
-      if(data.type==='total'){
-        uniqueTotal+=1;
+      const id=item.id||'';
+      const totalMatch=id.match(/^visitor-total-(.+)$/);
+      if(totalMatch){
+        totalVisitors.add(totalMatch[1]);
         return;
       }
-      if(data.type==='day'&&/^\d{4}-\d{2}-\d{2}$/.test(data.day||'')){
-        byDay.set(data.day,(byDay.get(data.day)||0)+1);
+      const dayMatch=id.match(/^visitor-day-(\d{4}-\d{2}-\d{2})-(.+)$/);
+      if(dayMatch){
+        const day=dayMatch[1];
+        const visitor=dayMatch[2];
+        if(!visitorsByDay.has(day))visitorsByDay.set(day,new Set());
+        visitorsByDay.get(day).add(visitor);
       }
     });
 
     const seven=recentDays(7);
     const thirty=recentDays(30);
-    totals.today=byDay.get(dateKey())||0;
-    totals.last7=[...byDay.entries()].reduce((sum,[day,count])=>sum+(seven.has(day)?count:0),0);
-    totals.last30=[...byDay.entries()].reduce((sum,[day,count])=>sum+(thirty.has(day)?count:0),0);
-    totals.total=uniqueTotal;
+    const sevenVisitors=new Set();
+    const thirtyVisitors=new Set();
+
+    visitorsByDay.forEach((visitors,day)=>{
+      if(seven.has(day))visitors.forEach(visitor=>sevenVisitors.add(visitor));
+      if(thirty.has(day))visitors.forEach(visitor=>thirtyVisitors.add(visitor));
+    });
+
+    totals.today=visitorsByDay.get(dateKey())?.size||0;
+    totals.last7=sevenVisitors.size;
+    totals.last30=thirtyVisitors.size;
+    totals.total=totalVisitors.size;
     render();
   },error=>{
     console.warn('[MauriOne admin visitor stats] read blocked',error?.code||error?.message||error);
