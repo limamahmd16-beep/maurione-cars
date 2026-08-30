@@ -3,12 +3,12 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_CARS_FIREBASE_API_KEY || 'AIzaSyAWQ20xw0QoVwCSXLa1Mq-cJeiTIebEwnk',
-  authDomain: import.meta.env.VITE_CARS_FIREBASE_AUTH_DOMAIN || 'maurione-cars.firebaseapp.com',
-  projectId: import.meta.env.VITE_CARS_FIREBASE_PROJECT_ID || 'maurione-cars',
-  storageBucket: import.meta.env.VITE_CARS_FIREBASE_STORAGE_BUCKET || 'maurione-cars.firebasestorage.app',
-  messagingSenderId: import.meta.env.VITE_CARS_FIREBASE_MESSAGING_SENDER_ID || '656825164378',
-  appId: import.meta.env.VITE_CARS_FIREBASE_APP_ID || '1:656825164378:web:bdf9b24253b6c851d12e63',
+  apiKey: import.meta.env.VITE_CARS_FIREBASE_API_KEY || '',
+  authDomain: import.meta.env.VITE_CARS_FIREBASE_AUTH_DOMAIN || '',
+  projectId: import.meta.env.VITE_CARS_FIREBASE_PROJECT_ID || '',
+  storageBucket: import.meta.env.VITE_CARS_FIREBASE_STORAGE_BUCKET || '',
+  messagingSenderId: import.meta.env.VITE_CARS_FIREBASE_MESSAGING_SENDER_ID || '',
+  appId: import.meta.env.VITE_CARS_FIREBASE_APP_ID || '',
 };
 
 export const firebaseReady = Boolean(
