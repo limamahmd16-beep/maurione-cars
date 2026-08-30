@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Eye, EyeOff, LockKeyhole, LogIn, LogOut, Mail, UserPlus, UserRound } from 'lucide-react';
+import { Eye, EyeOff, LockKeyhole, LogIn, LogOut, Mail, Phone, UserPlus, UserRound } from 'lucide-react';
 import { auth, db, firebaseReady } from './lib/firebase.js';
 import {
   createUserWithEmailAndPassword,
@@ -10,7 +10,14 @@ import {
   signOut,
   updateProfile,
 } from 'firebase/auth';
-import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
+
+function normalizePhone(value='') {
+  const raw=String(value||'').trim();
+  const digits=raw.replace(/\D/g,'');
+  if(digits.length<7||digits.length>15)return '';
+  return raw.startsWith('+')?`+${digits}`:digits;
+}
 
 export default function UserGate({ children }) {
   const [user, setUser] = useState(null);
@@ -20,8 +27,11 @@ export default function UserGate({ children }) {
   const [loading, setLoading] = useState(firebaseReady);
   const [showWelcome, setShowWelcome] = useState(true);
   const skipWelcomeRef = useRef(false);
+  const pendingPhoneRef = useRef('');
   const [mode, setMode] = useState('login');
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [form, setForm] = useState({ name: '', phone: '', email: '', password: '' });
+  const [phoneRequired, setPhoneRequired] = useState(false);
+  const [phoneDraft, setPhoneDraft] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -32,23 +42,41 @@ export default function UserGate({ children }) {
       setLoading(false);
       return;
     }
-    return onAuthStateChanged(auth, nextUser => {
+    return onAuthStateChanged(auth, async nextUser => {
       setUser(nextUser || null);
+      setPhoneRequired(false);
       if(nextUser?.isAnonymous){
         try{sessionStorage.setItem('maurione_guest','1')}catch{}
         setGuest(true);
-      }else if(nextUser){
+        setLoading(false);
+        return;
+      }
+      if(nextUser){
         try{sessionStorage.removeItem('maurione_guest')}catch{}
         setGuest(false);
-      }else{
-        let saved=false;try{saved=sessionStorage.getItem('maurione_guest')==='1'}catch{}
-        setGuest(saved);
-        if(!saved){
-          if(skipWelcomeRef.current){
-            skipWelcomeRef.current=false;
-          }else{
-            setShowWelcome(true);
-          }
+        setLoading(true);
+        let phone=normalizePhone(pendingPhoneRef.current||nextUser.phoneNumber||'');
+        if(db){
+          try{
+            const snap=await getDoc(doc(db,'users',nextUser.uid));
+            phone=phone||normalizePhone(snap.data()?.phone||snap.data()?.phoneNumber||'');
+          }catch{}
+        }
+        setPhoneDraft(phone);
+        setPhoneRequired(!phone);
+        pendingPhoneRef.current='';
+        setLoading(false);
+        return;
+      }
+
+      let saved=false;try{saved=sessionStorage.getItem('maurione_guest')==='1'}catch{}
+      setGuest(saved);
+      setPhoneRequired(false);
+      if(!saved){
+        if(skipWelcomeRef.current){
+          skipWelcomeRef.current=false;
+        }else{
+          setShowWelcome(true);
         }
       }
       setLoading(false);
@@ -88,23 +116,33 @@ export default function UserGate({ children }) {
       }
       if (mode === 'signup') {
         const name = form.name.trim();
+        const phone=normalizePhone(form.phone);
+        if(!phone){
+          setError('أدخل رقم هاتف صحيحًا، من 7 إلى 15 رقمًا.');
+          return;
+        }
+        pendingPhoneRef.current=phone;
         const cred = await createUserWithEmailAndPassword(auth, form.email.trim(), form.password);
         if (name) await updateProfile(cred.user, { displayName: name });
         if (db) {
           await setDoc(doc(db, 'users', cred.user.uid), {
             name,
+            phone,
             email: cred.user.email || form.email.trim(),
             role: 'user',
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp(),
           }, { merge: true });
         }
+        setPhoneDraft(phone);
+        setPhoneRequired(false);
         setUser(cred.user);
       } else {
         const cred = await signInWithEmailAndPassword(auth, form.email.trim(), form.password);
         setUser(cred.user);
       }
     } catch (err) {
+      pendingPhoneRef.current='';
       const code = err?.code || 'auth/error';
       const messages = {
         'auth/email-already-in-use': 'هذا البريد لديه حساب بالفعل.',
@@ -115,6 +153,34 @@ export default function UserGate({ children }) {
       };
       setError(messages[code] || `تعذر إكمال العملية (${code}).`);
     } finally {
+      setBusy(false);
+    }
+  }
+
+  async function saveRequiredPhone(e){
+    e.preventDefault();
+    if(!user||user.isAnonymous||!db)return;
+    const phone=normalizePhone(phoneDraft);
+    setError('');
+    if(!phone){
+      setError('أدخل رقم هاتف صحيحًا، من 7 إلى 15 رقمًا.');
+      return;
+    }
+    setBusy(true);
+    try{
+      await setDoc(doc(db,'users',user.uid),{
+        name:user.displayName||'',
+        email:user.email||'',
+        phone,
+        role:'user',
+        phoneAddedAt:serverTimestamp(),
+        updatedAt:serverTimestamp(),
+      },{merge:true});
+      setPhoneDraft(phone);
+      setPhoneRequired(false);
+    }catch{
+      setError('تعذر حفظ رقم الهاتف الآن. حاول مرة أخرى.');
+    }finally{
       setBusy(false);
     }
   }
@@ -224,6 +290,14 @@ export default function UserGate({ children }) {
               </div>
             </label>}
 
+            {mode === 'signup' && <label className="userAuthField">
+              <span>رقم الهاتف</span>
+              <div className="userAuthInputWrap">
+                <Phone/>
+                <input type="tel" inputMode="tel" required value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})} autoComplete="tel" placeholder="مثال: +222 24 20 03 24" dir="ltr"/>
+              </div>
+            </label>}
+
             <label className="userAuthField">
               <span>البريد الإلكتروني</span>
               <div className="userAuthInputWrap">
@@ -262,6 +336,32 @@ export default function UserGate({ children }) {
           <button className="userAuthSwitch" onClick={switchMode}>
             {mode === 'login' ? <><span>ليس لديك حساب؟</span> <b>أنشئ حسابًا</b></> : <><span>لديك حساب؟</span> <b>سجّل الدخول</b></>}
           </button>
+        </section>
+      </div>
+    </main>;
+  }
+
+  if(phoneRequired){
+    return <main className="userAuthPage" dir="rtl">
+      <div className="userAuthGlow" aria-hidden="true" />
+      <div className="userAuthShell">
+        <div className="userAuthBrand" aria-label="MauriOne"><span><b>Mauri</b><i>One</i></span></div>
+        <section className="userAuthCard">
+          <div className="userAuthIcon"><Phone/></div>
+          <h1>أضف رقم هاتفك</h1>
+          <p>رقم الهاتف مطلوب لحسابات MauriOne حتى نتمكن من التواصل معك عند الحاجة.</p>
+          <form onSubmit={saveRequiredPhone}>
+            <label className="userAuthField">
+              <span>رقم الهاتف</span>
+              <div className="userAuthInputWrap">
+                <Phone/>
+                <input type="tel" inputMode="tel" required value={phoneDraft} onChange={e=>setPhoneDraft(e.target.value)} autoComplete="tel" placeholder="مثال: +222 24 20 03 24" dir="ltr"/>
+              </div>
+            </label>
+            {error && <div className="userAuthError">{error}</div>}
+            <button className="userAuthPrimary" disabled={busy}><Phone/><span>{busy?'جارٍ الحفظ...':'حفظ ومتابعة'}</span></button>
+          </form>
+          <button type="button" className="userAuthGuest" onClick={()=>signOut(auth)} disabled={busy}><LogOut/><span>تسجيل الخروج</span></button>
         </section>
       </div>
     </main>;
