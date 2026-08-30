@@ -16,7 +16,7 @@ const buttonStyle={width:'100%',height:52,border:0,borderRadius:15,background:'#
 const simpleAdminCss=`
   body{background:#f6f7f8!important}
   .mxAdminTitle,.mxMetrics,.mxAdminQuick,.mxAdminV3Overview{display:none!important}
-  .mxAdminInner>.mxPanel:not(:first-of-type){display:none!important}
+  .mxAdminInner>.mxPanel ~ .mxPanel{display:none!important}
   .mxAdminInner{width:min(calc(100% - 22px),760px)!important;padding-bottom:32px!important}
   .mxAdminActions{margin:18px 0!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important}
   .mxAdminActions button{min-height:52px!important;border-radius:16px!important}
