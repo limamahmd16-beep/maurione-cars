@@ -9,10 +9,36 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="MauriOne" />
     <title>MauriOne السيارات | معرض السيارات</title>
-    <meta name="description" content="MauriOne السيارات — معرض سيارات مختارة بعناية، تفاصيل واضحة وتواصل مباشر." />
+    <meta name="description" content="MauriOne لعرض سيارات مختارة في موريتانيا مع الصور، السعر، المواصفات والتواصل المباشر." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://maurione-cars.vercel.app/" />
+
+    <meta property="og:site_name" content="MauriOne" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ar_MR" />
+    <meta property="og:title" content="MauriOne السيارات | معرض السيارات" />
+    <meta property="og:description" content="سيارات مختارة في موريتانيا مع الصور، السعر، المواصفات والتواصل المباشر عبر MauriOne." />
+    <meta property="og:image" content="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
+    <meta property="og:url" content="https://maurione-cars.vercel.app/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MauriOne السيارات | معرض السيارات" />
+    <meta name="twitter:description" content="سيارات مختارة في موريتانيا مع الصور والسعر والمواصفات." />
+    <meta name="twitter:image" content="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
+
     <link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
     <link id="mxAppManifest" rel="manifest" href="/manifest.webmanifest?v=6" />
+    <script type="application/ld+json" id="maurione-site-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "AutoDealer",
+        "name": "MauriOne",
+        "url": "https://maurione-cars.vercel.app/",
+        "logo": "https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png",
+        "image": "https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png",
+        "description": "معرض MauriOne للسيارات المختارة في موريتانيا."
+      }
+    </script>
     <script>
       (()=>{
         const admin=location.pathname==='/admin'||location.pathname.startsWith('/admin/');
@@ -68,7 +94,8 @@
         Promise.all([
           loadClassic('/welcome-loader.js?v=29'),
           loadClassic('/featured-badge-position.js?v=5'),
-          loadClassic('/whatsapp-car-inquiry.js?v=1'),
+          loadClassic('/whatsapp-car-inquiry.js?v=2'),
+          loadClassic('/seo-manager.js?v=1'),
           import('/src/private-admin-guard.js?v=3'),
           import('/src/car-analytics.js?v=1')
         ]).finally(()=>import('/main.jsx'));
