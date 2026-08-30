@@ -1,11 +1,6 @@
 (() => {
   const clean = (value) => (value || '').replace(/\s+/g, ' ').trim();
 
-  function absoluteUrl(value) {
-    if (!value) return '';
-    try { return new URL(value, window.location.href).href; } catch { return value; }
-  }
-
   function whatsappNumber(link) {
     const href = link?.getAttribute('href') || '';
     const match = href.match(/(?:wa\.me\/|[?&]phone=)(\d+)/i);
@@ -19,7 +14,6 @@
     const brand = clean(detail.querySelector('.mxSummary > span')?.textContent);
     const title = clean(detail.querySelector('.mxSummary h1')?.textContent);
     const price = clean(detail.querySelector('.mxDetailPrice')?.textContent);
-    const image = absoluteUrl(detail.querySelector('.mxGallery img')?.getAttribute('src'));
     const adUrl = `${window.location.origin}${window.location.pathname}`;
 
     const specs = {};
@@ -29,7 +23,7 @@
       if (label) specs[label] = value;
     });
 
-    return { brand, title, price, image, adUrl, specs };
+    return { brand, title, price, adUrl, specs };
   }
 
   function buildMessage(car) {
@@ -44,10 +38,7 @@
       car.specs['ناقل الحركة'] ? `⚙️ ناقل الحركة: ${car.specs['ناقل الحركة']}` : '',
       car.specs['الدفع'] ? `🚙 الدفع: ${car.specs['الدفع']}` : '',
       '',
-      car.image ? '📷 صورة السيارة:' : '',
-      car.image || '',
-      '',
-      '🔗 رابط الإعلان:',
+      '🔗 رابط الإعلان على MauriOne:',
       car.adUrl,
     ];
     return lines.filter((line, index, array) => line !== '' || (index > 0 && array[index - 1] !== '')).join('\n').trim();
