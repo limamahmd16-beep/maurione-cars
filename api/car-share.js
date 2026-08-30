@@ -1,9 +1,8 @@
-const FIREBASE_API_KEY = process.env.VITE_CARS_FIREBASE_API_KEY || 'AIzaSyAWQ20xw0QoVwCSXLa1Mq-cJeiTIebEwnk';
-const FIREBASE_PROJECT_ID = process.env.VITE_CARS_FIREBASE_PROJECT_ID || 'maurione-cars';
 const FALLBACK_IMAGE = 'https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png';
 
-let cachedToken = '';
-let cachedTokenExpiresAt = 0;
+function clean(value = '', max = 500) {
+  return String(value || '').replace(/\s+/g, ' ').trim().slice(0, max);
+}
 
 function escapeHtml(value = '') {
   return String(value)
@@ -14,97 +13,57 @@ function escapeHtml(value = '') {
     .replace(/'/g, '&#39;');
 }
 
-function unwrap(value) {
-  if (!value || typeof value !== 'object') return null;
-  if ('stringValue' in value) return value.stringValue;
-  if ('integerValue' in value) return Number(value.integerValue);
-  if ('doubleValue' in value) return Number(value.doubleValue);
-  if ('booleanValue' in value) return Boolean(value.booleanValue);
-  if ('timestampValue' in value) return value.timestampValue;
-  if ('nullValue' in value) return null;
-  if ('arrayValue' in value) return (value.arrayValue.values || []).map(unwrap);
-  if ('mapValue' in value) return Object.fromEntries(
-    Object.entries(value.mapValue.fields || {}).map(([key, child]) => [key, unwrap(child)])
-  );
-  return null;
-}
-
-function decodeDocument(document) {
-  return Object.fromEntries(
-    Object.entries(document?.fields || {}).map(([key, value]) => [key, unwrap(value)])
-  );
-}
-
-async function anonymousToken() {
-  if (cachedToken && Date.now() < cachedTokenExpiresAt) return cachedToken;
-
-  const response = await fetch(
-    `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${encodeURIComponent(FIREBASE_API_KEY)}`,
-    {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ returnSecureToken: true }),
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error(`AUTH_${response.status}`);
+function safeImage(value) {
+  const image = clean(value, 1800);
+  try {
+    const url = new URL(image);
+    return url.protocol === 'https:' ? url.toString() : FALLBACK_IMAGE;
+  } catch {
+    return FALLBACK_IMAGE;
   }
-
-  const data = await response.json();
-  cachedToken = data.idToken || '';
-  const expiresIn = Math.max(60, Number(data.expiresIn || 3600));
-  cachedTokenExpiresAt = Date.now() + Math.max(60, expiresIn - 120) * 1000;
-  return cachedToken;
 }
 
-async function fetchCar(id) {
-  const token = await anonymousToken();
-  const url = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(FIREBASE_PROJECT_ID)}/databases/(default)/documents/cars/${encodeURIComponent(id)}`;
-  const response = await fetch(url, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  if (response.status === 404) return null;
-  if (!response.ok) throw new Error(`FIRESTORE_${response.status}`);
-  return decodeDocument(await response.json());
+function numeric(value) {
+  const raw = clean(value).replace(/[^0-9.]/g, '');
+  const number = Number(raw || 0);
+  return Number.isFinite(number) ? number : 0;
 }
 
-function formatNumber(value) {
-  const number = Number(value || 0);
-  return Number.isFinite(number) ? new Intl.NumberFormat('en-US').format(number) : '';
+function buildShareUrl(origin, carId, meta) {
+  const params = new URLSearchParams();
+  if (meta.name) params.set('n', meta.name);
+  if (meta.price) params.set('p', meta.price);
+  if (meta.image && meta.image !== FALLBACK_IMAGE) params.set('i', meta.image);
+  if (meta.mileage) params.set('m', meta.mileage);
+  if (meta.fuel) params.set('f', meta.fuel);
+  if (meta.transmission) params.set('tr', meta.transmission);
+  if (meta.location) params.set('l', meta.location);
+  const query = params.toString();
+  return `${origin}/share/car/${encodeURIComponent(carId)}${query ? `?${query}` : ''}`;
 }
 
-function pageHtml({ car, carId, canonicalUrl, shareUrl }) {
-  const name = [car?.brand, car?.model, car?.year].filter(Boolean).join(' ').trim();
-  const title = name ? `${name} | MauriOne` : 'MauriOne السيارات';
-  const price = Number(car?.price || 0);
-  const mileage = Number(car?.mileage || 0);
+function pageHtml({ meta, canonicalUrl, shareUrl }) {
+  const title = meta.name ? `${meta.name} | MauriOne` : 'MauriOne السيارات';
   const descriptionParts = [];
-
-  if (name) descriptionParts.push(name);
-  if (price > 0) descriptionParts.push(`السعر ${formatNumber(price)} MRU`);
-  if (mileage > 0) descriptionParts.push(`${formatNumber(mileage)} كم`);
-  if (car?.fuel) descriptionParts.push(String(car.fuel));
-  if (car?.transmission) descriptionParts.push(String(car.transmission));
-  if (car?.location) descriptionParts.push(String(car.location));
+  if (meta.name) descriptionParts.push(meta.name);
+  if (meta.price) descriptionParts.push(`السعر ${meta.price}`);
+  if (meta.mileage) descriptionParts.push(`${meta.mileage} كم`);
+  if (meta.fuel) descriptionParts.push(meta.fuel);
+  if (meta.transmission) descriptionParts.push(meta.transmission);
+  if (meta.location) descriptionParts.push(meta.location);
 
   const description = descriptionParts.length
-    ? `${descriptionParts.join(' · ')} — شاهد التفاصيل على MauriOne.`
+    ? `${descriptionParts.join(' · ')} — شاهد الصور والتفاصيل على MauriOne.`
     : 'شاهد تفاصيل السيارة وصورها على MauriOne.';
 
-  const image = Array.isArray(car?.images) && car.images[0] ? car.images[0] : FALLBACK_IMAGE;
-  const availability = car?.status === 'sold' ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock';
-
+  const price = numeric(meta.price);
+  const mileage = numeric(meta.mileage);
   const structured = {
     '@context': 'https://schema.org',
     '@type': 'Vehicle',
-    name: name || 'سيارة على MauriOne',
+    name: meta.name || 'سيارة على MauriOne',
     url: canonicalUrl,
-    image: [image],
-    ...(car?.brand ? { brand: { '@type': 'Brand', name: String(car.brand) } } : {}),
-    ...(car?.model ? { model: String(car.model) } : {}),
-    ...(car?.year ? { vehicleModelDate: String(car.year) } : {}),
+    image: [meta.image],
     ...(mileage > 0 ? {
       mileageFromOdometer: {
         '@type': 'QuantitativeValue',
@@ -112,19 +71,18 @@ function pageHtml({ car, carId, canonicalUrl, shareUrl }) {
         unitCode: 'KMT',
       },
     } : {}),
-    ...(car?.fuel ? { fuelType: String(car.fuel) } : {}),
-    ...(car?.transmission ? { vehicleTransmission: String(car.transmission) } : {}),
+    ...(meta.fuel ? { fuelType: meta.fuel } : {}),
+    ...(meta.transmission ? { vehicleTransmission: meta.transmission } : {}),
     ...(price > 0 ? {
       offers: {
         '@type': 'Offer',
         priceCurrency: 'MRU',
         price,
-        availability,
+        availability: 'https://schema.org/InStock',
         url: canonicalUrl,
       },
     } : {}),
   };
-
   const safeStructured = JSON.stringify(structured).replace(/</g, '\\u003c');
 
   return `<!doctype html>
@@ -142,14 +100,14 @@ function pageHtml({ car, carId, canonicalUrl, shareUrl }) {
   <meta property="og:locale" content="ar_MR">
   <meta property="og:title" content="${escapeHtml(title)}">
   <meta property="og:description" content="${escapeHtml(description)}">
-  <meta property="og:image" content="${escapeHtml(image)}">
-  <meta property="og:image:alt" content="${escapeHtml(name || 'MauriOne')}">
+  <meta property="og:image" content="${escapeHtml(meta.image)}">
+  <meta property="og:image:alt" content="${escapeHtml(meta.name || 'MauriOne')}">
   <meta property="og:url" content="${escapeHtml(shareUrl)}">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${escapeHtml(title)}">
   <meta name="twitter:description" content="${escapeHtml(description)}">
-  <meta name="twitter:image" content="${escapeHtml(image)}">
+  <meta name="twitter:image" content="${escapeHtml(meta.image)}">
 
   <script type="application/ld+json">${safeStructured}</script>
   <meta http-equiv="refresh" content="0;url=${escapeHtml(canonicalUrl)}">
@@ -162,9 +120,9 @@ function pageHtml({ car, carId, canonicalUrl, shareUrl }) {
 </html>`;
 }
 
-export default async function handler(req, res) {
-  const carId = String(req.query?.id || '').trim();
-  if (!carId || carId.length > 180 || !/^[A-Za-z0-9_-]+$/.test(carId)) {
+export default function handler(req, res) {
+  const carId = clean(req.query?.id, 180);
+  if (!carId || !/^[A-Za-z0-9_-]+$/.test(carId)) {
     res.status(400).send('Invalid car id');
     return;
   }
@@ -172,21 +130,21 @@ export default async function handler(req, res) {
   const forwardedHost = String(req.headers['x-forwarded-host'] || req.headers.host || 'maurione-cars.vercel.app').split(',')[0].trim();
   const forwardedProto = String(req.headers['x-forwarded-proto'] || 'https').split(',')[0].trim();
   const origin = `${forwardedProto}://${forwardedHost}`;
-  const encodedId = encodeURIComponent(carId);
-  const canonicalUrl = `${origin}/cars/${encodedId}`;
-  const shareUrl = `${origin}/share/car/${encodedId}`;
+  const canonicalUrl = `${origin}/cars/${encodeURIComponent(carId)}`;
 
-  try {
-    const car = await fetchCar(carId);
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=86400');
-    res.setHeader('X-MauriOne-Share', car ? 'car' : 'fallback');
-    res.status(200).send(pageHtml({ car, carId, canonicalUrl, shareUrl }));
-  } catch (error) {
-    console.error('MauriOne share preview failed', error);
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
-    res.setHeader('X-MauriOne-Share', 'fallback-error');
-    res.status(200).send(pageHtml({ car: null, carId, canonicalUrl, shareUrl }));
-  }
+  const meta = {
+    name: clean(req.query?.n, 180),
+    price: clean(req.query?.p, 80),
+    image: safeImage(req.query?.i),
+    mileage: clean(req.query?.m, 80),
+    fuel: clean(req.query?.f, 80),
+    transmission: clean(req.query?.tr, 80),
+    location: clean(req.query?.l, 120),
+  };
+  const shareUrl = buildShareUrl(origin, carId, meta);
+
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=86400');
+  res.setHeader('X-MauriOne-Share', meta.name && meta.image !== FALLBACK_IMAGE ? 'enriched' : 'fallback');
+  res.status(200).send(pageHtml({ meta, canonicalUrl, shareUrl }));
 }
