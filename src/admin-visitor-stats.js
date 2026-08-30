@@ -63,7 +63,7 @@ function render(){
       panel=document.createElement('section');
       panel.className=PANEL_CLASS;
       panel.innerHTML=`
-        <div class="${PANEL_CLASS}Head"><h2>إحصائيات الزوار</h2><span>يشمل الزوار والحسابات المسجلة</span></div>
+        <div class="${PANEL_CLASS}Head"><h2>إحصائيات الزوار</h2><span>زوار فريدون حسب الجهاز</span></div>
         <div class="${PANEL_CLASS}Grid">
           <div class="${PANEL_CLASS}Card accent" data-visitor-stat="today"><span>زوار اليوم</span><strong>0</strong></div>
           <div class="${PANEL_CLASS}Card" data-visitor-stat="last7"><span>آخر 7 أيام</span><strong>0</strong></div>
@@ -88,18 +88,19 @@ function start(){
   if(started||!db||!auth?.currentUser)return;
   if(!document.querySelector('.mxAdmin'))return;
   started=true;
-  stopStats=onSnapshot(collection(db,'carStats'),snapshot=>{
+  stopStats=onSnapshot(collection(db,'visitorStats'),snapshot=>{
     const byDay=new Map();
     let uniqueTotal=0;
 
     snapshot.forEach(item=>{
-      const id=item.id||'';
-      if(id.startsWith('visitor-total-')){
+      const data=item.data()||{};
+      if(data.type==='total'){
         uniqueTotal+=1;
         return;
       }
-      const match=id.match(/^visitor-day-(\d{4}-\d{2}-\d{2})-/);
-      if(match)byDay.set(match[1],(byDay.get(match[1])||0)+1);
+      if(data.type==='day'&&/^\d{4}-\d{2}-\d{2}$/.test(data.day||'')){
+        byDay.set(data.day,(byDay.get(data.day)||0)+1);
+      }
     });
 
     const seven=recentDays(7);
