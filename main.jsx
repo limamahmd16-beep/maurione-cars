@@ -87,6 +87,7 @@ async function bootPublicSite(){
     import('./src/private-admin-guard.js'),
     import('./src/car-analytics.js'),
     import('./src/site-visitor-tracker.js'),
+    import('./src/user-profile-sync.js'),
   ]).catch(error=>console.error('PUBLIC_HELPER_ERROR',error));
 }
 
