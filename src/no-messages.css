@@ -1,3 +1,6 @@
 /* Remove the regular-user messages tab without altering the approved layout. */
 .mxBottom{grid-template-columns:repeat(4,minmax(0,1fr))!important}
 .mxBottom>button:nth-child(4){display:none!important}
+
+/* Keep the private admin route available, but hide its entry from the public menu. */
+.mxDrawer>button:nth-child(4){display:none!important}
