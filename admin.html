@@ -12,7 +12,7 @@
     <meta name="description" content="لوحة التحكم الخاصة بمالك MauriOne" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
     <link rel="icon" type="image/png" href="/apple-touch-icon.png?v=3" />
-    <link rel="manifest" href="/admin-manifest.webmanifest?v=5" />
+    <link rel="manifest" href="/admin-manifest.webmanifest?v=6" />
     <style>
       html,body,#root{min-height:100%;background:#fff;margin:0}
       .mxAdminBoot{min-height:100vh;display:grid;place-items:center;padding:24px;box-sizing:border-box;background:#fff;font-family:Arial,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -34,6 +34,20 @@
         </section>
       </main>
     </div>
+    <script>
+      document.addEventListener('click',function(event){
+        var target=event.target instanceof Element?event.target:null;
+        if(!target)return;
+        var action=target.closest('.mxAdminActions button');
+        var back=target.closest('.mxAdminHeader > button:first-child');
+        var openSite=action&&String(action.textContent||'').includes('فتح الموقع');
+        if(!openSite&&!back)return;
+        event.preventDefault();
+        event.stopPropagation();
+        if(event.stopImmediatePropagation)event.stopImmediatePropagation();
+        window.location.assign('/?from=admin-preview');
+      },true);
+    </script>
     <script type="module" src="/admin-main.jsx"></script>
   </body>
 </html>
