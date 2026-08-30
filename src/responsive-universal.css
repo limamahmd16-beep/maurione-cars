@@ -18,6 +18,19 @@
     top:100px!important;
   }
 
+  /* Keep the admin MauriOne wordmark in the exact viewport center,
+     independent of the account-name width and back button. */
+  body:has(.mxAdmin) .mxAdminHeader{position:relative!important}
+  body:has(.mxAdmin) .mxAdminHeader>.mxBrand{
+    position:absolute!important;
+    left:50%!important;
+    top:50%!important;
+    right:auto!important;
+    margin:0!important;
+    transform:translate(-50%,-50%)!important;
+    z-index:2!important;
+  }
+
   .mxHome{padding-bottom:104px!important}
   .mxHomeInner{
     width:min(calc(100% - 48px),1120px)!important;
@@ -133,32 +146,34 @@
   }
 }
 
-/* Landscape tablets: fit the complete welcome composition in one screen. */
+/* Landscape tablets: keep the approved welcome artwork completely visible.
+   The baked-in buttons remain visible and invisible hotspots preserve interaction. */
 @media (min-width:900px) and (orientation:landscape) and (max-height:950px){
   .welcomeExactStage{
     width:min(100vw,1120px)!important;
     height:100dvh!important;
     background-size:contain!important;
     background-position:center center!important;
+    background-repeat:no-repeat!important;
   }
   .welcomeExactStage::after{
-    left:50%!important;
-    right:auto!important;
-    top:auto!important;
-    bottom:0!important;
-    width:min(760px,72vw)!important;
-    height:146px!important;
-    transform:translateX(-50%)!important;
-    background:#fff!important;
+    display:none!important;
+    content:none!important;
   }
   .welcomeExactHotspot{
+    left:50%!important;
+    right:auto!important;
     width:min(680px,68vw)!important;
-    height:52px!important;
-    border-radius:16px!important;
-    font-size:19px!important;
+    height:5.2%!important;
+    transform:translateX(-50%)!important;
+    background:transparent!important;
+    border-color:transparent!important;
+    color:transparent!important;
+    box-shadow:none!important;
   }
-  .welcomeExactLogin{top:auto!important;bottom:76px!important}
-  .welcomeExactGuest{top:auto!important;bottom:16px!important}
+  .welcomeExactHotspot::before{color:transparent!important}
+  .welcomeExactLogin{top:80.4%!important;bottom:auto!important}
+  .welcomeExactGuest{top:86%!important;bottom:auto!important}
 }
 
 /* Large desktop screens: increase breathing room without stretching content indefinitely. */
