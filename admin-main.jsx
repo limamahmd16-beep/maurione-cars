@@ -5,6 +5,7 @@ import './src/premium.css';
 import './src/brand-fix.css';
 import './src/exact.css';
 import './src/dark-mode.css';
+import './src/responsive-universal.css';
 
 const OWNER_UID='sC94v8XaXmUMHK6eineEy25GIst2';
 
@@ -28,6 +29,22 @@ const simpleAdminCss=`
   @media(max-width:520px){
     .mxAdminInner{width:min(calc(100% - 18px),760px)!important}
     .mxAdminActions{grid-template-columns:1fr!important}
+  }
+  @media(min-width:700px){
+    .mxAdminHeader{padding-left:max(28px,calc((100vw - 1120px)/2))!important;padding-right:max(28px,calc((100vw - 1120px)/2))!important}
+    .mxAdminInner{width:min(calc(100% - 56px),1040px)!important;padding-top:24px!important;padding-bottom:40px!important}
+    .mxAdminActions{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important}
+    .mxPanel{padding:18px!important;border-radius:22px!important}
+    .mxPanelHead h2{font-size:24px!important}
+    .mxAdminList{gap:12px!important}
+    .mxAdminList article{min-height:112px!important;padding:13px!important;border-radius:20px!important;grid-template-columns:84px minmax(0,1fr) auto!important}
+    .mxAdminThumb{width:78px!important;height:78px!important;border-radius:15px!important;overflow:hidden!important}
+    .mxAdminInfo strong{font-size:17px!important}
+    .mxAdminInfo span{font-size:13px!important}
+    .mxAdminInfo b{font-size:16px!important}
+  }
+  @media(min-width:1200px){
+    .mxAdminInner{width:min(calc(100% - 80px),1120px)!important}
   }
 `;
 
