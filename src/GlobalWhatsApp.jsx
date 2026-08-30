@@ -2,7 +2,7 @@ import React,{useEffect,useRef}from'react';
 
 export default function GlobalWhatsApp(){
   const number=(import.meta.env.VITE_CARS_WHATSAPP||'22224200324').replace(/\D/g,'');
-  const href=`https://wa.me/${number}?text=${encodeURIComponent('مرحبًا، أريد الاستفسار عبر MauriOne Cars')}`;
+  const href=`https://wa.me/${number}?text=${encodeURIComponent('مرحبًا، أريد الاستفسار عبر MauriOne')}`;
   const homeRef=useRef(null);
   const buttonRef=useRef(null);
 
