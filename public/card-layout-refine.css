@@ -22,6 +22,38 @@
   letter-spacing:-.15px !important;
 }
 
+/* Keep every public status ribbon identical: available / featured / sold. */
+.mxCardInfo > .mxRibbon{
+  position:absolute !important;
+  right:-31px !important;
+  top:12px !important;
+  width:118px !important;
+  min-width:118px !important;
+  height:33px !important;
+  min-height:33px !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  clip-path:none !important;
+  background:#ff5a12 !important;
+  color:#fff !important;
+  transform:rotate(45deg) !important;
+  transform-origin:center !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  font-size:13px !important;
+  font-weight:800 !important;
+  line-height:33px !important;
+  box-shadow:none !important;
+  z-index:3 !important;
+}
+
+.mxCardInfo > .mxRibbon.sold{
+  background:#7b8089 !important;
+}
+
 @media(max-width:560px){
   .mxCardInfo h3{
     padding-right:34px !important;
