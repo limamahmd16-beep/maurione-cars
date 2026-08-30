@@ -1,0 +1,173 @@
+/* MauriOne universal responsive layer.
+   Keeps the approved phone UI intact and adapts tablet/desktop layouts only. */
+
+@media (min-width:700px){
+  .mxHeaderBar{
+    width:min(calc(100% - 48px),1180px)!important;
+    max-width:none!important;
+    height:108px!important;
+    padding:8px 0 6px!important;
+  }
+  .mxHeaderIcon{top:28px!important}
+  .mxHeaderIcon:first-child{left:0!important}
+  .mxHeaderIcon:last-child{right:0!important}
+  .mxBrandWord{font-size:40px!important}
+  .mxDrawer{
+    left:max(24px,calc((100vw - 1180px)/2))!important;
+    right:max(24px,calc((100vw - 1180px)/2))!important;
+    top:100px!important;
+  }
+
+  .mxHome{padding-bottom:104px!important}
+  .mxHomeInner{
+    width:min(calc(100% - 48px),1120px)!important;
+    max-width:none!important;
+    padding:24px 0 22px!important;
+  }
+  .mxSearch{
+    height:70px!important;
+    border-radius:22px!important;
+    padding:0 24px!important;
+  }
+  .mxSearch input{font-size:19px!important}
+  .mxSearch svg{width:31px!important;height:31px!important}
+  .mxFilters{gap:12px!important;margin:18px 0 20px!important}
+  .mxFilters>label,.mxFilters>button{
+    height:60px!important;
+    border-radius:17px!important;
+    font-size:14px!important;
+    padding:0 12px!important;
+  }
+  .mxFilters select{
+    max-width:120px!important;
+    font-size:14px!important;
+  }
+  .mxAdvanced{padding:16px!important;gap:12px!important}
+
+  .mxCards{gap:20px!important}
+  .mxCard{
+    grid-template-columns:minmax(300px,44%) minmax(0,56%)!important;
+    min-height:320px!important;
+    border-radius:24px!important;
+  }
+  .mxCardImage>img{min-height:320px!important}
+  .mxCardInfo{padding:34px 28px 21px 20px!important}
+  .mxCardInfo h3{
+    padding-right:54px!important;
+    font-size:clamp(22px,2.4vw,30px)!important;
+    line-height:1.22!important;
+  }
+  .mxTrim{font-size:16px!important;margin-bottom:14px!important}
+  .mxPrice{font-size:clamp(30px,3vw,40px)!important;margin-bottom:18px!important}
+  .mxSpecs{padding-top:15px!important}
+  .mxSpec{grid-template-rows:25px 20px 20px!important;gap:4px!important}
+  .mxSpec svg{width:23px!important;height:23px!important}
+  .mxSpec strong{font-size:12.5px!important}
+  .mxSpec small{font-size:10px!important}
+
+  .mxBottom{
+    left:50%!important;
+    right:auto!important;
+    width:min(calc(100% - 48px),900px)!important;
+    max-width:none!important;
+    height:76px!important;
+    margin:0!important;
+    transform:translateX(-50%)!important;
+  }
+  .mxBottom button{font-size:11px!important}
+  .mxBottom svg{width:25px!important;height:25px!important}
+
+  /* Tablet welcome screen: use more of the available width. */
+  .welcomeExactStage{width:min(100vw,900px)!important}
+  .welcomeExactHotspot{
+    left:50%!important;
+    right:auto!important;
+    width:min(76%,680px)!important;
+    transform:translateX(-50%)!important;
+  }
+}
+
+/* Portrait/smaller tablets: details stay stacked instead of becoming cramped columns. */
+@media (min-width:700px) and (max-width:899px){
+  .mxDetail{
+    width:min(calc(100% - 40px),820px)!important;
+    padding-top:16px!important;
+  }
+  .mxDetail .mxDetailGrid{
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:16px!important;
+  }
+  .mxDetail .mxGallery{height:clamp(390px,66vw,540px)!important}
+  .mxDetail .mxSummary{position:relative!important;top:auto!important}
+  .mxDetail .mxDetailSpecs{margin-top:16px!important}
+  body:has(.mxDetail) .mxGlobalWhatsApp{
+    width:min(calc(100% - 40px),820px)!important;
+  }
+}
+
+/* iPad landscape and desktop-sized screens. */
+@media (min-width:900px){
+  .mxHomeInner{width:min(calc(100% - 56px),1180px)!important}
+
+  .mxDetail{
+    width:min(calc(100% - 56px),1180px)!important;
+    padding-top:18px!important;
+  }
+  .mxDetail .mxDetailGrid{
+    grid-template-columns:minmax(0,1.18fr) minmax(300px,.82fr)!important;
+    gap:24px!important;
+  }
+  .mxDetail .mxGallery{
+    height:clamp(440px,46vw,610px)!important;
+  }
+  .mxDetail .mxSummary{
+    position:sticky!important;
+    top:124px!important;
+    padding:24px!important;
+  }
+  .mxDetail .mxSummary h1{font-size:clamp(28px,2.6vw,36px)!important}
+  .mxDetail .mxDetailPrice{font-size:clamp(30px,2.8vw,38px)!important}
+  .mxDetail .mxDetailSpecs{margin-top:18px!important;padding:16px 4px!important}
+  body:has(.mxDetail) .mxGlobalWhatsApp{
+    width:min(calc(100% - 56px),1180px)!important;
+  }
+}
+
+/* Landscape tablets: fit the complete welcome composition in one screen. */
+@media (min-width:900px) and (orientation:landscape) and (max-height:950px){
+  .welcomeExactStage{
+    width:min(100vw,1120px)!important;
+    height:100dvh!important;
+    background-size:contain!important;
+    background-position:center center!important;
+  }
+  .welcomeExactStage::after{
+    left:50%!important;
+    right:auto!important;
+    top:auto!important;
+    bottom:0!important;
+    width:min(760px,72vw)!important;
+    height:146px!important;
+    transform:translateX(-50%)!important;
+    background:#fff!important;
+  }
+  .welcomeExactHotspot{
+    width:min(680px,68vw)!important;
+    height:52px!important;
+    border-radius:16px!important;
+    font-size:19px!important;
+  }
+  .welcomeExactLogin{top:auto!important;bottom:76px!important}
+  .welcomeExactGuest{top:auto!important;bottom:16px!important}
+}
+
+/* Large desktop screens: increase breathing room without stretching content indefinitely. */
+@media (min-width:1280px){
+  .mxHeaderBar{width:min(calc(100% - 72px),1240px)!important}
+  .mxHomeInner{width:min(calc(100% - 72px),1240px)!important}
+  .mxCard{min-height:350px!important;grid-template-columns:minmax(350px,43%) minmax(0,57%)!important}
+  .mxCardImage>img{min-height:350px!important}
+  .mxCardInfo{padding:38px 34px 24px 24px!important}
+  .mxDetail{width:min(calc(100% - 72px),1240px)!important}
+  body:has(.mxDetail) .mxGlobalWhatsApp{width:min(calc(100% - 72px),1240px)!important}
+}
