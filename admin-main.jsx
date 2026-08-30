@@ -96,6 +96,7 @@ function AdminAccess({children}){
     document.querySelectorAll('.mxAdminV3Overview').forEach(node=>node.remove());
     import('./src/admin-visitor-stats.js').catch(error=>console.warn('Admin visitor stats failed',error));
     import('./src/admin-car-page.js').catch(error=>console.warn('Admin car page failed',error));
+    import('./src/admin-social-export.js').catch(error=>console.warn('Admin social exporter failed',error));
   },[state.allowed]);
 
   async function submit(event){
