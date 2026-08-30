@@ -12,9 +12,9 @@
   "theme_color": "#0d0b09",
   "icons": [
     {
-      "src": "/apple-touch-icon.png?v=3",
-      "sizes": "180x180",
-      "type": "image/png",
+      "src": "/maurione-app-icon.svg?v=1",
+      "sizes": "any",
+      "type": "image/svg+xml",
       "purpose": "any"
     }
   ]
