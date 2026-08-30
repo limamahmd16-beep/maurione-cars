@@ -13,6 +13,24 @@ const cardStyle={width:'min(100%,430px)',padding:'30px 24px 24px',border:'1px so
 const inputStyle={boxSizing:'border-box',width:'100%',height:52,border:'1px solid #dfe3e8',borderRadius:15,padding:'0 15px',fontSize:16,background:'#fff',color:'#111',outline:'none',textAlign:'right'};
 const buttonStyle={width:'100%',height:52,border:0,borderRadius:15,background:'#ff5a12',color:'#fff',fontSize:17,fontWeight:900,cursor:'pointer'};
 
+const simpleAdminCss=`
+  body{background:#f6f7f8!important}
+  .mxAdminTitle,.mxMetrics,.mxAdminQuick,.mxAdminV3Overview,.mxAnalyticsPanel{display:none!important}
+  .mxAdminInner>.mxPanel:not(:first-of-type){display:none!important}
+  .mxAdminInner{width:min(calc(100% - 22px),760px)!important;padding-bottom:32px!important}
+  .mxAdminActions{margin:18px 0!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important}
+  .mxAdminActions button{min-height:52px!important;border-radius:16px!important}
+  .mxPanel{margin-top:0!important}
+  .mxPanelHead{padding-bottom:12px!important}
+  .mxPanelHead h2{font-size:22px!important}
+  .mxAdminList{gap:10px!important}
+  .mxAdminList article{border-radius:18px!important}
+  @media(max-width:520px){
+    .mxAdminInner{width:min(calc(100% - 18px),760px)!important}
+    .mxAdminActions{grid-template-columns:1fr!important}
+  }
+`;
+
 function Logo(){
   return <div style={{fontSize:34,lineHeight:1,fontWeight:900,direction:'ltr',marginBottom:28,letterSpacing:'-1.5px'}}><span style={{color:'#090909'}}>Mauri</span><span style={{color:'#ff5a12'}}>One</span></div>;
 }
@@ -73,7 +91,9 @@ function AdminAccess({children}){
 
   React.useEffect(()=>{
     if(!state.allowed)return;
-    import('./src/admin-insights-v3.js').catch(()=>{});
+    document.body.classList.remove('mxAdminV3Page');
+    document.getElementById('mx-admin-v3-style')?.remove();
+    document.querySelectorAll('.mxAdminV3Overview,.mxAnalyticsPanel').forEach(node=>node.remove());
   },[state.allowed]);
 
   async function submit(event){
@@ -124,7 +144,7 @@ function AdminAccess({children}){
     </main>;
   }
 
-  return children;
+  return <><style>{simpleAdminCss}</style>{children}</>;
 }
 
 const AdminApp=React.lazy(()=>import('./src/AppExact.jsx'));
