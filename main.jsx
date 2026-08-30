@@ -1,6 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+try{
+  if(!window.location.pathname.startsWith('/admin')&&localStorage.getItem('maurione_admin_preview_home')==='1'){
+    localStorage.removeItem('maurione_admin_preview_home');
+    window.history.replaceState({},'', '/');
+  }
+}catch{}
+
 const rootElement=document.getElementById('root');
 const root=ReactDOM.createRoot(rootElement);
 const isAdminPath=window.location.pathname==='/admin'||window.location.pathname.startsWith('/admin/');
