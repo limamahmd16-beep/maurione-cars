@@ -10,9 +10,9 @@
     <meta name="apple-mobile-web-app-title" content="MauriOne" />
     <title>MauriOne السيارات | معرض السيارات</title>
     <meta name="description" content="MauriOne السيارات — معرض سيارات مختارة بعناية، تفاصيل واضحة وتواصل مباشر." />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
-    <link rel="icon" type="image/png" href="/apple-touch-icon.png?v=3" />
-    <link id="mxAppManifest" rel="manifest" href="/manifest.webmanifest?v=4" />
+    <link rel="apple-touch-icon" href="/maurione-app-icon.svg?v=1" />
+    <link rel="icon" type="image/svg+xml" href="/maurione-app-icon.svg?v=1" />
+    <link id="mxAppManifest" rel="manifest" href="/manifest.webmanifest?v=5" />
     <script>
       (()=>{
         const admin=location.pathname==='/admin'||location.pathname.startsWith('/admin/');
@@ -20,7 +20,7 @@
         if(!admin)return;
         document.title='لوحة التحكم | MauriOne';
         const manifest=document.getElementById('mxAppManifest');
-        if(manifest)manifest.href='/admin-manifest.webmanifest?v=4';
+        if(manifest)manifest.href='/admin-manifest.webmanifest?v=7';
         const appleTitle=document.querySelector('meta[name="apple-mobile-web-app-title"]');
         if(appleTitle)appleTitle.content='لوحة التحكم';
       })();
