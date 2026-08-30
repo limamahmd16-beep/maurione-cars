@@ -7,6 +7,7 @@ export default function GlobalWhatsApp(){
   const buttonRef=useRef(null);
 
   useEffect(()=>{
+    if(!number)return;
     const place=()=>{
       const button=buttonRef.current;
       const home=homeRef.current;
@@ -26,18 +27,19 @@ export default function GlobalWhatsApp(){
       observer.disconnect();
       window.removeEventListener('popstate',place);
     };
-  },[]);
+  },[number]);
+
+  if(!number)return null;
 
   return <>
     <span ref={homeRef} className="mxWhatsAppHome" aria-hidden="true" />
     <a
       ref={buttonRef}
-      className={`mxGlobalWhatsApp${number?'':' disabled'}`}
+      className="mxGlobalWhatsApp"
       href={href}
-      target={number?'_blank':undefined}
-      rel={number?'noreferrer':undefined}
+      target="_blank"
+      rel="noreferrer"
       aria-label="واتساب"
-      onClick={e=>{if(!number)e.preventDefault()}}
     >
       <img src="/whatsapp-icon.svg?v=35" alt="" />
     </a>
@@ -66,7 +68,6 @@ export default function GlobalWhatsApp(){
       body:has(.userAuthPage) .mxGlobalWhatsApp{display:none!important}
       .mxGlobalWhatsApp img{width:27px;height:27px;display:block;opacity:1!important}
       .mxGlobalWhatsApp:active{transform:scale(.96)}
-      .mxGlobalWhatsApp.disabled{opacity:1!important;filter:none!important}
 
       body:has(.mxDetail) .mxGlobalWhatsApp{
         position:relative!important;
