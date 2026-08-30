@@ -12,7 +12,8 @@ let cacheAt=0;
 
 const css=`
 body.mxSocialExportOpen{overflow:hidden!important}
-.mxSocialExportButton{grid-column:1/-1!important;width:100%!important;min-height:42px!important;border:0!important;border-radius:12px!important;background:#111318!important;color:#fff!important;font-size:12px!important;font-weight:900!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;margin-top:4px!important}
+.mxRowButtons .mxSocialExportButton{height:30px!important;min-height:30px!important;min-width:62px!important;width:auto!important;border:1px solid #ffd0ba!important;border-radius:9px!important;background:#fff7f2!important;color:#e95315!important;font-size:10px!important;font-weight:850!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:4px!important;padding:0 9px!important;margin:0!important;box-shadow:none!important;white-space:nowrap!important}
+.mxRowButtons .mxSocialExportButton span:first-child{font-size:11px!important;line-height:1!important}
 #${OVERLAY_ID}{position:fixed;inset:0;z-index:1100000;background:#f5f6f7;color:#111318;direction:rtl;font-family:Arial,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;display:flex;flex-direction:column}
 #${OVERLAY_ID} *{box-sizing:border-box}
 .mxSEHeader{flex:0 0 auto;background:#fff;border-bottom:1px solid #e6e8eb;padding:calc(12px + env(safe-area-inset-top)) 14px 12px;display:grid;grid-template-columns:48px 1fr 48px;align-items:center;gap:8px}
@@ -25,7 +26,7 @@ body.mxSocialExportOpen{overflow:hidden!important}
 .mxSEActions{position:fixed;z-index:1100001;left:0;right:0;bottom:0;background:rgba(255,255,255,.97);border-top:1px solid #e4e7ea;padding:11px 12px calc(11px + env(safe-area-inset-bottom));backdrop-filter:blur(14px)}
 .mxSEActionsInner{width:min(100%,760px);margin:0 auto;display:grid;grid-template-columns:1fr 1.35fr;gap:9px}.mxSEActions button{min-height:54px;border-radius:15px;font-size:14px;font-weight:900}.mxSEPrepare{border:1px solid #dfe3e8;background:#fff;color:#111}.mxSEShare{border:0;background:#ff5a12;color:#fff}.mxSEShare:disabled,.mxSEPrepare:disabled{opacity:.5}
 .mxSEStatus{min-height:20px;text-align:center;color:#717780;font-size:11px;font-weight:700;margin-top:8px}.mxSEError{color:#b42318}
-@media(max-width:520px){.mxSEScroll{padding-left:9px;padding-right:9px}.mxSECard{padding:13px}.mxSEActions{padding-left:9px;padding-right:9px}.mxSEActionsInner{grid-template-columns:1fr}.mxSEPreview{max-height:58vh}}
+@media(max-width:520px){.mxSEScroll{padding-left:9px;padding-right:9px}.mxSECard{padding:13px}.mxSEActions{padding-left:9px;padding-right:9px}.mxSEActionsInner{grid-template-columns:1fr}.mxSEPreview{max-height:58vh}.mxRowButtons .mxSocialExportButton{min-width:58px!important;padding:0 7px!important}}
 `;
 
 function ensureStyle(){if(document.getElementById(STYLE_ID))return;const s=document.createElement('style');s.id=STYLE_ID;s.textContent=css;document.head.appendChild(s)}
@@ -56,8 +57,17 @@ async function carForRow(row){
 
 function injectButtons(){
   document.querySelectorAll('.mxAdminList > article').forEach(row=>{
-    if(row.querySelector('.mxSocialExportButton'))return;
-    const b=document.createElement('button');b.type='button';b.className='mxSocialExportButton';b.innerHTML='<span aria-hidden="true">▣</span><span>صور النشر</span>';row.appendChild(b);
+    const actions=row.querySelector('.mxRowButtons');
+    if(!actions)return;
+    let b=row.querySelector('.mxSocialExportButton');
+    if(!b){
+      b=document.createElement('button');
+      b.type='button';
+      b.className='mxSocialExportButton';
+      b.setAttribute('aria-label','صور النشر');
+      b.innerHTML='<span aria-hidden="true">▣</span><span>صور</span>';
+    }
+    if(b.parentElement!==actions)actions.appendChild(b);
   });
 }
 
@@ -151,7 +161,7 @@ const observer=new MutationObserver(()=>injectButtons());observer.observe(docume
 document.addEventListener('click',async event=>{
   const target=event.target instanceof Element?event.target:null;if(!target)return;
   const social=target.closest('.mxSocialExportButton');
-  if(social){event.preventDefault();event.stopPropagation();const row=social.closest('.mxAdminList > article');social.disabled=true;social.textContent='جارٍ الفتح...';try{const car=await carForRow(row);if(car)openOverlay(car);else alert('تعذر العثور على بيانات السيارة.')}catch{alert('تعذر تحميل بيانات السيارة.')}finally{social.disabled=false;social.innerHTML='<span aria-hidden="true">▣</span><span>صور النشر</span>'}return}
+  if(social){event.preventDefault();event.stopPropagation();const row=social.closest('.mxAdminList > article');social.disabled=true;social.textContent='جارٍ...';try{const car=await carForRow(row);if(car)openOverlay(car);else alert('تعذر العثور على بيانات السيارة.')}catch{alert('تعذر تحميل بيانات السيارة.')}finally{social.disabled=false;social.innerHTML='<span aria-hidden="true">▣</span><span>صور</span>'}return}
   if(!target.closest(`#${OVERLAY_ID}`))return;
   if(target.closest('.mxSEBack')){closeOverlay();return}
   if(target.closest('.mxSEPrepare')){clearPrepared();prepareAll();return}
