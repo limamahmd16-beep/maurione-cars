@@ -71,9 +71,10 @@
     const message = buildMessage(car);
     links.forEach((link) => {
       const number = whatsappNumber(link) || fallbackNumber;
-      link.href = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
-      link.target = '_blank';
-      link.rel = 'noreferrer';
+      const nextHref = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+      if (link.getAttribute('href') !== nextHref) link.setAttribute('href', nextHref);
+      if (link.target !== '_blank') link.target = '_blank';
+      if (link.rel !== 'noreferrer') link.rel = 'noreferrer';
     });
   }
 
@@ -81,7 +82,7 @@
     apply();
     const root = document.getElementById('root') || document.body;
     const observer = new MutationObserver(apply);
-    observer.observe(root, { childList: true, subtree: true, attributes: true, attributeFilter: ['src', 'href'] });
+    observer.observe(root, { childList: true, subtree: true, attributes: true, attributeFilter: ['src'] });
     window.addEventListener('popstate', () => setTimeout(apply, 0));
     document.addEventListener('click', (event) => {
       if (event.target.closest?.('.mxDetail .mxContact a.wa, a.mxGlobalWhatsApp, .mxThumbs button')) {
