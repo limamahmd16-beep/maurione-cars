@@ -21,3 +21,9 @@
   font-size:10px !important;
   letter-spacing:-.15px !important;
 }
+
+@media(max-width:560px){
+  .mxCardInfo h3{
+    padding-right:34px !important;
+  }
+}
