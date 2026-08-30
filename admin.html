@@ -45,7 +45,8 @@
         event.preventDefault();
         event.stopPropagation();
         if(event.stopImmediatePropagation)event.stopImmediatePropagation();
-        window.location.assign('/?from=admin-preview');
+        try{localStorage.setItem('maurione_admin_preview_home','1')}catch(e){}
+        window.location.assign('/?from=admin-preview&t='+Date.now());
       },true);
     </script>
     <script type="module" src="/admin-main.jsx"></script>
