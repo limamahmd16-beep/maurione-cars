@@ -46,6 +46,7 @@ async function loadStyles(){
     import('./src/header-compact.css'),
     import('./src/dark-mode.css'),
   ]);
+  await import('./src/responsive-universal.css');
 }
 
 async function bootAdmin(){
