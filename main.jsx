@@ -88,6 +88,7 @@ async function bootPublicSite(){
     import('./src/car-analytics.js'),
     import('./src/site-visitor-tracker.js'),
     import('./src/user-profile-sync.js'),
+    import('./src/phone-copy-fix.js'),
   ]).catch(error=>console.error('PUBLIC_HELPER_ERROR',error));
 }
 
