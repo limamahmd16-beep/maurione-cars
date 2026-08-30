@@ -14,10 +14,9 @@
     const brand = clean(detail.querySelector('.mxSummary > span')?.textContent);
     const title = clean(detail.querySelector('.mxSummary h1')?.textContent);
     const price = clean(detail.querySelector('.mxDetailPrice')?.textContent);
-    const sharePath = window.location.pathname.startsWith('/cars/')
-      ? window.location.pathname.replace(/^\/cars\//, '/share/car/')
-      : window.location.pathname;
-    const adUrl = `${window.location.origin}${sharePath}`;
+    const image = detail.querySelector('.mxThumbs button:first-child img')?.src
+      || detail.querySelector('.mxGallery img')?.src
+      || '';
 
     const specs = {};
     detail.querySelectorAll('.mxDetailSpecs .mxSpec').forEach((item) => {
@@ -26,7 +25,19 @@
       if (label) specs[label] = value;
     });
 
-    return { brand, title, price, adUrl, specs };
+    const sharePath = window.location.pathname.startsWith('/cars/')
+      ? window.location.pathname.replace(/^\/cars\//, '/share/car/')
+      : window.location.pathname;
+    const shareUrl = new URL(`${window.location.origin}${sharePath}`);
+    const carName = clean(`${brand} ${title}`);
+    if (carName) shareUrl.searchParams.set('n', carName);
+    if (price) shareUrl.searchParams.set('p', price);
+    if (image) shareUrl.searchParams.set('i', image);
+    if (specs['كم']) shareUrl.searchParams.set('m', specs['كم']);
+    if (specs['الوقود']) shareUrl.searchParams.set('f', specs['الوقود']);
+    if (specs['ناقل الحركة']) shareUrl.searchParams.set('tr', specs['ناقل الحركة']);
+
+    return { brand, title, price, adUrl: shareUrl.toString(), specs };
   }
 
   function buildMessage(car) {
