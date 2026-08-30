@@ -1,8 +1,8 @@
 import React,{useEffect,useRef}from'react';
 
 export default function GlobalWhatsApp(){
-  const number=(import.meta.env.VITE_CARS_WHATSAPP||'').replace(/\D/g,'');
-  const href=number?`https://wa.me/${number}?text=${encodeURIComponent('مرحبًا، أريد الاستفسار عبر MauriOne Cars')}`:'#';
+  const number=(import.meta.env.VITE_CARS_WHATSAPP||'22224200324').replace(/\D/g,'');
+  const href=`https://wa.me/${number}?text=${encodeURIComponent('مرحبًا، أريد الاستفسار عبر MauriOne Cars')}`;
   const homeRef=useRef(null);
   const buttonRef=useRef(null);
 
@@ -37,7 +37,6 @@ export default function GlobalWhatsApp(){
       target="_blank"
       rel="noreferrer"
       aria-label="واتساب"
-      onClick={(event)=>{if(!number)event.preventDefault();}}
     >
       <img src="/whatsapp-icon.svg?v=35" alt="" />
     </a>
