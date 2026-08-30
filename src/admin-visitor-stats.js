@@ -63,7 +63,7 @@ function render(){
       panel=document.createElement('section');
       panel.className=PANEL_CLASS;
       panel.innerHTML=`
-        <div class="${PANEL_CLASS}Head"><h2>إحصائيات الزوار</h2><span>زوار فريدون</span></div>
+        <div class="${PANEL_CLASS}Head"><h2>إحصائيات الزوار</h2><span>يشمل الزوار والحسابات المسجلة</span></div>
         <div class="${PANEL_CLASS}Grid">
           <div class="${PANEL_CLASS}Card accent" data-visitor-stat="today"><span>زوار اليوم</span><strong>0</strong></div>
           <div class="${PANEL_CLASS}Card" data-visitor-stat="last7"><span>آخر 7 أيام</span><strong>0</strong></div>
