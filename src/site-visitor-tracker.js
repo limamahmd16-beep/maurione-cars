@@ -58,10 +58,10 @@ function guestMode(){
 
 function payload(){
   return {
-    views:increment(1),
-    whatsappClicks:0,
-    phoneClicks:0,
-    favoriteAdds:0,
+    views:increment(0),
+    whatsappClicks:increment(0),
+    phoneClicks:increment(0),
+    favoriteAdds:increment(0),
     updatedAt:serverTimestamp(),
   };
 }
