@@ -15,7 +15,7 @@ const buttonStyle={width:'100%',height:52,border:0,borderRadius:15,background:'#
 
 const simpleAdminCss=`
   body{background:#f6f7f8!important}
-  .mxAdminTitle,.mxMetrics,.mxAdminQuick,.mxAdminV3Overview,.mxAnalyticsPanel{display:none!important}
+  .mxAdminTitle,.mxMetrics,.mxAdminQuick,.mxAdminV3Overview{display:none!important}
   .mxAdminInner>.mxPanel:not(:first-of-type){display:none!important}
   .mxAdminInner{width:min(calc(100% - 22px),760px)!important;padding-bottom:32px!important}
   .mxAdminActions{margin:18px 0!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important}
@@ -93,7 +93,8 @@ function AdminAccess({children}){
     if(!state.allowed)return;
     document.body.classList.remove('mxAdminV3Page');
     document.getElementById('mx-admin-v3-style')?.remove();
-    document.querySelectorAll('.mxAdminV3Overview,.mxAnalyticsPanel').forEach(node=>node.remove());
+    document.querySelectorAll('.mxAdminV3Overview').forEach(node=>node.remove());
+    import('./src/admin-visitor-stats.js').catch(error=>console.warn('Admin visitor stats failed',error));
   },[state.allowed]);
 
   async function submit(event){
