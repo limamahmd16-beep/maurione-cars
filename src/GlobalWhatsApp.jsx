@@ -7,7 +7,6 @@ export default function GlobalWhatsApp(){
   const buttonRef=useRef(null);
 
   useEffect(()=>{
-    if(!number)return;
     const place=()=>{
       const button=buttonRef.current;
       const home=homeRef.current;
@@ -27,9 +26,7 @@ export default function GlobalWhatsApp(){
       observer.disconnect();
       window.removeEventListener('popstate',place);
     };
-  },[number]);
-
-  if(!number)return null;
+  },[]);
 
   return <>
     <span ref={homeRef} className="mxWhatsAppHome" aria-hidden="true" />
@@ -40,6 +37,7 @@ export default function GlobalWhatsApp(){
       target="_blank"
       rel="noreferrer"
       aria-label="واتساب"
+      onClick={(event)=>{if(!number)event.preventDefault();}}
     >
       <img src="/whatsapp-icon.svg?v=35" alt="" />
     </a>
