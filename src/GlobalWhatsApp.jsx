@@ -2,7 +2,7 @@ import React,{useEffect,useRef}from'react';
 
 export default function GlobalWhatsApp(){
   const number=(import.meta.env.VITE_CARS_WHATSAPP||'22224200324').replace(/\D/g,'');
-  const href=`https://wa.me/${number}?text=${encodeURIComponent('مرحبًا، أريد الاستفسار عبر MauriOne')}`;
+  const href=number?`https://wa.me/${number}?text=${encodeURIComponent('مرحبًا، أريد الاستفسار عبر MauriOne')}`:'#';
   const homeRef=useRef(null);
   const buttonRef=useRef(null);
 
@@ -32,11 +32,12 @@ export default function GlobalWhatsApp(){
     <span ref={homeRef} className="mxWhatsAppHome" aria-hidden="true" />
     <a
       ref={buttonRef}
-      className="mxGlobalWhatsApp"
+      className={`mxGlobalWhatsApp${number?'':' disabled'}`}
       href={href}
-      target="_blank"
-      rel="noreferrer"
+      target={number?'_blank':undefined}
+      rel={number?'noreferrer':undefined}
       aria-label="واتساب"
+      onClick={e=>{if(!number)e.preventDefault()}}
     >
       <img src="/whatsapp-icon.svg?v=35" alt="" />
     </a>
@@ -65,6 +66,7 @@ export default function GlobalWhatsApp(){
       body:has(.userAuthPage) .mxGlobalWhatsApp{display:none!important}
       .mxGlobalWhatsApp img{width:27px;height:27px;display:block;opacity:1!important}
       .mxGlobalWhatsApp:active{transform:scale(.96)}
+      .mxGlobalWhatsApp.disabled{opacity:1!important;filter:none!important}
 
       body:has(.mxDetail) .mxGlobalWhatsApp{
         position:relative!important;
