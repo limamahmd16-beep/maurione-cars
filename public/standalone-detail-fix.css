@@ -24,33 +24,34 @@
     max-width: 72px !important;
   }
 
+  /* On the car page, WhatsApp belongs to the document flow after the specs.
+     It must never float over vehicle information. */
   html body:has(.mxDetail) a.mxGlobalWhatsApp {
-    position: fixed !important;
-    left: 10px !important;
-    right: 10px !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
     top: auto !important;
-    bottom: max(10px, env(safe-area-inset-bottom)) !important;
-    width: auto !important;
-    max-width: none !important;
+    bottom: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
     height: 46px !important;
     min-height: 46px !important;
-    margin: 0 !important;
+    margin: 10px 0 max(14px, env(safe-area-inset-bottom)) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     visibility: visible !important;
     opacity: 1 !important;
-    z-index: 10050 !important;
+    z-index: 30 !important;
     border-radius: 15px !important;
     transform: none !important;
   }
 
-  /* Reserve real page space for the fixed WhatsApp bar so it never covers specs. */
   html body:has(.mxDetail) .mxDetail {
-    padding-bottom: calc(78px + env(safe-area-inset-bottom)) !important;
+    padding-bottom: 0 !important;
   }
 
   html body:has(.mxDetail) {
-    padding-bottom: calc(66px + env(safe-area-inset-bottom)) !important;
+    padding-bottom: 0 !important;
   }
 }
