@@ -14,7 +14,10 @@
     const brand = clean(detail.querySelector('.mxSummary > span')?.textContent);
     const title = clean(detail.querySelector('.mxSummary h1')?.textContent);
     const price = clean(detail.querySelector('.mxDetailPrice')?.textContent);
-    const adUrl = `${window.location.origin}${window.location.pathname}`;
+    const sharePath = window.location.pathname.startsWith('/cars/')
+      ? window.location.pathname.replace(/^\/cars\//, '/share/car/')
+      : window.location.pathname;
+    const adUrl = `${window.location.origin}${sharePath}`;
 
     const specs = {};
     detail.querySelectorAll('.mxDetailSpecs .mxSpec').forEach((item) => {
