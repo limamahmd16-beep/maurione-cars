@@ -1,6 +1,6 @@
 import { auth, db } from './lib/firebase.js';
 import { onAuthStateChanged, signInAnonymously } from 'firebase/auth';
-import { doc, increment, serverTimestamp, setDoc } from 'firebase/firestore';
+import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 
 const OWNER_UID='sC94v8XaXmUMHK6eineEy25GIst2';
 const TZ='Africa/Nouakchott';
@@ -58,10 +58,10 @@ function guestMode(){
 
 function payload(){
   return {
-    views:increment(0),
-    whatsappClicks:increment(0),
-    phoneClicks:increment(0),
-    favoriteAdds:increment(0),
+    views:0,
+    whatsappClicks:0,
+    phoneClicks:0,
+    favoriteAdds:0,
     updatedAt:serverTimestamp(),
   };
 }
@@ -71,21 +71,21 @@ async function recordVisitor(user){
 
   const visitor=visitorId();
   const day=dateKey();
-  const totalFlag=`maurione_visitor_total_v4_${visitor}`;
-  const dayFlag=`maurione_visitor_day_v4_${day}_${visitor}`;
+  const totalFlag=`maurione_visitor_total_v5_${visitor}`;
+  const dayFlag=`maurione_visitor_day_v5_${day}_${visitor}`;
   const writes=[];
   recording=true;
 
   if(!hasFlag(totalFlag)){
     writes.push(
-      setDoc(doc(db,'carStats',`visitor-total-${visitor}`),payload(),{merge:true})
+      setDoc(doc(db,'carStats',`visitor-total-${visitor}`),payload())
         .then(()=>setFlag(totalFlag))
     );
   }
 
   if(!hasFlag(dayFlag)){
     writes.push(
-      setDoc(doc(db,'carStats',`visitor-day-${day}-${visitor}`),payload(),{merge:true})
+      setDoc(doc(db,'carStats',`visitor-day-${day}-${visitor}`),payload())
         .then(()=>setFlag(dayFlag))
     );
   }
