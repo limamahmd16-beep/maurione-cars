@@ -18,7 +18,7 @@ const simpleAdminCss=`
   .mxAdminTitle,.mxMetrics,.mxAdminQuick,.mxAdminV3Overview{display:none!important}
   .mxAdminInner>.mxPanel ~ .mxPanel{display:none!important}
   .mxAdminInner{width:min(calc(100% - 22px),760px)!important;padding-bottom:32px!important}
-  .mxAdminActions{margin:18px 0!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important}
+  .mxAdminActions{margin:18px 0!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}
   .mxAdminActions button{min-height:52px!important;border-radius:16px!important}
   .mxPanel{margin-top:0!important}
   .mxPanelHead{padding-bottom:12px!important}
@@ -97,6 +97,7 @@ function AdminAccess({children}){
     import('./src/admin-visitor-stats.js').catch(error=>console.warn('Admin visitor stats failed',error));
     import('./src/admin-car-page.js').catch(error=>console.warn('Admin car page failed',error));
     import('./src/admin-social-export.js').catch(error=>console.warn('Admin social exporter failed',error));
+    import('./src/admin-users.js').catch(error=>console.warn('Admin user directory failed',error));
   },[state.allowed]);
 
   async function submit(event){
