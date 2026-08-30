@@ -1,3 +1,4 @@
+import './admin-car-analytics.js';
 import { auth, db } from './lib/firebase.js';
 import { collection, onSnapshot } from 'firebase/firestore';
 
