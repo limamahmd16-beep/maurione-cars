@@ -12,9 +12,9 @@
   "theme_color": "#ffffff",
   "icons": [
     {
-      "src": "/maurione-app-icon.svg?v=1",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
       "purpose": "any"
     }
   ]
