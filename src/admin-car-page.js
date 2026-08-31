@@ -17,7 +17,7 @@ const STYLE_ID = 'mx-admin-car-page-style';
 
 const blankCar = {
   reference: '',
-  brand: '', model: '', trim: '', year: '', mileage: '',
+  brand: '', model: '', trim: '', bodyType: 'سيدان', year: '', mileage: '',
   transmission: 'أوتوماتيك', fuel: 'بنزين', drive: '4x4',
   location: 'نواكشوط', price: '', status: 'available',
   featured: false, description: '', images: [],
@@ -81,6 +81,7 @@ function formTemplate(isEdit){
           <label class="mxACPField"><span>الماركة</span><input name="brand" required value="${escapeAttr(value(state.brand))}" placeholder="مثال: تويوتا"></label>
           <label class="mxACPField"><span>الموديل</span><input name="model" required value="${escapeAttr(value(state.model))}" placeholder="مثال: كامري"></label>
           <label class="mxACPField"><span>الفئة</span><input name="trim" value="${escapeAttr(value(state.trim))}" placeholder="مثال: XLE"></label>
+          <label class="mxACPField"><span>نوع الهيكل</span><select name="bodyType"><option${state.bodyType==='سيدان'?' selected':''}>سيدان</option><option${state.bodyType==='SUV'?' selected':''}>SUV</option><option${state.bodyType==='بيك أب'?' selected':''}>بيك أب</option><option${state.bodyType==='كوبيه'?' selected':''}>كوبيه</option><option${state.bodyType==='هاتشباك'?' selected':''}>هاتشباك</option><option${state.bodyType==='فان'?' selected':''}>فان</option><option${state.bodyType==='رياضية'?' selected':''}>رياضية</option><option${state.bodyType==='فاخرة'?' selected':''}>فاخرة</option></select></label>
           <label class="mxACPField"><span>السنة</span><input name="year" required type="number" inputmode="numeric" value="${escapeAttr(value(state.year))}" placeholder="2024"></label>
         </div></section>
         <section class="mxACPSection"><h2>المواصفات</h2><div class="mxACPGrid">
@@ -140,7 +141,7 @@ function readForm(){
   const fd=new FormData(form);
   state={...state,
     reference:value(fd.get('reference')).trim().toUpperCase(),
-    brand:value(fd.get('brand')).trim(),model:value(fd.get('model')).trim(),trim:value(fd.get('trim')).trim(),
+    brand:value(fd.get('brand')).trim(),model:value(fd.get('model')).trim(),trim:value(fd.get('trim')).trim(),bodyType:value(fd.get('bodyType'))||'سيدان',
     year:value(fd.get('year')),mileage:value(fd.get('mileage')),transmission:value(fd.get('transmission')),
     fuel:value(fd.get('fuel')),drive:value(fd.get('drive')).trim(),location:value(fd.get('location')).trim(),
     price:value(fd.get('price')),status:value(fd.get('status'))||'available',featured:Boolean(form.elements.featured?.checked),
@@ -190,7 +191,7 @@ async function save(event){
     const reference=f.reference||await nextReference();
     state.reference=reference;
     const refInput=document.querySelector(`#${PAGE_ID} input[name="reference"]`);if(refInput)refInput.value=reference;
-    const payload={reference,brand:f.brand,model:f.model,trim:f.trim,year:Number(f.year),mileage:Number(f.mileage),transmission:f.transmission,fuel:f.fuel,drive:f.drive,location:f.location,price:Number(f.price||0),status:f.status,featured:Boolean(f.featured),description:f.description,images:f.images||[],updatedAt:serverTimestamp()};
+    const payload={reference,brand:f.brand,model:f.model,trim:f.trim,bodyType:f.bodyType||'سيدان',year:Number(f.year),mileage:Number(f.mileage),transmission:f.transmission,fuel:f.fuel,drive:f.drive,location:f.location,price:Number(f.price||0),status:f.status,featured:Boolean(f.featured),description:f.description,images:f.images||[],updatedAt:serverTimestamp()};
     let carId=editingId;
     let created=false;
     if(editingId){
