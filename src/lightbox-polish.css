@@ -1,0 +1,137 @@
+/* Full-screen car photo viewer: consistent fit + obvious navigation. */
+body:has(.mxLightbox){overflow:hidden!important;overscroll-behavior:none!important}
+
+.mxLightbox{
+  position:fixed!important;
+  inset:0!important;
+  z-index:99999!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:max(74px,calc(env(safe-area-inset-top) + 58px)) 72px max(54px,calc(env(safe-area-inset-bottom) + 34px))!important;
+  box-sizing:border-box!important;
+  background:rgba(4,6,9,.965)!important;
+  backdrop-filter:blur(12px)!important;
+  -webkit-backdrop-filter:blur(12px)!important;
+  overflow:hidden!important;
+  touch-action:pan-y!important;
+}
+
+.mxLightbox>img{
+  display:block!important;
+  width:auto!important;
+  height:auto!important;
+  max-width:min(94vw,1180px)!important;
+  max-height:calc(100dvh - 150px)!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  margin:auto!important;
+  border-radius:18px!important;
+  background:#0c0f13!important;
+  box-shadow:0 22px 70px rgba(0,0,0,.5)!important;
+  user-select:none!important;
+  -webkit-user-drag:none!important;
+}
+
+.mxLightbox button{
+  position:fixed!important;
+  z-index:4!important;
+  width:58px!important;
+  height:58px!important;
+  min-width:58px!important;
+  min-height:58px!important;
+  padding:0!important;
+  border:1px solid rgba(255,255,255,.28)!important;
+  border-radius:50%!important;
+  background:rgba(25,29,35,.82)!important;
+  color:#fff!important;
+  display:grid!important;
+  place-items:center!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.32)!important;
+  backdrop-filter:blur(8px)!important;
+  -webkit-backdrop-filter:blur(8px)!important;
+  opacity:1!important;
+  visibility:visible!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+.mxLightbox button svg{width:31px!important;height:31px!important;stroke-width:2.4!important}
+.mxLightbox button:active{transform:scale(.92)!important;background:rgba(255,90,18,.92)!important;border-color:#ff7a3f!important}
+
+.mxLightbox .mxClose{
+  top:max(18px,calc(env(safe-area-inset-top) + 8px))!important;
+  right:max(18px,calc(env(safe-area-inset-right) + 14px))!important;
+  width:52px!important;
+  height:52px!important;
+  min-width:52px!important;
+  min-height:52px!important;
+  background:rgba(34,38,44,.94)!important;
+}
+.mxLightbox .mxClose svg{width:28px!important;height:28px!important}
+.mxLightbox .mxPrev{right:max(16px,calc(env(safe-area-inset-right) + 10px))!important;left:auto!important;top:50%!important;transform:translateY(-50%)!important}
+.mxLightbox .mxNext{left:max(16px,calc(env(safe-area-inset-left) + 10px))!important;right:auto!important;top:50%!important;transform:translateY(-50%)!important}
+.mxLightbox .mxPrev:active,.mxLightbox .mxNext:active{transform:translateY(-50%) scale(.92)!important}
+
+.mxLightboxCounter{
+  position:fixed!important;
+  z-index:4!important;
+  top:max(24px,calc(env(safe-area-inset-top) + 14px))!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  min-width:64px!important;
+  height:38px!important;
+  padding:0 13px!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+  border-radius:999px!important;
+  background:rgba(25,29,35,.75)!important;
+  color:#fff!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:14px!important;
+  font-weight:800!important;
+  letter-spacing:.4px!important;
+  direction:ltr!important;
+  backdrop-filter:blur(8px)!important;
+  -webkit-backdrop-filter:blur(8px)!important;
+  pointer-events:none!important;
+}
+
+.mxLightbox.single-image .mxPrev,
+.mxLightbox.single-image .mxNext,
+.mxLightbox.single-image .mxLightboxCounter{display:none!important}
+
+@media(max-width:600px){
+  .mxLightbox{
+    padding:max(68px,calc(env(safe-area-inset-top) + 56px)) 12px max(42px,calc(env(safe-area-inset-bottom) + 28px))!important;
+  }
+  .mxLightbox>img{
+    max-width:calc(100vw - 24px)!important;
+    max-height:calc(100dvh - 132px)!important;
+    border-radius:14px!important;
+  }
+  .mxLightbox button{
+    width:52px!important;
+    height:52px!important;
+    min-width:52px!important;
+    min-height:52px!important;
+    background:rgba(24,28,33,.86)!important;
+  }
+  .mxLightbox button svg{width:29px!important;height:29px!important}
+  .mxLightbox .mxClose{
+    width:48px!important;
+    height:48px!important;
+    min-width:48px!important;
+    min-height:48px!important;
+    right:max(12px,calc(env(safe-area-inset-right) + 10px))!important;
+  }
+  .mxLightbox .mxPrev{right:max(10px,calc(env(safe-area-inset-right) + 8px))!important}
+  .mxLightbox .mxNext{left:max(10px,calc(env(safe-area-inset-left) + 8px))!important}
+  .mxLightboxCounter{height:34px!important;font-size:13px!important;top:max(24px,calc(env(safe-area-inset-top) + 14px))!important}
+}
+
+@media(orientation:landscape) and (max-height:600px){
+  .mxLightbox{padding:14px 82px!important}
+  .mxLightbox>img{max-height:calc(100dvh - 28px)!important;max-width:calc(100vw - 170px)!important;border-radius:12px!important}
+  .mxLightbox .mxClose{top:12px!important;right:12px!important}
+  .mxLightboxCounter{top:12px!important}
+}
