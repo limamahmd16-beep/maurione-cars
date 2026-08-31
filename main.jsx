@@ -54,6 +54,7 @@ async function loadStyles(){
   await import('./src/home-card-compact.css');
   await import('./src/i18n-fit.css');
   await import('./src/i18n-content-fix.css');
+  await import('./src/top-filter-dropdowns.css');
 }
 
 async function bootAdmin(){
@@ -98,6 +99,7 @@ async function bootPublicSite(){
     import('./src/phone-copy-fix.js'),
     import('./src/car-reference-public.js'),
     import('./src/home-scroll-reset.js'),
+    import('./src/top-filter-dropdowns.js').then(module=>module.initTopFilterDropdowns?.()),
   ]).catch(error=>console.error('PUBLIC_HELPER_ERROR',error));
 }
 
