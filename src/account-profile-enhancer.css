@@ -18,17 +18,17 @@ body:has(.mxAccountPage) .mxGlobalWhatsApp{display:none!important}
 .mxAccountPage .mxAccountMenu>button:active{transform:scale(.988)}
 .mxAccountPage .mxAccountProfilePhone{display:block!important;margin-top:6px!important;color:#59606a!important;font-size:14px!important;font-weight:700!important;letter-spacing:.01em}
 .mxAccountPage .mxAccountBackButton svg{width:25px!important;height:25px!important;fill:none!important;stroke:currentColor!important;stroke-width:2.2!important;stroke-linecap:round!important;stroke-linejoin:round!important}
-.mxAccountPage .mxAccountSupport{margin:16px 0 2px!important;min-height:92px!important;border:1px solid #dfeee4!important;border-radius:24px!important;background:linear-gradient(135deg,#fff 0%,#f7fff9 100%)!important;display:grid!important;grid-template-columns:56px minmax(0,1fr) 22px!important;align-items:center!important;gap:13px!important;padding:16px 18px!important;box-sizing:border-box!important;text-decoration:none!important;color:#16191d!important;box-shadow:0 10px 28px rgba(15,23,42,.045)!important;-webkit-tap-highlight-color:transparent!important}
+.mxAccountPage .mxAccountSupport{margin:16px 0 2px!important;min-height:92px!important;border:1px solid #dfeee4!important;border-radius:24px!important;background:linear-gradient(135deg,#fff 0%,#f7fff9 100%)!important;display:grid!important;grid-template-columns:50px minmax(0,1fr) 22px!important;align-items:center!important;gap:13px!important;padding:16px 18px!important;box-sizing:border-box!important;text-decoration:none!important;color:#16191d!important;box-shadow:0 10px 28px rgba(15,23,42,.045)!important;-webkit-tap-highlight-color:transparent!important}
 .mxAccountPage .mxAccountSupport:active{transform:scale(.99)}
-.mxAccountPage .mxAccountSupportIcon{width:52px;height:52px;border-radius:17px;background:#eafaf0;color:#20a957;display:grid;place-items:center}
-.mxAccountPage .mxAccountSupportIcon svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mxAccountPage .mxAccountSupportIcon{width:46px;height:46px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;box-shadow:0 7px 18px rgba(37,211,102,.24)!important}
+.mxAccountPage .mxAccountSupportIcon svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .mxAccountPage .mxAccountSupportCopy{display:grid;gap:3px;text-align:right;min-width:0}
 .mxAccountPage .mxAccountSupportCopy strong{font-size:17px;line-height:1.35;font-weight:900;color:#111}
 .mxAccountPage .mxAccountSupportCopy small{font-size:13px;line-height:1.45;color:#7e858e;font-weight:600}
 .mxAccountPage .mxAccountSupportCopy b{font-size:13px;color:#20a957;font-weight:900;direction:ltr;text-align:right}
 .mxAccountPage .mxAccountSupportArrow{font-size:28px;line-height:1;color:#a3a8ae;font-weight:300}
-.mxAccountPage .mxAccountLogout{margin-top:12px!important;margin-bottom:128px!important}
-.mxAccountPage .mxAccountBody{padding-bottom:136px!important}
+.mxAccountPage .mxAccountLogout{width:calc(100% - 24px)!important;height:58px!important;margin:18px auto 142px!important;border-radius:18px!important;font-size:18px!important;box-shadow:0 10px 22px rgba(255,90,18,.15)!important}
+.mxAccountPage .mxAccountBody{padding-bottom:148px!important}
 .mxAccountPage .mxAccountShellBottom{position:fixed!important;left:max(18px,env(safe-area-inset-left))!important;right:max(18px,env(safe-area-inset-right))!important;bottom:max(10px,env(safe-area-inset-bottom))!important;z-index:370!important}
 .mxAccountPage .mxAccountShellBottom button.active{color:#f45b1b!important}
 .mxAccountPage .mxAccountShellBottom button.active svg{stroke:#f45b1b!important}
@@ -40,11 +40,11 @@ body:has(.mxAccountPage) .mxGlobalWhatsApp{display:none!important}
   .mxAccountPage .mxProfilePhotoBadge svg{width:14px!important;height:14px!important}
   .mxAccountPage .mxAccountMenu{gap:10px!important}
   .mxAccountPage .mxAccountProfilePhone{font-size:13px!important}
-  .mxAccountPage .mxAccountSupport{min-height:86px!important;border-radius:22px!important;grid-template-columns:50px minmax(0,1fr) 18px!important;padding:14px 15px!important;gap:11px!important}
-  .mxAccountPage .mxAccountSupportIcon{width:48px;height:48px;border-radius:16px}
-  .mxAccountPage .mxAccountSupportIcon svg{width:25px;height:25px}
+  .mxAccountPage .mxAccountSupport{min-height:86px!important;border-radius:22px!important;grid-template-columns:46px minmax(0,1fr) 18px!important;padding:14px 15px!important;gap:11px!important}
+  .mxAccountPage .mxAccountSupportIcon{width:44px;height:44px;border-radius:50%}
+  .mxAccountPage .mxAccountSupportIcon svg{width:23px;height:23px}
   .mxAccountPage .mxAccountSupportCopy strong{font-size:16px}
   .mxAccountPage .mxAccountSupportCopy small,.mxAccountPage .mxAccountSupportCopy b{font-size:12px}
-  .mxAccountPage .mxAccountLogout{margin-bottom:122px!important}
-  .mxAccountPage .mxAccountBody{padding-bottom:130px!important}
+  .mxAccountPage .mxAccountLogout{width:calc(100% - 20px)!important;height:56px!important;margin:17px auto 138px!important;border-radius:17px!important;font-size:17px!important}
+  .mxAccountPage .mxAccountBody{padding-bottom:144px!important}
 }
