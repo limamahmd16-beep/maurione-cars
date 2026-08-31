@@ -15,10 +15,6 @@ function num(value){
   return new Intl.NumberFormat('en-US').format(Number(value||0));
 }
 
-function normalize(value=''){
-  return String(value||'').trim().toUpperCase();
-}
-
 function titleFor(car){
   return `${car.brand||''} ${car.model||''} ${car.year||''}`.trim();
 }
@@ -85,10 +81,13 @@ function decorateCards(){
     if(!badge){
       badge=document.createElement('div');
       badge.className='mxPublicCarRef';
+      badge.innerHTML='<span>رقم السيارة</span><b></b>';
       const trim=info.querySelector('.mxTrim');
       if(trim)trim.insertAdjacentElement('afterend',badge);else info.prepend(badge);
     }
-    badge.innerHTML=`<span>رقم السيارة</span><b>${String(car.reference).replace(/[<>&]/g,'')}</b>`;
+    const value=String(car.reference||'');
+    const target=badge.querySelector('b');
+    if(target&&target.textContent!==value)target.textContent=value;
   });
 }
 
@@ -103,17 +102,20 @@ function decorateDetail(){
     if(!ref){
       ref=document.createElement('div');
       ref.className='mxDetailReference';
+      ref.innerHTML='<span>رقم السيارة</span><b></b>';
       const h1=summary.querySelector('h1');
       if(h1)h1.insertAdjacentElement('afterend',ref);else summary.prepend(ref);
     }
-    ref.innerHTML=`<span>رقم السيارة</span><b>${String(car.reference).replace(/[<>&]/g,'')}</b>`;
+    const value=String(car.reference||'');
+    const target=ref.querySelector('b');
+    if(target&&target.textContent!==value)target.textContent=value;
   }
   if(!WHATSAPP)return;
   const href=`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(inquiryMessage(car))}`;
   document.querySelectorAll('.mxDetail .mxContact a.wa, body:has(.mxDetail) a.mxGlobalWhatsApp').forEach(link=>{
-    link.href=href;
-    link.target='_blank';
-    link.rel='noreferrer';
+    if(link.getAttribute('href')!==href)link.href=href;
+    if(link.target!=='_blank')link.target='_blank';
+    if(link.rel!=='noreferrer')link.rel='noreferrer';
   });
 }
 
