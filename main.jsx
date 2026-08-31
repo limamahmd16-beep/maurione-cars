@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import('./src/i18n.js').then(module=>module.initI18n?.()).catch(error=>console.error('I18N_BOOT_ERROR',error));
+import('./src/i18n-content-fix.js').then(module=>module.initI18nContentFix?.()).catch(error=>console.error('I18N_CONTENT_FIX_ERROR',error));
 
 try{
   if(!window.location.pathname.startsWith('/admin')&&localStorage.getItem('maurione_admin_preview_home')==='1'){
@@ -52,6 +53,7 @@ async function loadStyles(){
   await import('./src/detail-viewport-fit.css');
   await import('./src/home-card-compact.css');
   await import('./src/i18n-fit.css');
+  await import('./src/i18n-content-fix.css');
 }
 
 async function bootAdmin(){
