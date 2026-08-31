@@ -51,6 +51,7 @@ async function loadStyles(){
   await import('./src/responsive-universal.css');
   await import('./src/detail-viewport-fit.css');
   await import('./src/home-card-compact.css');
+  await import('./src/i18n-fit.css');
 }
 
 async function bootAdmin(){
