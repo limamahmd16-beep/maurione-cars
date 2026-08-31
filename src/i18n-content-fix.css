@@ -1,0 +1,28 @@
+/* Final language-content fixes. Keeps the approved MauriOne layout intact. */
+html[data-maurione-lang="en"] body:has(.mxDetail) .mxGlobalWhatsApp::after{content:'Contact via WhatsApp'!important;direction:ltr!important}
+html[data-maurione-lang="fr"] body:has(.mxDetail) .mxGlobalWhatsApp::after{content:'Contacter via WhatsApp'!important;direction:ltr!important}
+html[data-maurione-lang="pt"] body:has(.mxDetail) .mxGlobalWhatsApp::after{content:'Contactar via WhatsApp'!important;direction:ltr!important}
+
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxCardInfo h3,
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxSummary h1,
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxSummary>span,
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxTrim{
+  direction:ltr!important;
+  text-align:right!important;
+}
+
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxCard .mxSpec strong{
+  font-size:8.2px!important;
+  letter-spacing:-.2px!important;
+}
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxCard .mxSpec small{
+  font-size:7px!important;
+  letter-spacing:-.15px!important;
+}
+
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxDetail .mxSpec strong{
+  font-size:10px!important;
+}
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxDetail .mxSpec small{
+  font-size:8.5px!important;
+}
