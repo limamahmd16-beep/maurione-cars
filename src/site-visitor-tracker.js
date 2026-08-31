@@ -7,6 +7,24 @@ const TZ='Africa/Nouakchott';
 let recording=false;
 let guestAuthAttempted=false;
 
+function report(stage,error,user){
+  try{
+    fetch('/api/visitor-diagnostic',{
+      method:'POST',
+      headers:{'content-type':'application/json'},
+      body:JSON.stringify({
+        stage,
+        code:error?.code||'',
+        message:error?.message||'',
+        anonymous:Boolean(user?.isAnonymous),
+        hasUser:Boolean(user),
+        guestMode:guestMode(),
+      }),
+      keepalive:true,
+    }).catch(()=>{});
+  }catch{}
+}
+
 function dateKey(date=new Date()){
   const parts=new Intl.DateTimeFormat('en-CA',{
     timeZone:TZ,
@@ -71,8 +89,8 @@ async function recordVisitor(user){
 
   const visitor=visitorId();
   const day=dateKey();
-  const totalFlag=`maurione_visitor_total_v5_${visitor}`;
-  const dayFlag=`maurione_visitor_day_v5_${day}_${visitor}`;
+  const totalFlag=`maurione_visitor_total_v6_${visitor}`;
+  const dayFlag=`maurione_visitor_day_v6_${day}_${visitor}`;
   const writes=[];
   recording=true;
 
@@ -92,7 +110,9 @@ async function recordVisitor(user){
 
   try{
     await Promise.all(writes);
+    report('firestore-write-success',null,user);
   }catch(error){
+    report('firestore-write-failed',error,user);
     console.warn('[MauriOne visitor tracking] write blocked',error?.code||error?.message||error);
   }finally{
     recording=false;
@@ -102,17 +122,21 @@ async function recordVisitor(user){
 async function ensureGuestAuth(){
   if(!auth||auth.currentUser||guestAuthAttempted||!guestMode())return;
   guestAuthAttempted=true;
+  report('anonymous-auth-start',null,null);
   try{
     const cred=await signInAnonymously(auth);
+    report('anonymous-auth-success',null,cred?.user);
     if(cred?.user)recordVisitor(cred.user);
   }catch(error){
     guestAuthAttempted=false;
+    report('anonymous-auth-failed',error,null);
     console.warn('[MauriOne visitor tracking] anonymous auth unavailable',error?.code||error?.message||error);
   }
 }
 
 if(auth){
   onAuthStateChanged(auth,user=>{
+    report('auth-state',null,user);
     if(user){
       recordVisitor(user);
       return;
