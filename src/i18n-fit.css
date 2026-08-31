@@ -1,0 +1,102 @@
+/* Language-fit layer for MauriOne.
+   Keep the approved layout unchanged while fitting longer Latin labels. */
+
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxFilters>label,
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxFilters>button{
+  gap:4px!important;
+  padding-left:5px!important;
+  padding-right:5px!important;
+  font-size:11px!important;
+}
+
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxFilters select{
+  flex:1 1 auto!important;
+  width:0!important;
+  max-width:none!important;
+  min-width:0!important;
+  direction:ltr!important;
+  text-align:center!important;
+  text-align-last:center!important;
+  font-size:11px!important;
+  letter-spacing:-.15px!important;
+}
+
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxFilters svg{
+  flex:0 0 auto!important;
+}
+
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxSpec{
+  direction:ltr!important;
+  padding-left:1px!important;
+  padding-right:1px!important;
+}
+
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxSpec strong{
+  width:100%!important;
+  max-width:100%!important;
+  font-size:8.4px!important;
+  line-height:1!important;
+  letter-spacing:-.25px!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:clip!important;
+}
+
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxSpec small{
+  width:100%!important;
+  max-width:100%!important;
+  font-size:7.2px!important;
+  line-height:1.02!important;
+  letter-spacing:-.15px!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:clip!important;
+}
+
+html[data-maurione-lang="pt"] .mxSpec strong,
+html[data-maurione-lang="fr"] .mxSpec strong{
+  font-size:8px!important;
+  letter-spacing:-.35px!important;
+}
+
+html[data-maurione-lang="pt"] .mxSpec small,
+html[data-maurione-lang="fr"] .mxSpec small{
+  font-size:6.9px!important;
+  letter-spacing:-.25px!important;
+}
+
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxBottom button{
+  font-size:9px!important;
+  letter-spacing:-.1px!important;
+}
+
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxAdvanced,
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxDrawer,
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxContact{
+  direction:ltr!important;
+}
+
+@media(max-width:560px){
+  html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxFilters>label,
+  html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxFilters>button{
+    font-size:10.5px!important;
+    gap:3px!important;
+    padding-left:4px!important;
+    padding-right:4px!important;
+  }
+
+  html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxFilters select{
+    font-size:10.5px!important;
+  }
+
+  html[data-maurione-lang="pt"] .mxFilters select,
+  html[data-maurione-lang="fr"] .mxFilters select{
+    font-size:10px!important;
+  }
+
+  html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxCardInfo h3{
+    letter-spacing:-.5px!important;
+  }
+}
