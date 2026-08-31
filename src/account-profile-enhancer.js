@@ -12,6 +12,7 @@ let currentPhone='';
 let profileFetchUid='';
 let observer=null;
 let busy=false;
+let enhanceScheduled=false;
 
 function cameraSvg(){
   return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 4 16 6h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3l1.5-2h5Z"/><circle cx="12" cy="13" r="3.5"/></svg>';
@@ -83,7 +84,7 @@ function setPhone(profile,value){
     line.dir='ltr';
     info.appendChild(line);
   }
-  line.textContent=formatted;
+  if(line.textContent!==formatted)line.textContent=formatted;
 }
 
 async function resolveStoredProfile(user,avatar,profile){
@@ -141,6 +142,9 @@ function enhanceHeader(page){
   const button=page.querySelector('.mxAccountHeader>button');
   if(!button)return;
   const lang=getLanguage();
+  const key=`${lang}:back`;
+  if(button.dataset.mxAccountHeaderState===key)return;
+  button.dataset.mxAccountHeaderState=key;
   button.classList.add('mxAccountBackButton');
   button.innerHTML=backSvg(lang);
   button.setAttribute('aria-label',lang==='ar'?'العودة':lang==='en'?'Back':lang==='fr'?'Retour':'Voltar');
@@ -161,10 +165,14 @@ function ensureSupport(page){
   }
   const lang=getLanguage();
   const copy=supportCopy(lang);
-  card.querySelector('strong').textContent=copy.title;
-  card.querySelector('small').textContent=copy.sub;
-  card.href=supportNumber?`https://wa.me/${supportNumber}?text=${encodeURIComponent(copy.message)}`:'#';
-  card.setAttribute('aria-label',`${copy.sub} ${supportDisplay}`);
+  const strong=card.querySelector('strong');
+  const small=card.querySelector('small');
+  if(strong&&strong.textContent!==copy.title)strong.textContent=copy.title;
+  if(small&&small.textContent!==copy.sub)small.textContent=copy.sub;
+  const nextHref=supportNumber?`https://wa.me/${supportNumber}?text=${encodeURIComponent(copy.message)}`:'#';
+  if(card.getAttribute('href')!==nextHref)card.href=nextHref;
+  const label=`${copy.sub} ${supportDisplay}`;
+  if(card.getAttribute('aria-label')!==label)card.setAttribute('aria-label',label);
 }
 
 function sourceBottom(){
@@ -247,16 +255,31 @@ function enhanceAccount(){
   resolveStoredProfile(currentUser,avatar,profile);
 }
 
+function observe(){
+  if(!observer)return;
+  observer.observe(document.body,{childList:true,subtree:true});
+}
+
+function scheduleEnhance(){
+  if(enhanceScheduled)return;
+  enhanceScheduled=true;
+  requestAnimationFrame(()=>{
+    enhanceScheduled=false;
+    if(observer)observer.disconnect();
+    try{enhanceAccount()}finally{observe()}
+  });
+}
+
 export function initAccountProfileEnhancer(){
   if(observer)return;
+  observer=new MutationObserver(scheduleEnhance);
   onAuthStateChanged(auth,user=>{
     currentUser=user||null;
     currentPhone=user?.phoneNumber||'';
     profileFetchUid='';
-    setTimeout(enhanceAccount,0);
+    scheduleEnhance();
   });
-  window.addEventListener('maurione:language-change',()=>setTimeout(enhanceAccount,0));
-  observer=new MutationObserver(()=>enhanceAccount());
-  observer.observe(document.body,{childList:true,subtree:true});
-  enhanceAccount();
+  window.addEventListener('maurione:language-change',scheduleEnhance);
+  observe();
+  scheduleEnhance();
 }
