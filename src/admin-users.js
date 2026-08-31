@@ -46,50 +46,63 @@ function ensureStyle(){
   style.id=STYLE_ID;
   style.textContent=`
     .mxAdminUsersButton{background:#fff!important;color:#15171b!important;border:1px solid #dfe3e8!important}
-    .mxAdminUsersPage{position:fixed;inset:0;z-index:12000;background:#f6f7f8;color:#111;overflow:auto;direction:rtl;font-family:Arial,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    .mxAdminUsersPage{position:fixed;inset:0;z-index:12000;background:#f4f5f7;color:#101216;overflow:auto;direction:rtl;font-family:Arial,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
     .mxAdminUsersPage *{box-sizing:border-box}
-    .mxAdminUsersHeader{position:sticky;top:0;z-index:4;height:84px;background:rgba(255,255,255,.97);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid #eceef1;display:grid;grid-template-columns:50px minmax(0,1fr) 50px;align-items:center;padding:8px 16px}
-    .mxAdminUsersBack{width:46px;height:46px;border:1px solid #e1e4e8;border-radius:15px;background:#fff;color:#111;font-size:29px;line-height:1;display:grid;place-items:center;padding:0;cursor:pointer}
-    .mxAdminUsersTitle{text-align:center;min-width:0}.mxAdminUsersTitle strong{display:block;font-size:23px;font-weight:900;letter-spacing:-.3px}.mxAdminUsersTitle span{display:block;margin-top:3px;color:#969aa1;font-size:11px}
-    .mxAdminUsersBody{width:min(calc(100% - 22px),900px);margin:0 auto;padding:16px 0 34px}
 
-    .mxAdminUsersOverview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}
-    .mxAdminUsersStat{min-height:74px;border:1px solid #e5e8eb;border-radius:17px;background:#fff;padding:11px 12px;display:flex;flex-direction:column;justify-content:center;gap:5px;box-shadow:0 5px 16px rgba(15,23,42,.025)}
-    .mxAdminUsersStat span{font-size:10px;color:#8e939b;font-weight:700}.mxAdminUsersStat strong{font-size:22px;line-height:1;color:#15171b;font-weight:900;direction:ltr;text-align:right}
-    .mxAdminUsersStat.accent{background:#fff8f4;border-color:#ffd9c5}.mxAdminUsersStat.accent strong{color:#f15b25}
+    .mxAdminUsersHeader{position:sticky;top:0;z-index:6;height:82px;background:rgba(255,255,255,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(220,223,228,.8);display:grid;grid-template-columns:50px minmax(0,1fr) 50px;align-items:center;padding:8px 14px}
+    .mxAdminUsersBack{width:46px;height:46px;border:1px solid #e1e4e8;border-radius:16px;background:#fff;color:#111;font-size:30px;line-height:1;display:grid;place-items:center;padding:0;cursor:pointer;box-shadow:0 5px 14px rgba(15,23,42,.035)}
+    .mxAdminUsersTitle{text-align:center;min-width:0}.mxAdminUsersTitle strong{display:block;font-size:23px;font-weight:950;letter-spacing:-.5px}.mxAdminUsersTitle span{display:block;margin-top:4px;color:#9a9ea5;font-size:11px}
 
-    .mxAdminUsersSearch{height:54px;border:1px solid #dfe3e7;border-radius:17px;background:#fff;display:flex;align-items:center;padding:0 14px;margin-bottom:12px;box-shadow:0 6px 18px rgba(15,23,42,.03);gap:9px}
-    .mxAdminUsersSearch::before{content:'⌕';font-size:25px;color:#7d828a;line-height:1;transform:rotate(-20deg)}
-    .mxAdminUsersSearch input{width:100%;height:100%;border:0;outline:0;background:transparent;color:#111;font-size:15px;text-align:right;min-width:0}
-    .mxAdminUsersSummary{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 3px 10px;color:#868b93;font-size:11px}.mxAdminUsersSummary strong{color:#111;font-size:14px}
+    .mxAdminUsersBody{width:min(calc(100% - 20px),940px);margin:0 auto;padding:14px 0 34px}
+    .mxAdminUsersOverview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
+    .mxAdminUsersStat{position:relative;overflow:hidden;min-height:78px;border:1px solid #e4e7eb;border-radius:19px;background:#fff;padding:12px 13px;display:flex;flex-direction:column;justify-content:center;gap:6px;box-shadow:0 7px 22px rgba(15,23,42,.025)}
+    .mxAdminUsersStat::after{content:'';position:absolute;width:44px;height:44px;border-radius:50%;left:-14px;bottom:-18px;background:#f1f2f4}
+    .mxAdminUsersStat span{position:relative;z-index:1;font-size:10px;color:#858a92;font-weight:800}.mxAdminUsersStat strong{position:relative;z-index:1;font-size:24px;line-height:1;color:#14161a;font-weight:950;direction:ltr;text-align:right}
+    .mxAdminUsersStat.accent{background:linear-gradient(145deg,#fff9f5,#fff);border-color:#ffd5bf}.mxAdminUsersStat.accent strong{color:#f15b25}.mxAdminUsersStat.accent::after{background:#fff0e7}
+    .mxAdminUsersStat.good{background:linear-gradient(145deg,#f8fdf9,#fff)}.mxAdminUsersStat.good strong{color:#24834b}.mxAdminUsersStat.good::after{background:#edf8f0}
+
+    .mxAdminUsersToolbar{position:sticky;top:82px;z-index:5;padding:8px 0 7px;background:linear-gradient(to bottom,rgba(244,245,247,.98) 72%,rgba(244,245,247,0))}
+    .mxAdminUsersSearch{height:56px;border:1px solid #dfe3e7;border-radius:18px;background:#fff;display:flex;align-items:center;padding:0 14px;box-shadow:0 8px 24px rgba(15,23,42,.035);gap:10px}
+    .mxAdminUsersSearchIcon{width:30px;height:30px;display:grid;place-items:center;color:#858b94;flex:none}.mxAdminUsersSearchIcon::before{content:'⌕';font-size:27px;line-height:1;transform:rotate(-18deg)}
+    .mxAdminUsersSearch input{width:100%;height:100%;border:0;outline:0;background:transparent;color:#15171b;font-size:15px;text-align:right;min-width:0}
+    .mxAdminUsersSearch input::placeholder{color:#a0a4aa}
+    .mxAdminUsersClear{display:none;width:30px;height:30px;border:0;border-radius:10px;background:#f2f3f5;color:#747a82;font-size:18px;cursor:pointer;flex:none}.mxAdminUsersClear.on{display:grid;place-items:center}
+    .mxAdminUsersSummary{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:2px 4px 8px;color:#888d94;font-size:11px}.mxAdminUsersSummary strong{color:#17191d;font-size:14px;font-weight:900}
+
     .mxAdminUsersList{display:grid;gap:9px}
-
-    .mxAdminUserCard{border:1px solid #e4e7eb;border-radius:19px;background:#fff;padding:13px;box-shadow:0 7px 20px rgba(15,23,42,.03);display:grid;grid-template-columns:58px minmax(0,1fr);gap:12px;align-items:start;direction:rtl}
-    .mxAdminUserAvatar{width:58px;height:58px;border-radius:17px;overflow:hidden;background:#fff3ec;border:1px solid #ffdfcf;color:#f15b25;display:grid;place-items:center;font-size:21px;font-weight:900}
+    .mxAdminUserCard{position:relative;border:1px solid #e3e6ea;border-radius:21px;background:#fff;padding:13px;box-shadow:0 8px 26px rgba(15,23,42,.03);display:grid;grid-template-columns:54px minmax(0,1fr);gap:11px;align-items:start;direction:rtl;overflow:hidden}
+    .mxAdminUserCard::before{content:'';position:absolute;top:0;right:0;width:4px;height:100%;background:#f15b25;opacity:.8}
+    .mxAdminUserAvatar{width:54px;height:54px;border-radius:17px;overflow:hidden;background:linear-gradient(145deg,#fff7f1,#fff0e6);border:1px solid #ffdcc9;color:#ef5b27;display:grid;place-items:center;font-size:20px;font-weight:950;box-shadow:inset 0 0 0 1px rgba(255,255,255,.7)}
     .mxAdminUserAvatar img{width:100%;height:100%;object-fit:cover;display:block}
     .mxAdminUserMain{min-width:0}
-    .mxAdminUserTop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
-    .mxAdminUserIdentity{min-width:0}.mxAdminUserName{font-size:16px;font-weight:900;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mxAdminUserBadges{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
-    .mxAdminUserRole,.mxAdminUserPhoneState{display:inline-flex;width:max-content;max-width:100%;padding:4px 8px;border-radius:999px;font-size:9px;font-weight:800}
-    .mxAdminUserRole{background:#eef9f2;color:#27814c}.mxAdminUserPhoneState{background:#f3f4f6;color:#737982}.mxAdminUserPhoneState.ok{background:#eef9f2;color:#27814c}.mxAdminUserPhoneState.missing{background:#fff2ed;color:#c64d22}
 
-    .mxAdminUserDetails{display:grid;gap:6px}
-    .mxAdminUserLine{min-height:42px;border:1px solid #eef0f2;border-radius:12px;background:#fafbfc;padding:7px 9px;display:grid;grid-template-columns:94px minmax(0,1fr) auto;align-items:center;gap:8px}
-    .mxAdminUserLine>small{font-size:9px;color:#92969d}.mxAdminUserLine>span{font-size:12px;color:#202328;line-height:1.35;overflow-wrap:anywhere;min-width:0}.mxAdminUserLine>span[dir='ltr']{text-align:left}
-    .mxAdminUserActions{display:flex;gap:5px;align-items:center}.mxAdminUserAction{height:30px;min-width:48px;border:1px solid #e0e3e7;border-radius:9px;background:#fff;color:#575d65;font-size:9px;font-weight:900;padding:0 8px;cursor:pointer}.mxAdminUserAction.wa{color:#168443;border-color:#cfe8d8;background:#f4fbf6;text-decoration:none;display:grid;place-items:center}
-    .mxAdminUserDates{display:flex;flex-wrap:wrap;gap:5px 14px;margin-top:7px;padding:0 2px;color:#979ca3;font-size:9px}.mxAdminUserDates b{color:#6f747b;font-weight:800}
+    .mxAdminUserHead{display:flex;align-items:flex-start;justify-content:space-between;gap:9px;margin-bottom:9px}
+    .mxAdminUserIdentity{min-width:0}.mxAdminUserName{font-size:16px;font-weight:950;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.15px}
+    .mxAdminUserBadges{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+    .mxAdminUserBadge{display:inline-flex;align-items:center;width:max-content;max-width:100%;padding:4px 8px;border-radius:999px;font-size:9px;font-weight:900;white-space:nowrap}
+    .mxAdminUserBadge.role{background:#f1f3f5;color:#686e76}.mxAdminUserBadge.ok{background:#edf8f0;color:#267d49}.mxAdminUserBadge.missing{background:#fff1eb;color:#bf4b24}
 
-    .mxAdminUsersEmpty{min-height:170px;border:1px dashed #d9dde3;border-radius:20px;background:#fff;color:#777d86;display:grid;place-items:center;text-align:center;padding:24px;line-height:1.8}
-    .mxAdminUsersError{border:1px solid #f0cbc7;background:#fff3f2;color:#9d3c34;border-radius:16px;padding:14px;line-height:1.7;font-size:13px}
-    .mxAdminUsersToast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(12px);z-index:13000;background:#17191d;color:#fff;padding:9px 14px;border-radius:999px;font-size:11px;font-weight:800;opacity:0;pointer-events:none;transition:.2s ease}.mxAdminUsersToast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+    .mxAdminUserContact{display:grid;gap:6px}
+    .mxAdminUserContactRow{min-height:44px;border:1px solid #eef0f2;border-radius:13px;background:#fafbfc;padding:7px 8px 7px 10px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px}
+    .mxAdminUserContactText{min-width:0}.mxAdminUserContactText small{display:block;margin-bottom:3px;color:#9a9ea5;font-size:8.5px;font-weight:700}.mxAdminUserContactText span{display:block;color:#1d2024;font-size:12px;line-height:1.35;overflow-wrap:anywhere}.mxAdminUserContactText span[dir='ltr']{text-align:left}
+    .mxAdminUserActions{display:flex;gap:5px;align-items:center;flex:none}
+    .mxAdminUserAction{height:30px;min-width:43px;border:1px solid #dde1e5;border-radius:10px;background:#fff;color:#565c64;font-size:9px;font-weight:950;padding:0 8px;cursor:pointer;display:grid;place-items:center;text-decoration:none}
+    .mxAdminUserAction.wa{color:#177e46;border-color:#cfe9d8;background:#f2fbf5}
+    .mxAdminUserAction:active{transform:scale(.97)}
 
-    @media(min-width:860px){.mxAdminUsersList{grid-template-columns:1fr 1fr}.mxAdminUsersBody{padding-top:20px}.mxAdminUserCard{height:100%}}
+    .mxAdminUserFooter{margin-top:8px;padding:7px 2px 0;border-top:1px solid #f0f1f3;display:flex;flex-wrap:wrap;justify-content:space-between;gap:5px 10px;color:#a0a4aa;font-size:8.5px}.mxAdminUserFooter b{color:#71767e;font-weight:800}
+
+    .mxAdminUsersEmpty{min-height:170px;border:1px dashed #d8dce1;border-radius:21px;background:#fff;color:#787e86;display:grid;place-items:center;text-align:center;padding:24px;line-height:1.8}
+    .mxAdminUsersError{border:1px solid #efc9c5;background:#fff3f2;color:#983b34;border-radius:17px;padding:14px;line-height:1.7;font-size:13px}
+    .mxAdminUsersToast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(12px);z-index:13000;background:#17191d;color:#fff;padding:9px 14px;border-radius:999px;font-size:11px;font-weight:850;opacity:0;pointer-events:none;transition:.18s ease;box-shadow:0 8px 24px rgba(0,0,0,.16)}.mxAdminUsersToast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+    @media(min-width:860px){.mxAdminUsersList{grid-template-columns:1fr 1fr}.mxAdminUsersBody{padding-top:18px}.mxAdminUserCard{height:100%}}
     @media(max-width:560px){
-      .mxAdminUsersHeader{height:80px;padding-left:11px;padding-right:11px}.mxAdminUsersTitle strong{font-size:21px}
-      .mxAdminUsersBody{width:calc(100% - 18px);padding-top:11px}.mxAdminUsersOverview{gap:6px}.mxAdminUsersStat{min-height:66px;padding:9px}.mxAdminUsersStat strong{font-size:20px}.mxAdminUsersStat span{font-size:9px}
-      .mxAdminUserCard{grid-template-columns:52px minmax(0,1fr);padding:11px;gap:10px}.mxAdminUserAvatar{width:52px;height:52px;border-radius:15px}.mxAdminUserName{font-size:15px}
-      .mxAdminUserLine{grid-template-columns:72px minmax(0,1fr);gap:6px}.mxAdminUserActions{grid-column:1/-1;justify-content:flex-start;padding-top:1px}.mxAdminUserAction{height:29px}
-      .mxAdminUserDates{font-size:8.5px;gap:4px 10px}
+      .mxAdminUsersHeader{height:78px;padding-left:10px;padding-right:10px}.mxAdminUsersToolbar{top:78px}.mxAdminUsersTitle strong{font-size:21px}.mxAdminUsersTitle span{font-size:10px}
+      .mxAdminUsersBody{width:calc(100% - 16px);padding-top:10px}.mxAdminUsersOverview{gap:6px}.mxAdminUsersStat{min-height:70px;padding:10px;border-radius:17px}.mxAdminUsersStat strong{font-size:21px}.mxAdminUsersStat span{font-size:8.8px}
+      .mxAdminUsersSearch{height:52px;border-radius:16px}.mxAdminUserCard{grid-template-columns:49px minmax(0,1fr);padding:11px 10px 11px 12px;gap:9px;border-radius:18px}.mxAdminUserAvatar{width:49px;height:49px;border-radius:15px}.mxAdminUserName{font-size:15px}
+      .mxAdminUserContactRow{min-height:42px;padding:6px 7px}.mxAdminUserContactText span{font-size:11.5px}.mxAdminUserAction{height:29px;min-width:41px;padding:0 7px}
+      .mxAdminUserFooter{font-size:8px}
     }
   `;
   document.head.appendChild(style);
@@ -101,7 +114,7 @@ function summaryHtml(filteredCount){
   return {
     overview:`
       <div class="mxAdminUsersStat accent"><span>إجمالي المستخدمين</span><strong>${new Intl.NumberFormat('en-US').format(users.length)}</strong></div>
-      <div class="mxAdminUsersStat"><span>لديهم رقم هاتف</span><strong>${new Intl.NumberFormat('en-US').format(withPhone)}</strong></div>
+      <div class="mxAdminUsersStat good"><span>لديهم رقم هاتف</span><strong>${new Intl.NumberFormat('en-US').format(withPhone)}</strong></div>
       <div class="mxAdminUsersStat"><span>بدون رقم هاتف</span><strong>${new Intl.NumberFormat('en-US').format(withoutPhone)}</strong></div>`,
     summary:`<span>الحسابات الظاهرة</span><strong>${new Intl.NumberFormat('en-US').format(filteredCount)}</strong>`,
   };
@@ -125,6 +138,7 @@ function renderList(page,query=''){
     if(!q)return true;
     return [user.name,user.displayName,user.email,user.phone,user.phoneNumber,user.mobile,user.whatsapp,user.role,user.id].some(v=>String(v||'').toLowerCase().includes(q));
   });
+
   const summaryData=summaryHtml(filtered.length);
   overview.innerHTML=summaryData.overview;
   summary.innerHTML=summaryData.summary;
@@ -144,29 +158,32 @@ function renderList(page,query=''){
     const created=dateText(user.createdAt);
     const updated=dateText(user.updatedAt);
     const wa=whatsappDigits(rawPhone);
-    const phoneState=rawPhone
-      ?'<span class="mxAdminUserPhoneState ok">رقم مضاف</span>'
-      :'<span class="mxAdminUserPhoneState missing">بدون رقم</span>';
+    const phoneBadge=rawPhone
+      ?'<span class="mxAdminUserBadge ok">رقم مضاف</span>'
+      :'<span class="mxAdminUserBadge missing">بدون رقم</span>';
+
     return `<article class="mxAdminUserCard" data-user-id="${esc(user.id)}">
       <div class="mxAdminUserAvatar">${photo?`<img src="${esc(photo)}" alt="">`:`<span>${initials(name,email)}</span>`}</div>
       <div class="mxAdminUserMain">
-        <div class="mxAdminUserTop">
+        <div class="mxAdminUserHead">
           <div class="mxAdminUserIdentity">
             <div class="mxAdminUserName">${esc(name)}</div>
-            <div class="mxAdminUserBadges"><span class="mxAdminUserRole">${esc(role)}</span>${phoneState}</div>
+            <div class="mxAdminUserBadges"><span class="mxAdminUserBadge role">${esc(role)}</span>${phoneBadge}</div>
           </div>
         </div>
-        <div class="mxAdminUserDetails">
-          <div class="mxAdminUserLine">
-            <small>البريد</small><span dir="ltr">${esc(email)}</span>
+
+        <div class="mxAdminUserContact">
+          <div class="mxAdminUserContactRow">
+            <div class="mxAdminUserContactText"><small>البريد الإلكتروني</small><span dir="ltr">${esc(email)}</span></div>
             ${email!=='غير مضاف'?`<div class="mxAdminUserActions"><button type="button" class="mxAdminUserAction" data-copy="${esc(email)}">نسخ</button></div>`:''}
           </div>
-          <div class="mxAdminUserLine">
-            <small>الهاتف</small><span dir="ltr">${esc(phone)}</span>
+          <div class="mxAdminUserContactRow">
+            <div class="mxAdminUserContactText"><small>رقم الهاتف</small><span dir="ltr">${esc(phone)}</span></div>
             ${rawPhone?`<div class="mxAdminUserActions"><button type="button" class="mxAdminUserAction" data-copy="${esc(rawPhone)}">نسخ</button>${wa?`<a class="mxAdminUserAction wa" href="https://wa.me/${wa}" target="_blank" rel="noreferrer">واتساب</a>`:''}</div>`:''}
           </div>
         </div>
-        <div class="mxAdminUserDates"><span>إنشاء: <b>${esc(created)}</b></span><span>آخر تحديث: <b>${esc(updated)}</b></span></div>
+
+        <div class="mxAdminUserFooter"><span>إنشاء: <b>${esc(created)}</b></span><span>آخر تحديث: <b>${esc(updated)}</b></span></div>
       </div>
     </article>`;
   }).join('');
@@ -189,7 +206,11 @@ async function copyText(value,page){
     showToast(page,'تم النسخ');
   }catch{
     const area=document.createElement('textarea');
-    area.value=text;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();
+    area.value=text;
+    area.style.position='fixed';
+    area.style.opacity='0';
+    document.body.appendChild(area);
+    area.select();
     try{document.execCommand('copy');showToast(page,'تم النسخ')}catch{showToast(page,'تعذر النسخ')}
     area.remove();
   }
@@ -216,14 +237,29 @@ function openPage(){
     </header>
     <section class="mxAdminUsersBody">
       <div class="mxAdminUsersOverview"></div>
-      <label class="mxAdminUsersSearch"><input type="search" placeholder="ابحث بالاسم أو البريد أو رقم الهاتف..."></label>
+      <div class="mxAdminUsersToolbar">
+        <label class="mxAdminUsersSearch"><span class="mxAdminUsersSearchIcon"></span><input type="search" placeholder="ابحث بالاسم أو البريد أو رقم الهاتف..."><button type="button" class="mxAdminUsersClear" aria-label="مسح البحث">×</button></label>
+      </div>
       <div class="mxAdminUsersSummary"><span>الحسابات الظاهرة</span><strong>0</strong></div>
       <div class="mxAdminUsersList"><div class="mxAdminUsersEmpty">جارٍ تحميل المستخدمين...</div></div>
-    </section>
-    <div class="mxAdminUsersToast" role="status"></div>`;
+      <div class="mxAdminUsersToast"></div>
+    </section>`;
   document.body.appendChild(page);
+
+  const input=page.querySelector('.mxAdminUsersSearch input');
+  const clear=page.querySelector('.mxAdminUsersClear');
   page.querySelector('.mxAdminUsersBack')?.addEventListener('click',closePage);
-  page.querySelector('input')?.addEventListener('input',event=>renderList(page,event.target.value));
+  input?.addEventListener('input',event=>{
+    clear?.classList.toggle('on',Boolean(event.target.value));
+    renderList(page,event.target.value);
+  });
+  clear?.addEventListener('click',()=>{
+    if(!input)return;
+    input.value='';
+    clear.classList.remove('on');
+    renderList(page,'');
+    input.focus();
+  });
   page.addEventListener('click',event=>{
     const button=event.target instanceof Element?event.target.closest('[data-copy]'):null;
     if(button)copyText(button.dataset.copy||'',page);
@@ -253,13 +289,13 @@ function startDirectory(){
       return bt-at;
     });
     const page=document.getElementById(PAGE_ID);
-    if(page)renderList(page,page.querySelector('input')?.value||'');
+    if(page)renderList(page,page.querySelector('.mxAdminUsersSearch input')?.value||'');
   },error=>{
     errorMessage=error?.code==='permission-denied'
       ?'صلاحية قراءة جميع المستخدمين للمدير لم تُفعّل في Firestore بعد.'
       :'تعذر تحميل المستخدمين الآن.';
     const page=document.getElementById(PAGE_ID);
-    if(page)renderList(page,page.querySelector('input')?.value||'');
+    if(page)renderList(page,page.querySelector('.mxAdminUsersSearch input')?.value||'');
   });
 }
 
@@ -273,6 +309,7 @@ function schedule(){
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});
 else schedule();
+
 const observer=new MutationObserver(schedule);
 observer.observe(document.documentElement,{childList:true,subtree:true});
 window.addEventListener('popstate',()=>{
