@@ -1,10 +1,16 @@
-import React,{useEffect,useRef}from'react';
+import React,{useEffect,useRef,useState}from'react';
 
 export default function GlobalWhatsApp(){
   const number=(import.meta.env.VITE_CARS_WHATSAPP||'22224200324').replace(/\D/g,'');
   const href=number?`https://wa.me/${number}?text=${encodeURIComponent('مرحبًا، أريد الاستفسار عبر MauriOne')}`:'#';
   const homeRef=useRef(null);
   const buttonRef=useRef(null);
+  const[visible,setVisible]=useState(false);
+
+  useEffect(()=>{
+    const timer=window.setTimeout(()=>setVisible(true),10000);
+    return()=>window.clearTimeout(timer);
+  },[]);
 
   useEffect(()=>{
     const place=()=>{
@@ -32,7 +38,7 @@ export default function GlobalWhatsApp(){
     <span ref={homeRef} className="mxWhatsAppHome" aria-hidden="true" />
     <a
       ref={buttonRef}
-      className={`mxGlobalWhatsApp${number?'':' disabled'}`}
+      className={`mxGlobalWhatsApp${visible?'':' mxWhatsAppDelayed'}${number?'':' disabled'}`}
       href={href}
       target={number?'_blank':undefined}
       rel={number?'noreferrer':undefined}
@@ -62,11 +68,19 @@ export default function GlobalWhatsApp(){
         visibility:visible;
         transform:translateZ(0);
         -webkit-tap-highlight-color:transparent;
+        transition:opacity .22s ease,transform .22s ease,visibility .22s ease;
+      }
+      .mxGlobalWhatsApp.mxWhatsAppDelayed{
+        opacity:0!important;
+        visibility:hidden!important;
+        pointer-events:none!important;
+        transform:scale(.86)!important;
       }
       body:has(.userAuthPage) .mxGlobalWhatsApp{display:none!important}
       .mxGlobalWhatsApp img{width:27px;height:27px;display:block;opacity:1!important}
       .mxGlobalWhatsApp:active{transform:scale(.96)}
       .mxGlobalWhatsApp.disabled{opacity:1!important;filter:none!important}
+      .mxGlobalWhatsApp.disabled.mxWhatsAppDelayed{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
 
       body:has(.mxDetail) .mxGlobalWhatsApp{
         position:relative!important;
@@ -91,6 +105,11 @@ export default function GlobalWhatsApp(){
         padding:0 16px!important;
         box-sizing:border-box!important;
         z-index:30!important;
+      }
+      body:has(.mxDetail) .mxGlobalWhatsApp.mxWhatsAppDelayed{
+        opacity:0!important;
+        visibility:hidden!important;
+        pointer-events:none!important;
       }
       body:has(.mxDetail) .mxGlobalWhatsApp::after{
         content:'تواصل عبر واتساب';
