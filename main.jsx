@@ -57,6 +57,7 @@ async function loadStyles(){
   await import('./src/top-filter-dropdowns.css');
   await import('./src/account-profile-enhancer.css');
   await import('./src/account-subpages.css');
+  await import('./src/auth-logo-fix.css');
 }
 
 async function bootAdmin(){
