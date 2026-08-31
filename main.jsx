@@ -69,25 +69,25 @@ async function bootAdmin(){
 async function bootPublicSite(){
   root.render(<BootState/>);
   await Promise.all([import('./src/theme-bootstrap.js'),loadStyles()]);
-  const [appModule,enhancerModule,safeModule,whatsappModule,darkModule]=await Promise.all([
+  const [appModule,enhancerModule,entryModule,whatsappModule,darkModule]=await Promise.all([
     import('./src/AppExact.jsx'),
     import('./src/functional-enhancer.jsx'),
-    import('./src/SafeEntry.jsx'),
+    import('./src/EntryRouter.jsx'),
     import('./src/GlobalWhatsApp.jsx'),
     import('./src/DarkModeController.jsx'),
   ]);
   const AppExact=appModule.default;
   const FunctionalEnhancer=enhancerModule.default;
-  const SafeEntry=safeModule.default;
+  const EntryRouter=entryModule.default;
   const GlobalWhatsApp=whatsappModule.default;
   const DarkModeController=darkModule.default;
 
   root.render(
     <React.StrictMode>
-      <SafeEntry>
+      <EntryRouter>
         <AppExact/>
         <FunctionalEnhancer/>
-      </SafeEntry>
+      </EntryRouter>
       <DarkModeController/>
       <GlobalWhatsApp/>
     </React.StrictMode>
