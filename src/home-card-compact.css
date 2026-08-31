@@ -1,19 +1,44 @@
-/* Slightly more compact home car cards on phones.
+/* Slightly more compact MauriOne home on phones.
    Preserve the approved card design and all visible information. */
 @media (max-width:560px){
-  /* Keep the search useful but stop it consuming too much vertical space. */
+  /* Recover vertical room from the chrome above the cars, not from the cars. */
+  .mxHeaderBar{
+    height:112px!important;
+    padding:9px 22px 7px!important;
+  }
+  .mxHeaderIcon{
+    top:31px!important;
+  }
+  .mxBrandWord{
+    font-size:43px!important;
+  }
+
+  .mxHomeInner{
+    padding:18px 0 16px!important;
+  }
+
   .mxSearch{
-    height:64px!important;
-    border-radius:20px!important;
-    padding:0 20px!important;
-    gap:11px!important;
+    height:58px!important;
+    border-radius:19px!important;
+    padding:0 19px!important;
+    gap:10px!important;
   }
   .mxSearch input{
-    font-size:18px!important;
+    font-size:17px!important;
   }
   .mxSearch svg{
-    width:29px!important;
-    height:29px!important;
+    width:27px!important;
+    height:27px!important;
+  }
+
+  .mxFilters{
+    gap:8px!important;
+    margin:16px 0 16px!important;
+  }
+  .mxFilters>label,
+  .mxFilters>button{
+    height:56px!important;
+    border-radius:17px!important;
   }
 
   .mxCards{gap:14px!important}
