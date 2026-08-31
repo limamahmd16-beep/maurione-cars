@@ -64,15 +64,16 @@ function patchStoredNode(node,lang,translator,stateMap){
   if(current!==next){node.textContent=next;state.last=next}else state.last=current;
 }
 
-function patchWelcome(lang){
-  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
-  let node;
-  while((node=walker.nextNode())){
-    const value=(node.nodeValue||'').trim();
-    if(value===welcomeArabic||genericTextState.has(node)){
-      patchStoredNode(node,lang,(original,l)=>welcomeTranslations[l]||original,genericTextState);
-    }
-  }
+function patchWelcome(){
+  const welcomeTexts=[welcomeArabic,...Object.values(welcomeTranslations)].map(value=>value.replace(/\s+/g,' ').trim());
+  document.querySelectorAll('p').forEach(el=>{
+    const text=(el.textContent||'').replace(/\s+/g,' ').trim();
+    const isWelcomeDescription=welcomeTexts.some(value=>text===value||text.includes(value.slice(0,38)));
+    if(!isWelcomeDescription)return;
+    el.style.setProperty('display','none','important');
+    el.setAttribute('aria-hidden','true');
+    el.dataset.maurioneWelcomeDescriptionRemoved='1';
+  });
 }
 
 function patchCarData(lang){
@@ -114,7 +115,7 @@ function patchWhatsApp(lang){
 
 function apply(){
   const lang=getLang();
-  patchWelcome(lang);
+  patchWelcome();
   patchCarData(lang);
   patchCompactLabels(lang);
   patchWhatsApp(lang);
