@@ -107,22 +107,23 @@ export default function FunctionalEnhancer(){
 
       const bottom=e.target.closest?.('.mxBottom button');
       if(bottom){
-        const text=bottom.textContent||'';
-        if(text.includes('المفضلة')){e.preventDefault();collectFavorites();return}
-        if(text.includes('حسابي')){e.preventDefault();openAccount();return}
+        const buttons=[...bottom.parentElement.querySelectorAll('button')];
+        const index=buttons.indexOf(bottom);
+        if(index===2){e.preventDefault();collectFavorites();return}
+        if(index===4){e.preventDefault();openAccount();return}
       }
 
       const drawer=e.target.closest?.('.mxDrawer button');
       if(drawer){
-        const text=drawer.textContent||'';
         const buttons=[...drawer.parentElement.querySelectorAll('button')];
-        if(buttons.indexOf(drawer)===2){
+        const index=buttons.indexOf(drawer);
+        if(index===2){
           e.preventDefault();
           openAccount();
           setTimeout(()=>document.querySelector('.mxHeaderBar .mxHeaderIcon:last-child')?.click(),0);
           return;
         }
-        if(isGuest&&text.includes('تسجيل الخروج')){
+        if(isGuest&&index===4){
           e.preventDefault();e.stopPropagation();requestLogin();return;
         }
       }
