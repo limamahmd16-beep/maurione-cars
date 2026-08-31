@@ -1,6 +1,24 @@
 import React,{useEffect,useLayoutEffect}from'react';
 
 const THEME_KEY='maurione_cars_theme';
+const LANGUAGE_KEY='maurione_language';
+
+const themeLabels={
+  ar:{dark:'الوضع الداكن',light:'الوضع الفاتح',enableDark:'تفعيل الوضع الداكن',enableLight:'تفعيل الوضع الفاتح'},
+  en:{dark:'Dark mode',light:'Light mode',enableDark:'Enable dark mode',enableLight:'Enable light mode'},
+  fr:{dark:'Mode sombre',light:'Mode clair',enableDark:'Activer le mode sombre',enableLight:'Activer le mode clair'},
+  pt:{dark:'Modo escuro',light:'Modo claro',enableDark:'Ativar modo escuro',enableLight:'Ativar modo claro'},
+};
+
+function currentLanguage(){
+  const fromDocument=document.documentElement.dataset.maurioneLang||document.documentElement.lang;
+  if(themeLabels[fromDocument])return fromDocument;
+  try{
+    const saved=localStorage.getItem(LANGUAGE_KEY);
+    if(themeLabels[saved])return saved;
+  }catch{}
+  return'ar';
+}
 
 function preferredTheme(){
   try{
@@ -34,7 +52,7 @@ function syncDrawerToggle(){
     button=document.createElement('button');
     button.type='button';
     button.className='mxThemeToggle';
-    const logout=[...drawer.querySelectorAll(':scope > button')].find(b=>(b.textContent||'').includes('تسجيل الخروج'));
+    const logout=[...drawer.querySelectorAll(':scope > button')].find(b=>/تسجيل الخروج|Sign out|Se déconnecter|Terminar sessão/.test(b.textContent||''));
     drawer.insertBefore(button,logout||null);
     button.addEventListener('click',e=>{
       e.preventDefault();
@@ -45,10 +63,14 @@ function syncDrawerToggle(){
     });
   }
   const theme=document.documentElement.dataset.theme==='dark'?'dark':'light';
-  if(button.dataset.themeState===theme)return;
-  button.dataset.themeState=theme;
-  button.setAttribute('aria-label',theme==='dark'?'تفعيل الوضع الفاتح':'تفعيل الوضع الداكن');
-  button.innerHTML=`<span class="mxThemeGlyph">${themeIcon(theme)}</span><span class="mxThemeLabel">${theme==='dark'?'الوضع الفاتح':'الوضع الداكن'}</span><span class="mxThemeSwitch" aria-hidden="true"><i></i></span>`;
+  const lang=currentLanguage();
+  const labels=themeLabels[lang]||themeLabels.ar;
+  const state=`${theme}:${lang}`;
+  if(button.dataset.themeState===state)return;
+  button.dataset.themeState=state;
+  const target=theme==='dark'?'light':'dark';
+  button.setAttribute('aria-label',target==='dark'?labels.enableDark:labels.enableLight);
+  button.innerHTML=`<span class="mxThemeGlyph">${themeIcon(theme)}</span><span class="mxThemeLabel">${labels[target]}</span><span class="mxThemeSwitch" aria-hidden="true"><i></i></span>`;
 }
 
 export default function DarkModeController(){
@@ -60,7 +82,9 @@ export default function DarkModeController(){
     observer.observe(document.body,{childList:true,subtree:true});
     syncDrawerToggle();
     const onTheme=()=>syncDrawerToggle();
+    const onLanguage=()=>setTimeout(syncDrawerToggle,0);
     window.addEventListener('maurione:theme-changed',onTheme);
+    window.addEventListener('maurione:language-change',onLanguage);
     const media=window.matchMedia?.('(prefers-color-scheme: dark)');
     const onSystem=e=>{
       let saved=null;
@@ -71,6 +95,7 @@ export default function DarkModeController(){
     return()=>{
       observer.disconnect();
       window.removeEventListener('maurione:theme-changed',onTheme);
+      window.removeEventListener('maurione:language-change',onLanguage);
       media?.removeEventListener?.('change',onSystem);
     };
   },[]);
