@@ -58,6 +58,7 @@ async function loadStyles(){
   await import('./src/account-profile-enhancer.css');
   await import('./src/account-subpages.css');
   await import('./src/auth-logo-fix.css');
+  await import('./src/account-dark-polish.css');
 }
 
 async function bootAdmin(){
