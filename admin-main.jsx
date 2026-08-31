@@ -115,6 +115,7 @@ function AdminAccess({children}){
     import('./src/admin-car-page.js').catch(error=>console.warn('Admin car page failed',error));
     import('./src/admin-social-export.js').catch(error=>console.warn('Admin social exporter failed',error));
     import('./src/admin-users.js').catch(error=>console.warn('Admin user directory failed',error));
+    import('./src/admin-car-reference.js').catch(error=>console.warn('Admin car reference failed',error));
   },[state.allowed]);
 
   async function submit(event){
