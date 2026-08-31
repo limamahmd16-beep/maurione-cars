@@ -104,6 +104,7 @@ async function bootPublicSite(){
     import('./src/top-filter-dropdowns.js').then(module=>module.initTopFilterDropdowns?.()),
     import('./src/account-profile-enhancer.js').then(module=>module.initAccountProfileEnhancer?.()),
     import('./src/account-subpages.js').then(module=>module.initAccountSubpages?.()),
+    import('./src/ui-regression-fix.js').then(module=>module.initUiRegressionFix?.()),
   ]).catch(error=>console.error('PUBLIC_HELPER_ERROR',error));
 }
 
