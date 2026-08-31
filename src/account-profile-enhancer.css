@@ -1,4 +1,5 @@
 /* Account-only refinement: keeps the approved MauriOne shell intact. */
+body:has(.mxAccountPage) .mxGlobalWhatsApp{display:none!important}
 .mxAccountPage .mxAccountMenu>button:nth-child(n+5){display:none!important}
 .mxAccountPage .mxAccountProfile{background:linear-gradient(135deg,#fff 0%,#fffaf7 100%)!important;border-color:#f0e5df!important;box-shadow:0 14px 36px rgba(15,23,42,.065)!important}
 .mxAccountPage .mxProfilePhotoEnabled{position:relative!important;cursor:pointer!important;overflow:visible!important;isolation:isolate}
@@ -26,8 +27,8 @@
 .mxAccountPage .mxAccountSupportCopy small{font-size:13px;line-height:1.45;color:#7e858e;font-weight:600}
 .mxAccountPage .mxAccountSupportCopy b{font-size:13px;color:#20a957;font-weight:900;direction:ltr;text-align:right}
 .mxAccountPage .mxAccountSupportArrow{font-size:28px;line-height:1;color:#a3a8ae;font-weight:300}
-.mxAccountPage .mxAccountLogout{margin-top:12px!important;margin-bottom:104px!important}
-.mxAccountPage .mxAccountBody{padding-bottom:112px!important}
+.mxAccountPage .mxAccountLogout{margin-top:12px!important;margin-bottom:128px!important}
+.mxAccountPage .mxAccountBody{padding-bottom:136px!important}
 .mxAccountPage .mxAccountShellBottom{position:fixed!important;left:max(18px,env(safe-area-inset-left))!important;right:max(18px,env(safe-area-inset-right))!important;bottom:max(10px,env(safe-area-inset-bottom))!important;z-index:370!important}
 .mxAccountPage .mxAccountShellBottom button.active{color:#f45b1b!important}
 .mxAccountPage .mxAccountShellBottom button.active svg{stroke:#f45b1b!important}
@@ -44,6 +45,6 @@
   .mxAccountPage .mxAccountSupportIcon svg{width:25px;height:25px}
   .mxAccountPage .mxAccountSupportCopy strong{font-size:16px}
   .mxAccountPage .mxAccountSupportCopy small,.mxAccountPage .mxAccountSupportCopy b{font-size:12px}
-  .mxAccountPage .mxAccountLogout{margin-bottom:98px!important}
-  .mxAccountPage .mxAccountBody{padding-bottom:106px!important}
+  .mxAccountPage .mxAccountLogout{margin-bottom:122px!important}
+  .mxAccountPage .mxAccountBody{padding-bottom:130px!important}
 }
