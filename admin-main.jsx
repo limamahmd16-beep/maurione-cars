@@ -6,8 +6,32 @@ import './src/brand-fix.css';
 import './src/exact.css';
 import './src/dark-mode.css';
 import './src/responsive-universal.css';
+import './src/admin-dark-polish.css';
 
 const OWNER_UID='sC94v8XaXmUMHK6eineEy25GIst2';
+const THEME_KEY='maurione_cars_theme';
+
+function resolveTheme(){
+  try{
+    const saved=localStorage.getItem(THEME_KEY);
+    if(saved==='dark'||saved==='light')return saved;
+  }catch{}
+  return window.matchMedia?.('(prefers-color-scheme: dark)').matches?'dark':'light';
+}
+
+function applyAdminTheme(){
+  const theme=resolveTheme();
+  document.documentElement.dataset.theme=theme;
+  document.documentElement.style.colorScheme=theme;
+  document.body.style.background=theme==='dark'?'#0d0f12':'#fff';
+  const meta=document.querySelector('meta[name="theme-color"]');
+  if(meta)meta.setAttribute('content',theme==='dark'?'#0d0f12':'#ffffff');
+  const scheme=document.querySelector('meta[name="color-scheme"]');
+  if(scheme)scheme.setAttribute('content','light dark');
+  return theme;
+}
+
+applyAdminTheme();
 
 const pageStyle={minHeight:'100vh',display:'grid',placeItems:'center',padding:24,background:'#fff',fontFamily:'Arial,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif',boxSizing:'border-box'};
 const cardStyle={width:'min(100%,430px)',padding:'30px 24px 24px',border:'1px solid #eceef1',borderRadius:28,background:'#fff',boxShadow:'0 20px 60px rgba(15,23,42,.10)',textAlign:'center',boxSizing:'border-box'};
@@ -49,7 +73,7 @@ const simpleAdminCss=`
 `;
 
 function Logo(){
-  return <div style={{fontSize:34,lineHeight:1,fontWeight:900,direction:'ltr',marginBottom:28,letterSpacing:'-1.5px'}}><span style={{color:'#090909'}}>Mauri</span><span style={{color:'#ff5a12'}}>One</span></div>;
+  return <div className="mxAdminAccessLogo" style={{fontSize:34,lineHeight:1,fontWeight:900,direction:'ltr',marginBottom:28,letterSpacing:'-1.5px'}}><span style={{color:'#090909'}}>Mauri</span><span style={{color:'#ff5a12'}}>One</span></div>;
 }
 
 function AdminAccess({children}){
@@ -65,9 +89,12 @@ function AdminAccess({children}){
     let unsubscribe=()=>{};
 
     document.title='لوحة التحكم | MauriOne';
-    document.documentElement.dataset.theme='light';
-    document.documentElement.style.colorScheme='light';
-    document.body.style.background='#fff';
+    applyAdminTheme();
+
+    const onStorage=event=>{
+      if(event.key===THEME_KEY)applyAdminTheme();
+    };
+    window.addEventListener('storage',onStorage);
 
     (async()=>{
       try{
@@ -102,6 +129,7 @@ function AdminAccess({children}){
 
     return()=>{
       active=false;
+      window.removeEventListener('storage',onStorage);
       try{unsubscribe()}catch{}
     };
   },[]);
@@ -146,12 +174,12 @@ function AdminAccess({children}){
   }
 
   if(state.loading){
-    return <main dir="rtl" style={pageStyle}><section style={cardStyle}><Logo/><h1 style={{fontSize:24,margin:'0 0 8px',color:'#111'}}>لوحة التحكم</h1><p style={{margin:0,color:'#777d86',fontSize:14}}>جارٍ تشغيل لوحة التحكم...</p></section></main>;
+    return <main className="mxAdminAccessPage" dir="rtl" style={pageStyle}><section className="mxAdminAccessCard" style={cardStyle}><Logo/><h1 style={{fontSize:24,margin:'0 0 8px',color:'#111'}}>لوحة التحكم</h1><p style={{margin:0,color:'#777d86',fontSize:14}}>جارٍ تشغيل لوحة التحكم...</p></section></main>;
   }
 
   if(!state.allowed){
-    return <main dir="rtl" style={pageStyle}>
-      <section style={cardStyle}>
+    return <main className="mxAdminAccessPage" dir="rtl" style={pageStyle}>
+      <section className="mxAdminAccessCard" style={cardStyle}>
         <Logo/>
         <h1 style={{fontSize:26,margin:'0 0 8px',color:'#111',fontWeight:900}}>لوحة التحكم</h1>
         <p style={{margin:'0 0 24px',color:'#777d86',fontSize:14,lineHeight:1.7}}>تسجيل دخول المالك فقط</p>
@@ -177,8 +205,8 @@ class AdminCrashBoundary extends React.Component{
   componentDidCatch(error){console.error('MauriOne admin render failed',error);}
   render(){
     if(this.state.error){
-      return <main dir="rtl" style={pageStyle}>
-        <section style={cardStyle}>
+      return <main className="mxAdminAccessPage" dir="rtl" style={pageStyle}>
+        <section className="mxAdminAccessCard" style={cardStyle}>
           <Logo/>
           <h1 style={{fontSize:23,margin:'0 0 10px',color:'#111'}}>تعذر فتح لوحة التحكم</h1>
           <p style={{margin:'0 0 18px',color:'#747982',lineHeight:1.7,fontSize:14}}>تعذر تحميل مكوّن من اللوحة. اضغط إعادة التحميل.</p>
@@ -191,7 +219,7 @@ class AdminCrashBoundary extends React.Component{
 }
 
 function DashboardLoader(){
-  return <main dir="rtl" style={pageStyle}><section style={cardStyle}><Logo/><h1 style={{fontSize:24,margin:'0 0 8px',color:'#111'}}>لوحة التحكم</h1><p style={{margin:0,color:'#777d86',fontSize:14}}>جارٍ تحميل بيانات اللوحة...</p></section></main>;
+  return <main className="mxAdminAccessPage" dir="rtl" style={pageStyle}><section className="mxAdminAccessCard" style={cardStyle}><Logo/><h1 style={{fontSize:24,margin:'0 0 8px',color:'#111'}}>لوحة التحكم</h1><p style={{margin:0,color:'#777d86',fontSize:14}}>جارٍ تحميل بيانات اللوحة...</p></section></main>;
 }
 
 const root=document.getElementById('root');
