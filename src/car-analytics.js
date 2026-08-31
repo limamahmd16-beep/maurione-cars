@@ -8,6 +8,8 @@ import {
   setDoc,
 } from 'firebase/firestore';
 
+const OWNER_UID = 'sC94v8XaXmUMHK6eineEy25GIst2';
+
 const FIELD_BY_EVENT = {
   view: 'views',
   whatsapp: 'whatsappClicks',
@@ -34,7 +36,8 @@ function carIdFromPath() {
 }
 
 function currentUserReady() {
-  return Boolean(auth?.currentUser && db);
+  const user = auth?.currentUser;
+  return Boolean(user && user.uid !== OWNER_UID && db);
 }
 
 async function record(carId, type) {
