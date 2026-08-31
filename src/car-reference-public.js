@@ -41,12 +41,9 @@ function ensureStyle(){
   const style=document.createElement('style');
   style.id='mx-car-reference-public-style';
   style.textContent=`
-    .mxPublicCarRef{display:inline-flex;align-items:center;gap:5px;margin-top:7px;padding:5px 9px;border-radius:999px;background:#f5f6f7;color:#72777f;font-size:10px;font-weight:800;direction:rtl;width:max-content;max-width:100%}
-    .mxPublicCarRef b{color:#17191d;font-size:11px;letter-spacing:.2px;direction:ltr}
-    .mxDetailReference{display:inline-flex;align-items:center;gap:7px;margin:2px 0 10px;padding:7px 11px;border:1px solid #eceef1;border-radius:999px;background:#fafbfc;color:#777d86;font-size:11px;font-weight:800;width:max-content;max-width:100%}
-    .mxDetailReference b{color:#ff5a12;font-size:12px;direction:ltr}
-    html[data-theme='dark'] .mxPublicCarRef,html[data-theme='dark'] .mxDetailReference{background:#20242a;border-color:#30353d;color:#adb2ba}
-    html[data-theme='dark'] .mxPublicCarRef b{color:#f5f6f7}
+    .mxPublicCarRef{display:block;margin:13px 0 15px;color:#747982;font-size:11px;font-weight:900;letter-spacing:.45px;direction:ltr;text-align:right;width:100%}
+    .mxDetailReference{display:block;margin:13px 0 18px;color:#747982;font-size:12px;font-weight:900;letter-spacing:.5px;direction:ltr;text-align:right;width:100%}
+    html[data-theme='dark'] .mxPublicCarRef,html[data-theme='dark'] .mxDetailReference{color:#b7bbc2}
   `;
   document.head.appendChild(style);
 }
@@ -77,17 +74,15 @@ function decorateCards(){
     if(!car?.reference)return;
     const info=card.querySelector('.mxCardInfo');
     if(!info)return;
-    let badge=info.querySelector('.mxPublicCarRef');
-    if(!badge){
-      badge=document.createElement('div');
-      badge.className='mxPublicCarRef';
-      badge.innerHTML='<span>رقم السيارة</span><b></b>';
-      const trim=info.querySelector('.mxTrim');
-      if(trim)trim.insertAdjacentElement('afterend',badge);else info.prepend(badge);
+    const price=info.querySelector('.mxPrice');
+    let ref=info.querySelector('.mxPublicCarRef');
+    if(!ref){
+      ref=document.createElement('div');
+      ref.className='mxPublicCarRef';
     }
-    const value=String(car.reference||'');
-    const target=badge.querySelector('b');
-    if(target&&target.textContent!==value)target.textContent=value;
+    ref.textContent=String(car.reference||'');
+    if(price&&price.nextElementSibling!==ref)price.insertAdjacentElement('afterend',ref);
+    else if(!price&&!ref.isConnected)info.appendChild(ref);
   });
 }
 
@@ -98,17 +93,15 @@ function decorateDetail(){
   if(!car)return;
   const summary=document.querySelector('.mxDetail .mxSummary');
   if(summary&&car.reference){
+    const price=summary.querySelector('.mxDetailPrice');
     let ref=summary.querySelector('.mxDetailReference');
     if(!ref){
       ref=document.createElement('div');
       ref.className='mxDetailReference';
-      ref.innerHTML='<span>رقم السيارة</span><b></b>';
-      const h1=summary.querySelector('h1');
-      if(h1)h1.insertAdjacentElement('afterend',ref);else summary.prepend(ref);
     }
-    const value=String(car.reference||'');
-    const target=ref.querySelector('b');
-    if(target&&target.textContent!==value)target.textContent=value;
+    ref.textContent=String(car.reference||'');
+    if(price&&price.nextElementSibling!==ref)price.insertAdjacentElement('afterend',ref);
+    else if(!price&&!ref.isConnected)summary.appendChild(ref);
   }
   if(!WHATSAPP)return;
   const href=`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(inquiryMessage(car))}`;
