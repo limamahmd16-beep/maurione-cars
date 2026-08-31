@@ -134,3 +134,5 @@ html[data-theme='dark'] .mxAdmin [class*='Card']{
     transition:background-color .2s ease,border-color .2s ease,color .2s ease;
   }
 }
+
+/* deployment-sync: admin-main and admin.html theme support */
