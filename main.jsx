@@ -105,6 +105,7 @@ async function bootPublicSite(){
     import('./src/account-profile-enhancer.js').then(module=>module.initAccountProfileEnhancer?.()),
     import('./src/account-subpages.js').then(module=>module.initAccountSubpages?.()),
     import('./src/ui-regression-fix.js').then(module=>module.initUiRegressionFix?.()),
+    import('./src/authenticated-entry-guard.js').then(module=>module.initAuthenticatedEntryGuard?.()),
   ]).catch(error=>console.error('PUBLIC_HELPER_ERROR',error));
 }
 
