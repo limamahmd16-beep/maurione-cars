@@ -7,6 +7,7 @@ let cars=[];
 let stopCars=null;
 let backfilling=false;
 let raf=0;
+let searchToken=0;
 
 function normalizeRef(value=''){
   return String(value||'').trim().toUpperCase().replace(/\s+/g,'');
@@ -95,19 +96,22 @@ function decorateRows(){
   document.querySelectorAll('.mxAdminList > article').forEach(row=>{
     const car=findCarForRow(row);
     if(!car?.reference)return;
-    row.dataset.carId=car.id;
+    if(row.dataset.carId!==car.id)row.dataset.carId=car.id;
     const info=row.querySelector('.mxAdminInfo');
     if(!info)return;
     let badge=info.querySelector('.mxAdminRefBadge');
     if(!badge){badge=document.createElement('span');badge.className='mxAdminRefBadge';info.appendChild(badge);}
-    badge.textContent=car.reference;
+    if(badge.textContent!==car.reference)badge.textContent=car.reference;
   });
 }
 
-async function showExact(car){
+async function showExact(car,token){
   const result=document.getElementById('mxACRResult');
   if(!result)return;
-  result.innerHTML='<div class="mxACREmpty">جارٍ تحميل بيانات البائع...</div>';
+  if(result.dataset.state!=='loading'){
+    result.dataset.state='loading';
+    result.innerHTML='<div class="mxACREmpty">جارٍ تحميل بيانات البائع...</div>';
+  }
   let privateData={};
   let privateError='';
   try{
@@ -118,11 +122,13 @@ async function showExact(car){
       ?'قواعد بيانات البائع الخاصة لم تُنشر في Firestore بعد.'
       :'تعذر تحميل بيانات البائع الآن.';
   }
+  if(token!==searchToken)return;
   const image=Array.isArray(car.images)?car.images[0]||'':'';
   const sellerName=privateData.sellerName||'غير مضاف';
   const sellerPhone=privateData.sellerPhone||'غير مضاف';
   const sellerWhatsapp=privateData.sellerWhatsapp||'غير مضاف';
   const waDigits=String(privateData.sellerWhatsapp||'').replace(/\D/g,'');
+  result.dataset.state=`exact:${car.id}`;
   result.innerHTML=`
     <article class="mxACRCard">
       <div class="mxACRTop">
@@ -147,14 +153,30 @@ function renderSearch(){
   const input=panel.querySelector('#mxACRInput');
   const result=panel.querySelector('#mxACRResult');
   if(!input||!result)return;
+  const token=++searchToken;
   const raw=String(input.value||'').trim();
   const q=normalizeRef(raw);
-  if(!q){result.innerHTML='';return;}
+  if(!q){
+    if(result.dataset.state!=='empty'){
+      result.dataset.state='empty';
+      result.innerHTML='';
+    }
+    return;
+  }
   const exact=cars.find(car=>normalizeRef(car.reference)===q);
-  if(exact){showExact(exact);return;}
+  if(exact){showExact(exact,token);return;}
   const lower=raw.toLowerCase();
   const matches=cars.filter(car=>normalizeRef(car.reference).includes(q)||carTitle(car).toLowerCase().includes(lower)).slice(0,6);
-  if(!matches.length){result.innerHTML='<div class="mxACREmpty">لا توجد سيارة بهذا الرقم.</div>';return;}
+  if(!matches.length){
+    if(result.dataset.state!=='none'){
+      result.dataset.state='none';
+      result.innerHTML='<div class="mxACREmpty">لا توجد سيارة بهذا الرقم.</div>';
+    }
+    return;
+  }
+  const signature=matches.map(car=>car.id).join('|');
+  if(result.dataset.state===`matches:${signature}`)return;
+  result.dataset.state=`matches:${signature}`;
   result.innerHTML=`<div class="mxACRMatches">${matches.map(car=>`<button type="button" class="mxACRMatch" data-reference="${escapeHtml(car.reference||'')}"><strong>${escapeHtml(carTitle(car))}</strong><b>${escapeHtml(car.reference||'—')}</b></button>`).join('')}</div>`;
 }
 
@@ -194,7 +216,6 @@ function render(){
   raf=requestAnimationFrame(()=>{
     ensurePanel();
     decorateRows();
-    renderSearch();
   });
 }
 
@@ -202,6 +223,7 @@ if(db){
   stopCars=onSnapshot(collection(db,'cars'),snapshot=>{
     cars=snapshot.docs.map(item=>({id:item.id,...item.data()}));
     render();
+    renderSearch();
     backfillReferences();
   },error=>console.warn('[MauriOne admin reference] cars read failed',error?.code||error));
 }
