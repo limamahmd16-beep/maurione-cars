@@ -26,3 +26,39 @@ html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxDetail .mxSpec strong
 html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxDetail .mxSpec small{
   font-size:8.5px!important;
 }
+
+/* The approved welcome artwork contains the Arabic paragraph baked into the image.
+   Cover only that paragraph area and render translated live text above it. */
+.mxWelcomeTranslatedText{
+  position:absolute!important;
+  z-index:4!important;
+  left:5.5%!important;
+  right:5.5%!important;
+  top:23.4%!important;
+  height:13.8%!important;
+  box-sizing:border-box!important;
+  padding:0 3%!important;
+  background:#fff!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  direction:ltr!important;
+  color:#686d75!important;
+  font-size:clamp(14px,3.25vw,19px)!important;
+  font-weight:400!important;
+  line-height:1.72!important;
+  letter-spacing:0!important;
+  pointer-events:none!important;
+}
+
+@media(max-width:430px){
+  .mxWelcomeTranslatedText{
+    left:4.5%!important;
+    right:4.5%!important;
+    top:23.2%!important;
+    height:14.2%!important;
+    font-size:clamp(13px,3.55vw,17px)!important;
+    line-height:1.68!important;
+  }
+}
