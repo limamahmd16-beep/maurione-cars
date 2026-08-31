@@ -6,7 +6,7 @@ import {
   setPersistence,
   signInAnonymously,
 } from 'firebase/auth';
-import { doc, getFirestore, serverTimestamp, setDoc } from 'firebase/firestore';
+import { doc, getFirestore, increment, serverTimestamp, setDoc } from 'firebase/firestore';
 import { auth as primaryAuth, firebaseConfig } from './lib/firebase.js';
 
 const OWNER_UID='sC94v8XaXmUMHK6eineEy25GIst2';
@@ -83,12 +83,12 @@ function setFlag(key){
   try{localStorage.setItem(key,'1')}catch{}
 }
 
-function payload(){
+function incrementPayload(){
   return {
-    views:0,
-    whatsappClicks:0,
-    phoneClicks:0,
-    favoriteAdds:0,
+    views:increment(1),
+    whatsappClicks:increment(0),
+    phoneClicks:increment(0),
+    favoriteAdds:increment(0),
     updatedAt:serverTimestamp(),
   };
 }
@@ -102,31 +102,31 @@ async function recordVisitor(user){
 
   const visitor=visitorId();
   const day=dateKey();
-  const totalFlag=`maurione_visitor_total_v7_${visitor}`;
-  const dayFlag=`maurione_visitor_day_v7_${day}_${visitor}`;
+  const totalFlag=`maurione_visitor_total_counter_v8_${visitor}`;
+  const dayFlag=`maurione_visitor_day_counter_v8_${day}_${visitor}`;
   const writes=[];
   recording=true;
 
   if(!hasFlag(totalFlag)){
     writes.push(
-      setDoc(doc(visitorDb,'carStats',`visitor-total-${visitor}`),payload())
+      setDoc(doc(visitorDb,'carStats','visitor-count-total'),incrementPayload(),{merge:true})
         .then(()=>setFlag(totalFlag))
     );
   }
 
   if(!hasFlag(dayFlag)){
     writes.push(
-      setDoc(doc(visitorDb,'carStats',`visitor-day-${day}-${visitor}`),payload())
+      setDoc(doc(visitorDb,'carStats',`visitor-count-day-${day}`),incrementPayload(),{merge:true})
         .then(()=>setFlag(dayFlag))
     );
   }
 
   try{
     await Promise.all(writes);
-    report('visitor-write-success',null,user);
+    report('visitor-counter-write-success',null,user);
   }catch(error){
-    report('visitor-write-failed',error,user);
-    console.warn('[MauriOne visitor tracking] write blocked',error?.code||error?.message||error);
+    report('visitor-counter-write-failed',error,user);
+    console.warn('[MauriOne visitor tracking] counter write blocked',error?.code||error?.message||error);
   }finally{
     recording=false;
   }
@@ -134,9 +134,7 @@ async function recordVisitor(user){
 
 async function signInVisitor(){
   try{
-    report('visitor-anonymous-start',null,null);
     const cred=await signInAnonymously(visitorAuth);
-    report('visitor-anonymous-success',null,cred?.user);
     if(cred?.user)await recordVisitor(cred.user);
   }catch(error){
     report('visitor-anonymous-failed',error,null);
@@ -149,7 +147,6 @@ async function startVisitorTracking(){
   started=true;
   try{await setPersistence(visitorAuth,browserLocalPersistence)}catch{}
   onAuthStateChanged(visitorAuth,user=>{
-    report('visitor-auth-state',null,user);
     if(user?.isAnonymous){
       recordVisitor(user);
       return;
@@ -160,10 +157,7 @@ async function startVisitorTracking(){
 
 if(primaryAuth){
   onAuthStateChanged(primaryAuth,user=>{
-    if(user?.uid===OWNER_UID){
-      report('primary-owner-skip',null,null);
-      return;
-    }
+    if(user?.uid===OWNER_UID)return;
     startVisitorTracking();
   });
 }else{
