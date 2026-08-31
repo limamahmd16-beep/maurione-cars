@@ -6,6 +6,7 @@ import {
   getDoc,
   getDocs,
   serverTimestamp,
+  setDoc,
   updateDoc,
 } from 'firebase/firestore';
 
@@ -15,10 +16,12 @@ const PAGE_ID = 'mxAdminCarPage';
 const STYLE_ID = 'mx-admin-car-page-style';
 
 const blankCar = {
+  reference: '',
   brand: '', model: '', trim: '', year: '', mileage: '',
   transmission: 'أوتوماتيك', fuel: 'بنزين', drive: '4x4',
   location: 'نواكشوط', price: '', status: 'available',
   featured: false, description: '', images: [],
+  sellerName: '', sellerPhone: '', sellerWhatsapp: '',
 };
 
 let state = { ...blankCar };
@@ -43,7 +46,9 @@ const css = `
   .mxACPField input,.mxACPField select,.mxACPField textarea{width:100%;border:1px solid #dfe3e8;border-radius:14px;background:#fff;color:#111318;font:600 15px inherit;outline:none;padding:0 13px}
   .mxACPField input,.mxACPField select{height:50px}.mxACPField textarea{min-height:126px;padding-top:13px;resize:vertical;line-height:1.7}
   .mxACPField input:focus,.mxACPField select:focus,.mxACPField textarea:focus{border-color:#ff8a54;box-shadow:0 0 0 3px rgba(255,90,18,.09)}
+  .mxACPField input[readonly]{background:#f7f8f9;color:#e85417;font-weight:900;direction:ltr}
   .mxACPCheck{height:50px;border:1px solid #dfe3e8;border-radius:14px;display:flex;align-items:center;justify-content:space-between;padding:0 13px;background:#fff}.mxACPCheck span{font-size:13px;font-weight:800}.mxACPCheck input{width:22px;height:22px;accent-color:#ff5a12}
+  .mxACPPrivate{border-color:#ffd9c8;background:#fffaf7}.mxACPPrivate h2{display:flex;align-items:center;justify-content:space-between;gap:8px}.mxACPPrivate h2 small{font-size:10px;color:#e85417;background:#fff1e9;border-radius:999px;padding:5px 8px}.mxACPPrivateNote{margin:-4px 0 13px;color:#8b8f96;font-size:10px;line-height:1.7}
   .mxACPUpload{display:flex;align-items:center;justify-content:center;gap:9px;min-height:58px;border:1.5px dashed #ffad83;border-radius:16px;background:#fff8f4;color:#e95315;font-size:14px;font-weight:900;cursor:pointer;text-align:center;padding:12px}.mxACPUpload input{display:none}
   .mxACPPhotos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:12px}.mxACPPhoto{border:1px solid #e5e7ea;border-radius:14px;overflow:hidden;background:#fff}.mxACPPhoto img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:#eee}.mxACPPhotoActions{display:grid;grid-template-columns:1fr 40px;gap:5px;padding:6px}.mxACPPhotoActions button{height:34px;border:0;border-radius:9px;background:#f3f4f6;color:#4b5058;font-size:10px;font-weight:800}.mxACPPhotoActions button.main{background:#fff0e8;color:#e95315}.mxACPPhotoActions button.delete{font-size:17px;color:#b42318}
   .mxACPEmptyPhotos{margin-top:10px;text-align:center;color:#9a9fa7;font-size:11px;padding:10px}
@@ -72,6 +77,7 @@ function formTemplate(isEdit){
     <div class="mxACPScroll">
       <form class="mxACPForm" id="mxACPForm">
         <section class="mxACPSection"><h2>البيانات الأساسية</h2><div class="mxACPGrid">
+          <label class="mxACPField"><span>رقم السيارة</span><input name="reference" readonly value="${escapeAttr(value(state.reference))}" placeholder="يُنشأ تلقائيًا عند الحفظ"></label>
           <label class="mxACPField"><span>الماركة</span><input name="brand" required value="${escapeAttr(value(state.brand))}" placeholder="مثال: تويوتا"></label>
           <label class="mxACPField"><span>الموديل</span><input name="model" required value="${escapeAttr(value(state.model))}" placeholder="مثال: كامري"></label>
           <label class="mxACPField"><span>الفئة</span><input name="trim" value="${escapeAttr(value(state.trim))}" placeholder="مثال: XLE"></label>
@@ -88,6 +94,11 @@ function formTemplate(isEdit){
           <label class="mxACPField"><span>السعر (MRU)</span><input name="price" type="number" inputmode="numeric" value="${escapeAttr(value(state.price))}" placeholder="0"></label>
           <label class="mxACPField"><span>الحالة</span><select name="status"><option value="available"${state.status==='available'?' selected':''}>متوفرة</option><option value="sold"${state.status==='sold'?' selected':''}>مباعة</option></select></label>
           <label class="mxACPField"><span>الإعلان</span><div class="mxACPCheck"><span>إعلان مميز</span><input name="featured" type="checkbox"${state.featured?' checked':''}></div></label>
+        </div></section>
+        <section class="mxACPSection mxACPPrivate"><h2>بيانات البائع <small>خاصة بالإدارة</small></h2><div class="mxACPPrivateNote">هذه المعلومات لا تظهر للزبائن ولا تُحفظ داخل بيانات السيارة العامة.</div><div class="mxACPGrid">
+          <label class="mxACPField"><span>اسم البائع</span><input name="sellerName" value="${escapeAttr(value(state.sellerName))}" placeholder="اسم البائع"></label>
+          <label class="mxACPField"><span>رقم هاتف البائع</span><input name="sellerPhone" type="tel" inputmode="tel" value="${escapeAttr(value(state.sellerPhone))}" placeholder="رقم الهاتف" dir="ltr"></label>
+          <label class="mxACPField full"><span>واتساب البائع</span><input name="sellerWhatsapp" type="tel" inputmode="tel" value="${escapeAttr(value(state.sellerWhatsapp))}" placeholder="رقم واتساب" dir="ltr"></label>
         </div></section>
         <section class="mxACPSection"><h2>الوصف</h2><label class="mxACPField full"><textarea name="description" placeholder="اكتب وصف السيارة...">${String(state.description||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</textarea></label></section>
         <section class="mxACPSection"><h2>صور السيارة</h2><label class="mxACPUpload">＋ رفع صور السيارة<input id="mxACPFiles" type="file" accept="image/*" multiple></label><div id="mxACPPhotos"></div></section>
@@ -128,12 +139,26 @@ function readForm(){
   const form=document.getElementById('mxACPForm');if(!form)return state;
   const fd=new FormData(form);
   state={...state,
+    reference:value(fd.get('reference')).trim().toUpperCase(),
     brand:value(fd.get('brand')).trim(),model:value(fd.get('model')).trim(),trim:value(fd.get('trim')).trim(),
     year:value(fd.get('year')),mileage:value(fd.get('mileage')),transmission:value(fd.get('transmission')),
     fuel:value(fd.get('fuel')),drive:value(fd.get('drive')).trim(),location:value(fd.get('location')).trim(),
     price:value(fd.get('price')),status:value(fd.get('status'))||'available',featured:Boolean(form.elements.featured?.checked),
+    sellerName:value(fd.get('sellerName')).trim(),sellerPhone:value(fd.get('sellerPhone')).trim(),sellerWhatsapp:value(fd.get('sellerWhatsapp')).trim(),
     description:value(fd.get('description')).trim(),images:Array.isArray(state.images)?state.images:[],
   };return state;
+}
+
+async function nextReference(){
+  const snap=await getDocs(collection(db,'cars'));
+  let max=0;let count=0;
+  snap.forEach(item=>{
+    count++;
+    const reference=String(item.data()?.reference||'').trim().toUpperCase();
+    const match=reference.match(/^M1-(\d+)$/);
+    if(match)max=Math.max(max,Number(match[1]));
+  });
+  return `M1-${String(Math.max(max,count)+1).padStart(4,'0')}`;
 }
 
 async function uploadFiles(files){
@@ -161,9 +186,36 @@ async function save(event){
   event.preventDefault();if(busy)return;const f=readForm();setError('');
   if(!f.brand||!f.model||!f.year||f.mileage===''){setError('أكمل الماركة والموديل والسنة والكيلومترات.');return}
   setBusy(true,editingId?'جارٍ حفظ التغييرات...':'جارٍ حفظ السيارة...');
-  const payload={brand:f.brand,model:f.model,trim:f.trim,year:Number(f.year),mileage:Number(f.mileage),transmission:f.transmission,fuel:f.fuel,drive:f.drive,location:f.location,price:Number(f.price||0),status:f.status,featured:Boolean(f.featured),description:f.description,images:f.images||[],updatedAt:serverTimestamp()};
   try{
-    if(editingId)await updateDoc(doc(db,'cars',editingId),payload);else await addDoc(collection(db,'cars'),{...payload,createdAt:serverTimestamp()});
+    const reference=f.reference||await nextReference();
+    state.reference=reference;
+    const refInput=document.querySelector(`#${PAGE_ID} input[name="reference"]`);if(refInput)refInput.value=reference;
+    const payload={reference,brand:f.brand,model:f.model,trim:f.trim,year:Number(f.year),mileage:Number(f.mileage),transmission:f.transmission,fuel:f.fuel,drive:f.drive,location:f.location,price:Number(f.price||0),status:f.status,featured:Boolean(f.featured),description:f.description,images:f.images||[],updatedAt:serverTimestamp()};
+    let carId=editingId;
+    let created=false;
+    if(editingId){
+      await updateDoc(doc(db,'cars',editingId),payload);
+    }else{
+      const createdRef=await addDoc(collection(db,'cars'),{...payload,createdAt:serverTimestamp()});
+      carId=createdRef.id;created=true;
+    }
+    try{
+      await setDoc(doc(db,'carPrivate',carId),{
+        reference,
+        sellerName:f.sellerName,
+        sellerPhone:f.sellerPhone,
+        sellerWhatsapp:f.sellerWhatsapp,
+        updatedAt:serverTimestamp(),
+        ...(created?{createdAt:serverTimestamp()}:{})
+      },{merge:true});
+    }catch(privateError){
+      if(created){
+        editingId=carId;
+        window.history.replaceState({},'',`/admin/cars/edit/${encodeURIComponent(carId)}`);
+      }
+      setError(`تم حفظ السيارة برقم ${reference}، لكن تعذر حفظ بيانات البائع الخاصة (${privateError?.code||'permission-denied'}). انشر قواعد carPrivate في Firestore ثم اضغط حفظ مرة أخرى.`);
+      setStatus('');setBusy(false);return;
+    }
     closePage(true);
   }catch(err){setError(`تعذر الحفظ: ${err?.code||err?.message||'خطأ غير معروف'}`);setStatus('');setBusy(false)}
 }
@@ -191,7 +243,17 @@ async function showRoutePage(){
   if(!isNew&&!match){document.getElementById(PAGE_ID)?.remove();document.body.classList.remove('mxAdminCarPageOpen');return}
   ensureStyle();document.body.classList.add('mxAdminCarPageOpen');editingId='';state={...blankCar,images:[]};
   if(match){
-    try{editingId=decodeURIComponent(match[1]);const snap=await getDoc(doc(db,'cars',editingId));if(token!==routeToken)return;if(!snap.exists())throw new Error('NOT_FOUND');state={...blankCar,...snap.data(),images:Array.isArray(snap.data().images)?snap.data().images:[]};}
+    try{
+      editingId=decodeURIComponent(match[1]);
+      const snap=await getDoc(doc(db,'cars',editingId));
+      if(token!==routeToken)return;
+      if(!snap.exists())throw new Error('NOT_FOUND');
+      state={...blankCar,...snap.data(),images:Array.isArray(snap.data().images)?snap.data().images:[]};
+      try{
+        const privateSnap=await getDoc(doc(db,'carPrivate',editingId));
+        if(privateSnap.exists())state={...state,...privateSnap.data()};
+      }catch{}
+    }
     catch{if(token!==routeToken)return;window.history.replaceState({},'', '/admin');window.dispatchEvent(new PopStateEvent('popstate'));return}
   }
   let page=document.getElementById(PAGE_ID);if(!page){page=document.createElement('div');page.id=PAGE_ID;document.body.appendChild(page)}
