@@ -60,6 +60,7 @@ async function loadStyles(){
   await import('./src/auth-logo-fix.css');
   await import('./src/account-dark-polish.css');
   await import('./src/dark-complete.css');
+  await import('./src/lightbox-polish.css');
 }
 
 async function bootAdmin(){
@@ -109,6 +110,7 @@ async function bootPublicSite(){
     import('./src/account-subpages.js').then(module=>module.initAccountSubpages?.()),
     import('./src/ui-regression-fix.js').then(module=>module.initUiRegressionFix?.()),
     import('./src/authenticated-entry-guard.js').then(module=>module.initAuthenticatedEntryGuard?.()),
+    import('./src/lightbox-enhancer.js').then(module=>module.initLightboxEnhancer?.()),
   ]).catch(error=>console.error('PUBLIC_HELPER_ERROR',error));
 }
 
