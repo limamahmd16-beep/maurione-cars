@@ -107,7 +107,10 @@ function enhanceAccount(){
   badge.setAttribute('aria-hidden','true');
 
   avatar.append(input,badge);
-  avatar.addEventListener('click',()=>{if(!busy)input.click()});
+  avatar.addEventListener('click',event=>{
+    if(event.target===input)return;
+    if(!busy)input.click();
+  });
   avatar.addEventListener('keydown',event=>{
     if((event.key==='Enter'||event.key===' ')&&!busy){event.preventDefault();input.click()}
   });
