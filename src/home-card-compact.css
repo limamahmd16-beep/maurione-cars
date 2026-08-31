@@ -1,7 +1,7 @@
 /* Slightly more compact MauriOne home on phones.
    Preserve the approved card design and all visible information. */
 @media (max-width:560px){
-  /* Recover vertical room from the chrome above the cars, not from the cars. */
+  /* Recover vertical room from the chrome above the cars. */
   .mxHeaderBar{
     height:112px!important;
     padding:9px 22px 7px!important;
@@ -14,7 +14,7 @@
   }
 
   .mxHomeInner{
-    padding:18px 0 16px!important;
+    padding:18px 0 14px!important;
   }
 
   .mxSearch{
@@ -33,7 +33,7 @@
 
   .mxFilters{
     gap:8px!important;
-    margin:16px 0 16px!important;
+    margin:16px 0 14px!important;
   }
   .mxFilters>label,
   .mxFilters>button{
@@ -41,72 +41,88 @@
     border-radius:17px!important;
   }
 
-  .mxCards{gap:14px!important}
+  /* Save only the last few pixels needed to keep two cards visible. */
+  .mxCards{gap:10px!important}
 
   .mxCard{
-    min-height:250px!important;
+    min-height:238px!important;
     border-radius:21px!important;
   }
   .mxCardImage>img{
-    min-height:250px!important;
+    min-height:238px!important;
   }
 
   .mxFav{
     left:10px!important;
     top:10px!important;
-    width:39px!important;
-    height:39px!important;
+    width:38px!important;
+    height:38px!important;
   }
   .mxFav svg{
-    width:34px!important;
-    height:34px!important;
+    width:33px!important;
+    height:33px!important;
   }
   .mxPhotos{
-    left:11px!important;
-    bottom:11px!important;
-    padding:7px 9px!important;
-    font-size:12.5px!important;
+    left:10px!important;
+    bottom:10px!important;
+    padding:6px 8px!important;
+    font-size:12px!important;
   }
 
   .mxCardInfo{
-    padding:24px 15px 12px 10px!important;
+    padding:21px 15px 10px 10px!important;
   }
   .mxCardInfo h3{
     margin:0 0 3px!important;
     font-size:18px!important;
-    line-height:1.18!important;
+    line-height:1.16!important;
   }
   .mxTrim{
-    min-height:17px!important;
-    margin-bottom:7px!important;
+    min-height:16px!important;
+    margin-bottom:6px!important;
     font-size:13px!important;
   }
   .mxPrice{
-    margin-bottom:7px!important;
+    margin-bottom:6px!important;
     font-size:25px!important;
   }
   .mxPublicCarRef{
-    margin:6px 0 8px!important;
+    margin:5px 0 7px!important;
     font-size:10px!important;
     line-height:1!important;
   }
 
   .mxSpecs{
-    padding-top:9px!important;
+    padding-top:8px!important;
   }
   .mxSpec{
-    grid-template-rows:20px 16px 16px!important;
+    grid-template-rows:19px 15px 15px!important;
     gap:2px!important;
     padding:0 2px!important;
   }
   .mxSpec svg{
-    width:19px!important;
-    height:19px!important;
+    width:18px!important;
+    height:18px!important;
   }
   .mxSpec strong{
     font-size:10px!important;
   }
   .mxSpec small{
     font-size:8.5px!important;
+  }
+
+  /* Keep the fixed navigation from covering the lower edge of card two. */
+  .mxBottom{
+    height:68px!important;
+    bottom:max(7px,env(safe-area-inset-bottom))!important;
+    border-radius:22px!important;
+  }
+  .mxBottom button{
+    gap:2px!important;
+    font-size:9.5px!important;
+  }
+  .mxBottom svg{
+    width:22px!important;
+    height:22px!important;
   }
 }
