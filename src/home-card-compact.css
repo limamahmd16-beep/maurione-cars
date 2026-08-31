@@ -72,6 +72,14 @@
   .mxCardInfo{
     padding:21px 15px 10px 10px!important;
   }
+  .mxRibbon{
+    right:-24px!important;
+    top:9px!important;
+    width:92px!important;
+    height:26px!important;
+    font-size:10.5px!important;
+    line-height:1!important;
+  }
   .mxCardInfo h3{
     margin:0 0 3px!important;
     font-size:18px!important;
