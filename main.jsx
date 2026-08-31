@@ -48,6 +48,7 @@ async function loadStyles(){
   ]);
   await import('./src/responsive-universal.css');
   await import('./src/detail-viewport-fit.css');
+  await import('./src/home-card-compact.css');
 }
 
 async function bootAdmin(){
