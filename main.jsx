@@ -111,6 +111,7 @@ async function bootPublicSite(){
     import('./src/ui-regression-fix.js').then(module=>module.initUiRegressionFix?.()),
     import('./src/authenticated-entry-guard.js').then(module=>module.initAuthenticatedEntryGuard?.()),
     import('./src/lightbox-enhancer.js').then(module=>module.initLightboxEnhancer?.()),
+    import('./src/favorites-cloud-sync.js').then(module=>module.initFavoritesCloudSync?.()),
   ]).catch(error=>console.error('PUBLIC_HELPER_ERROR',error));
 }
 
