@@ -1,0 +1,32 @@
+/* Keep the MauriOne wordmark readable on authentication screens. */
+.userAuthBrand,
+.userAuthBrand span,
+.userAuthBrand b,
+.userAuthBrand i{
+  opacity:1!important;
+  visibility:visible!important;
+}
+
+html[data-theme='dark'] .userAuthBrand span,
+html[data-theme='dark'] .userAuthBrand b{
+  color:#f7f7f8!important;
+  -webkit-text-fill-color:#f7f7f8!important;
+  text-shadow:none!important;
+}
+
+html[data-theme='dark'] .userAuthBrand i{
+  color:#ff5a12!important;
+  -webkit-text-fill-color:#ff5a12!important;
+  text-shadow:none!important;
+}
+
+html:not([data-theme='dark']) .userAuthBrand span,
+html:not([data-theme='dark']) .userAuthBrand b{
+  color:#0d0e10!important;
+  -webkit-text-fill-color:#0d0e10!important;
+}
+
+html:not([data-theme='dark']) .userAuthBrand i{
+  color:#ff5a12!important;
+  -webkit-text-fill-color:#ff5a12!important;
+}
