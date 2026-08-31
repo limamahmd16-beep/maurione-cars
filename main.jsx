@@ -47,6 +47,7 @@ async function loadStyles(){
     import('./src/dark-mode.css'),
   ]);
   await import('./src/responsive-universal.css');
+  await import('./src/detail-viewport-fit.css');
 }
 
 async function bootAdmin(){
