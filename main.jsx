@@ -55,6 +55,7 @@ async function loadStyles(){
   await import('./src/i18n-fit.css');
   await import('./src/i18n-content-fix.css');
   await import('./src/top-filter-dropdowns.css');
+  await import('./src/account-profile-enhancer.css');
 }
 
 async function bootAdmin(){
@@ -100,6 +101,7 @@ async function bootPublicSite(){
     import('./src/car-reference-public.js'),
     import('./src/home-scroll-reset.js'),
     import('./src/top-filter-dropdowns.js').then(module=>module.initTopFilterDropdowns?.()),
+    import('./src/account-profile-enhancer.js').then(module=>module.initAccountProfileEnhancer?.()),
   ]).catch(error=>console.error('PUBLIC_HELPER_ERROR',error));
 }
 
