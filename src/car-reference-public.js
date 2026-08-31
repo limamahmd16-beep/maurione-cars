@@ -41,9 +41,12 @@ function ensureStyle(){
   const style=document.createElement('style');
   style.id='mx-car-reference-public-style';
   style.textContent=`
-    .mxPublicCarRef{display:block;margin:13px 0 15px;color:#747982;font-size:11px;font-weight:900;letter-spacing:.45px;direction:ltr;text-align:right;width:100%}
-    .mxDetailReference{display:block;margin:13px 0 18px;color:#747982;font-size:12px;font-weight:900;letter-spacing:.5px;direction:ltr;text-align:right;width:100%}
+    .mxPublicCarRef{display:block;margin:8px 0 9px;color:#747982;font-size:11px;line-height:1;font-weight:900;letter-spacing:.45px;direction:ltr;text-align:right;width:100%}
+    .mxDetailReference{display:block;margin:7px 0 8px;color:#747982;font-size:12px;line-height:1;font-weight:900;letter-spacing:.5px;direction:ltr;text-align:right;width:100%}
     html[data-theme='dark'] .mxPublicCarRef,html[data-theme='dark'] .mxDetailReference{color:#b7bbc2}
+    @media (display-mode:standalone) and (max-width:560px){
+      .mxDetailReference{margin:5px 0 6px;font-size:11px;line-height:1}
+    }
   `;
   document.head.appendChild(style);
 }
