@@ -90,39 +90,26 @@ function start(){
   if(!document.querySelector('.mxAdmin'))return;
   started=true;
   stopStats=onSnapshot(collection(db,'carStats'),snapshot=>{
-    const totalVisitors=new Set();
-    const visitorsByDay=new Map();
+    const byDay=new Map();
+    let total=0;
 
     snapshot.forEach(item=>{
       const id=item.id||'';
-      const totalMatch=id.match(/^visitor-total-(.+)$/);
-      if(totalMatch){
-        totalVisitors.add(totalMatch[1]);
+      const value=Number(item.data()?.views||0);
+      if(id==='visitor-count-total'){
+        total=value;
         return;
       }
-      const dayMatch=id.match(/^visitor-day-(\d{4}-\d{2}-\d{2})-(.+)$/);
-      if(dayMatch){
-        const day=dayMatch[1];
-        const visitor=dayMatch[2];
-        if(!visitorsByDay.has(day))visitorsByDay.set(day,new Set());
-        visitorsByDay.get(day).add(visitor);
-      }
+      const dayMatch=id.match(/^visitor-count-day-(\d{4}-\d{2}-\d{2})$/);
+      if(dayMatch)byDay.set(dayMatch[1],value);
     });
 
     const seven=recentDays(7);
     const thirty=recentDays(30);
-    const sevenVisitors=new Set();
-    const thirtyVisitors=new Set();
-
-    visitorsByDay.forEach((visitors,day)=>{
-      if(seven.has(day))visitors.forEach(visitor=>sevenVisitors.add(visitor));
-      if(thirty.has(day))visitors.forEach(visitor=>thirtyVisitors.add(visitor));
-    });
-
-    totals.today=visitorsByDay.get(dateKey())?.size||0;
-    totals.last7=sevenVisitors.size;
-    totals.last30=thirtyVisitors.size;
-    totals.total=totalVisitors.size;
+    totals.today=byDay.get(dateKey())||0;
+    totals.last7=[...byDay.entries()].reduce((sum,[day,count])=>sum+(seven.has(day)?count:0),0);
+    totals.last30=[...byDay.entries()].reduce((sum,[day,count])=>sum+(thirty.has(day)?count:0),0);
+    totals.total=total;
     render();
   },error=>{
     console.warn('[MauriOne admin visitor stats] read blocked',error?.code||error?.message||error);
