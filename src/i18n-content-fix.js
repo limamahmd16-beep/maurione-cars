@@ -75,6 +75,25 @@ function patchWelcome(lang){
   }
 }
 
+function patchWelcomeOverlay(lang){
+  const stage=document.querySelector('.welcomeExactStage');
+  if(!stage)return;
+  let overlay=stage.querySelector(':scope > .mxWelcomeTranslatedText');
+  if(lang==='ar'){
+    overlay?.remove();
+    return;
+  }
+  if(!overlay){
+    overlay=document.createElement('div');
+    overlay.className='mxWelcomeTranslatedText';
+    overlay.dataset.i18nIgnore='1';
+    stage.appendChild(overlay);
+  }
+  overlay.lang=lang;
+  overlay.dir='ltr';
+  overlay.textContent=welcomeTranslations[lang]||'';
+}
+
 function patchCarData(lang){
   document.querySelectorAll('.mxCardInfo h3,.mxTrim,.mxSummary h1,.mxSummary>span').forEach(el=>{
     if(hasArabic(el.textContent||'')||carTextState.has(el))patchStoredNode(el,lang,original=>romanize(original),carTextState);
@@ -115,6 +134,7 @@ function patchWhatsApp(lang){
 function apply(){
   const lang=getLang();
   patchWelcome(lang);
+  patchWelcomeOverlay(lang);
   patchCarData(lang);
   patchCompactLabels(lang);
   patchWhatsApp(lang);
