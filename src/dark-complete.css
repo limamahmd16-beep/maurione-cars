@@ -1,0 +1,229 @@
+/* Complete dark-mode coverage for every MauriOne public surface.
+   Loaded last so older light-only rules cannot override the active theme. */
+html[data-theme='dark'],
+html[data-theme='dark'] body,
+html[data-theme='dark'] #root{
+  background:#0d0f12!important;
+  color:#f4f5f7!important;
+  color-scheme:dark!important;
+}
+
+/* Keep every MauriOne wordmark readable in dark mode. */
+html[data-theme='dark'] .mxBrandWord b,
+html[data-theme='dark'] .mxAccountBrand b,
+html[data-theme='dark'] .mxFavoritesAppBrand b,
+html[data-theme='dark'] .userAuthBrand b,
+html[data-theme='dark'] .userAuthBrand span{
+  color:#f7f7f8!important;
+}
+html[data-theme='dark'] .mxBrandWord i,
+html[data-theme='dark'] .mxAccountBrand i,
+html[data-theme='dark'] .mxFavoritesAppBrand i,
+html[data-theme='dark'] .userAuthBrand i{
+  color:#ff641f!important;
+}
+
+/* Home + filters: remove the remaining white native controls. */
+html[data-theme='dark'] .mxHome,
+html[data-theme='dark'] .mxHomeInner{
+  background:#0d0f12!important;
+  color:#f4f5f7!important;
+}
+html[data-theme='dark'] .mxAdvanced,
+html[data-theme='dark'] .mxAdvanced label,
+html[data-theme='dark'] .mxAdvanced input,
+html[data-theme='dark'] .mxAdvanced select,
+html[data-theme='dark'] .mxFilters input,
+html[data-theme='dark'] .mxFilters select{
+  background:#15181c!important;
+  color:#f4f5f7!important;
+  border-color:#343941!important;
+}
+html[data-theme='dark'] .mxAdvanced input::placeholder,
+html[data-theme='dark'] .mxFilters input::placeholder{
+  color:#777e88!important;
+}
+html[data-theme='dark'] .mxAdvanced input[type='checkbox']{
+  accent-color:#ff641f!important;
+  background:#15181c!important;
+}
+html[data-theme='dark'] .mxAdvanced button{
+  background:#211913!important;
+  border-color:#59301d!important;
+  color:#ff7b3d!important;
+}
+
+/* Favorites full page. */
+html[data-theme='dark'] .mxFavoritesPage,
+html[data-theme='dark'] .mxFavoritesBody{
+  background:#0d0f12!important;
+  color:#f4f5f7!important;
+}
+html[data-theme='dark'] .mxFavoritesAppHeader,
+html[data-theme='dark'] .mxFavoritesAppHeader .mxHeaderBar{
+  background:rgba(13,15,18,.97)!important;
+  border-color:#292e35!important;
+}
+html[data-theme='dark'] .mxFavoritesAppHeader .mxHeaderIcon{
+  background:transparent!important;
+  color:#f4f5f7!important;
+  border-color:transparent!important;
+}
+html[data-theme='dark'] .mxFavoritesTitleBar{
+  border-color:#292e35!important;
+}
+html[data-theme='dark'] .mxFavoritesTitleBar h1{
+  color:#f7f7f8!important;
+}
+html[data-theme='dark'] .mxFavoritesTitleBar p{
+  color:#989fa8!important;
+}
+html[data-theme='dark'] .mxFavoritesEmpty{
+  background:#15181c!important;
+  border-color:#343a42!important;
+  color:#9ca3ad!important;
+}
+html[data-theme='dark'] .mxFavoriteList>button,
+html[data-theme='dark'] .mxFavoriteListPage>button{
+  background:#15181c!important;
+  border-color:#2d3239!important;
+  color:#f4f5f7!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.22)!important;
+}
+html[data-theme='dark'] .mxFavoriteList strong,
+html[data-theme='dark'] .mxFavoriteListPage strong{
+  color:#f4f5f7!important;
+}
+html[data-theme='dark'] .mxFavoriteList small,
+html[data-theme='dark'] .mxFavoriteListPage small{
+  color:#969da7!important;
+}
+html[data-theme='dark'] .mxFavoritesPage .mxBottom{
+  background:rgba(21,24,28,.98)!important;
+  border-color:#30353c!important;
+}
+
+/* Account page and all account subpages (notifications/settings/password/help/privacy). */
+html[data-theme='dark'] .mxAccountPage,
+html[data-theme='dark'] .mxAccountBody,
+html[data-theme='dark'] .mxAccountSubPage{
+  background:#0d0f12!important;
+  color:#f4f5f7!important;
+}
+html[data-theme='dark'] .mxAccountHeader,
+html[data-theme='dark'] .mxAccountSubHeader{
+  background:rgba(13,15,18,.97)!important;
+  border-color:#292e35!important;
+}
+html[data-theme='dark'] .mxAccountHeader>button,
+html[data-theme='dark'] .mxAccountSubHeader>button,
+html[data-theme='dark'] .mxAccountSubBack{
+  background:#15181c!important;
+  border-color:#343a42!important;
+  color:#f4f5f7!important;
+  box-shadow:none!important;
+}
+html[data-theme='dark'] .mxAccountSubPage .mxFunctionSheet{
+  background:#0d0f12!important;
+  color:#f4f5f7!important;
+}
+html[data-theme='dark'] .mxAccountSubPage .mxFunctionSheet>h2,
+html[data-theme='dark'] .mxFunctionSheet h2{
+  color:#f7f7f8!important;
+}
+html[data-theme='dark'] .mxAccountSubPage .mxFunctionText,
+html[data-theme='dark'] .mxAccountSubPage .mxAccountEditField,
+html[data-theme='dark'] .mxAccountSubPage .mxAccountInfo span{
+  color:#9ca3ad!important;
+}
+html[data-theme='dark'] .mxAccountSubPage .mxAccountEditField input,
+html[data-theme='dark'] .mxAccountSubPage .mxAccountInfo,
+html[data-theme='dark'] .mxAccountSubPage .mxNotificationList>div,
+html[data-theme='dark'] .mxAccountSubPage .mxFunctionInfoList p{
+  background:#15181c!important;
+  border-color:#30363e!important;
+  color:#f4f5f7!important;
+}
+html[data-theme='dark'] .mxAccountSubPage .mxAccountEditField input[readonly]{
+  background:#191d22!important;
+  color:#a7adb6!important;
+}
+html[data-theme='dark'] .mxAccountSubPage .mxNotificationList strong,
+html[data-theme='dark'] .mxAccountSubPage .mxAccountInfo strong{
+  color:#f4f5f7!important;
+}
+html[data-theme='dark'] .mxAccountSubPage .mxNotificationList small{
+  color:#8f969f!important;
+}
+html[data-theme='dark'] .mxAccountSubPage .mxFunctionEmpty{
+  background:#15181c!important;
+  border-color:#343a42!important;
+  color:#9ca3ad!important;
+}
+html[data-theme='dark'] .mxAccountSubPage .mxFunctionIcon{
+  background:#241a15!important;
+  color:#ff6a24!important;
+}
+
+/* Generic modal/function surfaces. */
+html[data-theme='dark'] .mxFunctionBackdrop{
+  background:rgba(0,0,0,.68)!important;
+}
+html[data-theme='dark'] .mxFunctionSheet{
+  background:#15181c!important;
+  border-color:#2d3239!important;
+  color:#f4f5f7!important;
+}
+html[data-theme='dark'] .mxFunctionClose{
+  background:#1b1f24!important;
+  border-color:#343a42!important;
+  color:#f4f5f7!important;
+}
+html[data-theme='dark'] .mxFunctionIcon{
+  background:#241a15!important;
+  color:#ff6a24!important;
+}
+html[data-theme='dark'] .mxFunctionText,
+html[data-theme='dark'] .mxFunctionInfoList,
+html[data-theme='dark'] .mxAccountEditField{
+  color:#a0a7b0!important;
+}
+html[data-theme='dark'] .mxFunctionInfoList p,
+html[data-theme='dark'] .mxAccountInfo,
+html[data-theme='dark'] .mxNotificationList>div,
+html[data-theme='dark'] .mxAccountEditField input{
+  background:#1b1f24!important;
+  border-color:#31373f!important;
+  color:#f4f5f7!important;
+}
+html[data-theme='dark'] .mxAccountEditField input[readonly]{
+  background:#171a1f!important;
+  color:#9ba2ab!important;
+}
+html[data-theme='dark'] .mxFunctionEmpty{
+  background:#171a1f!important;
+  border-color:#343a42!important;
+  color:#9ba2ab!important;
+}
+
+/* Detail / cards / menus / admin safety net. */
+html[data-theme='dark'] .mxDetail,
+html[data-theme='dark'] .mxAdmin,
+html[data-theme='dark'] .mxAdminPage{
+  background:#0d0f12!important;
+  color:#f4f5f7!important;
+}
+html[data-theme='dark'] .mxDrawer,
+html[data-theme='dark'] .mxDrawer button{
+  background:#15181c!important;
+  border-color:#2d3239!important;
+  color:#f4f5f7!important;
+}
+
+/* Prevent iOS native form controls from flashing white in dark mode. */
+html[data-theme='dark'] input,
+html[data-theme='dark'] select,
+html[data-theme='dark'] textarea,
+html[data-theme='dark'] button{
+  color-scheme:dark;
+}
