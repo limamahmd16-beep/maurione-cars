@@ -28,13 +28,34 @@ function backSvg(){
   return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>';
 }
 
+function cleanupSubpageArtifacts(activeBackdrop=null){
+  document.querySelectorAll('.mxAccountSubHeader').forEach(header=>{
+    if(!activeBackdrop||header.parentElement!==activeBackdrop)header.remove();
+  });
+
+  document.querySelectorAll('.mxFunctionBackdrop.mxAccountSubPage').forEach(backdrop=>{
+    if(backdrop===activeBackdrop)return;
+    backdrop.classList.remove('mxAccountSubPage');
+    delete backdrop.dataset.mxAccountSubKind;
+    backdrop.querySelector('.mxFunctionSheet')?.classList.remove('mxAccountSubSheet');
+  });
+}
+
 function enhanceSubpage(){
   const backdrop=document.querySelector('.mxFunctionBackdrop');
   const sheet=backdrop?.querySelector('.mxFunctionSheet');
-  if(!backdrop||!sheet)return;
+  if(!backdrop||!sheet){
+    cleanupSubpageArtifacts();
+    return;
+  }
 
   const kind=kindOf(sheet);
-  if(!kind)return;
+  if(!kind){
+    cleanupSubpageArtifacts();
+    return;
+  }
+
+  cleanupSubpageArtifacts(backdrop);
 
   backdrop.classList.add('mxAccountSubPage');
   sheet.classList.add('mxAccountSubSheet');
