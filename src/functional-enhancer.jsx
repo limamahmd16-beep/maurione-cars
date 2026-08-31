@@ -199,6 +199,24 @@ export default function FunctionalEnhancer(){
     </div>
   }
 
+  if(panel==='favorites'){
+    return <div className="mxFavoritesPage" dir="rtl">
+      <header className="mxFavoritesHeader">
+        <button onClick={()=>setPanel(null)} aria-label="إغلاق"><X/></button>
+        <div className="mxFavoritesBrand" dir="ltr"><b>Mauri</b><i>One</i></div>
+        <span aria-hidden="true"/>
+      </header>
+      <main className="mxFavoritesBody">
+        <section className="mxFavoritesIntro">
+          <div className="mxFavoritesIcon"><Heart/></div>
+          <h1>المفضلة</h1>
+          <p>السيارات التي حفظتها</p>
+        </section>
+        {favorites.length?<div className="mxFavoriteList mxFavoriteListPage">{favorites.map(item=><button key={item.key} onClick={()=>{setPanel(null);setTimeout(()=>item.node?.click(),20)}}>{item.image?<img src={item.image} alt=""/>:<div/>}<span><strong>{item.title}</strong>{item.trim&&<small>{item.trim}</small>}<b>{item.price}</b></span></button>)}</div>:<div className="mxFavoritesEmpty"><Heart/><strong>لم تحفظ أي سيارة في المفضلة بعد.</strong></div>}
+      </main>
+    </div>
+  }
+
   const simpleTitle=panel==='account-settings'?'إعدادات الحساب':panel==='password'?'تغيير كلمة المرور':panel==='help'?'المساعدة':panel==='privacy'?'سياسة الخصوصية':null;
 
   return <div className="mxFunctionBackdrop" onClick={()=>setPanel(null)} dir="rtl">
@@ -239,12 +257,6 @@ export default function FunctionalEnhancer(){
         <div className="mxFunctionIcon"><Bell/></div>
         <h2>الإشعارات</h2>
         {notifications.length?<div className="mxNotificationList">{notifications.map(n=><div key={n.id}><strong>{n.text}</strong><small>{n.time}</small></div>)}</div>:<div className="mxFunctionEmpty">لا توجد إشعارات جديدة.</div>}
-      </>}
-
-      {panel==='favorites'&&<>
-        <div className="mxFunctionIcon"><Heart/></div>
-        <h2>المفضلة</h2>
-        {favorites.length?<div className="mxFavoriteList">{favorites.map(item=><button key={item.key} onClick={()=>{setPanel(null);setTimeout(()=>item.node?.click(),20)}}>{item.image?<img src={item.image} alt=""/>:<div/>}<span><strong>{item.title}</strong>{item.trim&&<small>{item.trim}</small>}<b>{item.price}</b></span></button>)}</div>:<div className="mxFunctionEmpty">لم تحفظ أي سيارة في المفضلة بعد.</div>}
       </>}
     </section>
   </div>;
