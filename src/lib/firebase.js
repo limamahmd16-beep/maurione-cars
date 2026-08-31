@@ -2,7 +2,7 @@ import { initializeApp, getApps } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: import.meta.env.VITE_CARS_FIREBASE_API_KEY || 'AIzaSyAWQ20xw0QoVwCSXLa1Mq-cJeiTIebEwnk',
   authDomain: import.meta.env.VITE_CARS_FIREBASE_AUTH_DOMAIN || 'maurione-cars.firebaseapp.com',
   projectId: import.meta.env.VITE_CARS_FIREBASE_PROJECT_ID || 'maurione-cars',
