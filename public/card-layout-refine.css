@@ -55,7 +55,18 @@
 }
 
 @media(max-width:560px){
+  .mxCardInfo > .mxRibbon{
+    right:-24px !important;
+    top:9px !important;
+    width:92px !important;
+    min-width:92px !important;
+    height:26px !important;
+    min-height:26px !important;
+    font-size:10px !important;
+    line-height:26px !important;
+  }
+
   .mxCardInfo h3{
-    padding-right:34px !important;
+    padding-right:20px !important;
   }
 }
