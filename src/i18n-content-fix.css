@@ -27,9 +27,9 @@ html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxDetail .mxSpec small{
   font-size:8.5px!important;
 }
 
-/* The approved welcome artwork contains the Arabic paragraph baked into the image.
-   Cover only that paragraph area and render translated live text above it. */
-.mxWelcomeTranslatedText{
+/* The approved welcome artwork contains its Arabic paragraph inside the image.
+   Use the stage's free ::before layer so the translation cannot detach from React. */
+html[data-maurione-lang]:not([data-maurione-lang="ar"]) .welcomeExactStage::before{
   position:absolute!important;
   z-index:4!important;
   left:5.5%!important;
@@ -51,9 +51,12 @@ html[data-maurione-lang]:not([data-maurione-lang="ar"]) .mxDetail .mxSpec small{
   letter-spacing:0!important;
   pointer-events:none!important;
 }
+html[data-maurione-lang="en"] .welcomeExactStage::before{content:'A trusted car sales platform in Mauritania, where you can browse available cars and easily compare prices and details.'!important}
+html[data-maurione-lang="fr"] .welcomeExactStage::before{content:'Une plateforme fiable de vente de voitures en Mauritanie, où vous pouvez consulter les véhicules disponibles et comparer facilement les prix et les détails.'!important}
+html[data-maurione-lang="pt"] .welcomeExactStage::before{content:'Uma plataforma fiável para venda de carros na Mauritânia, onde pode consultar os carros disponíveis e comparar facilmente preços e detalhes.'!important}
 
 @media(max-width:430px){
-  .mxWelcomeTranslatedText{
+  html[data-maurione-lang]:not([data-maurione-lang="ar"]) .welcomeExactStage::before{
     left:4.5%!important;
     right:4.5%!important;
     top:23.2%!important;
