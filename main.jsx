@@ -56,6 +56,7 @@ async function loadStyles(){
   await import('./src/i18n-content-fix.css');
   await import('./src/top-filter-dropdowns.css');
   await import('./src/account-profile-enhancer.css');
+  await import('./src/account-subpages.css');
 }
 
 async function bootAdmin(){
@@ -102,6 +103,7 @@ async function bootPublicSite(){
     import('./src/home-scroll-reset.js'),
     import('./src/top-filter-dropdowns.js').then(module=>module.initTopFilterDropdowns?.()),
     import('./src/account-profile-enhancer.js').then(module=>module.initAccountProfileEnhancer?.()),
+    import('./src/account-subpages.js').then(module=>module.initAccountSubpages?.()),
   ]).catch(error=>console.error('PUBLIC_HELPER_ERROR',error));
 }
 
