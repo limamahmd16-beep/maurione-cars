@@ -27,7 +27,7 @@ body:has(.mxAccountPage) .mxGlobalWhatsApp{display:none!important}
 .mxAccountPage .mxAccountSupportCopy small{font-size:13px;line-height:1.45;color:#7e858e;font-weight:600}
 .mxAccountPage .mxAccountSupportCopy b{font-size:13px;color:#20a957;font-weight:900;direction:ltr;text-align:right}
 .mxAccountPage .mxAccountSupportArrow{font-size:28px;line-height:1;color:#a3a8ae;font-weight:300}
-.mxAccountPage .mxAccountLogout{width:calc(100% - 24px)!important;height:58px!important;margin:18px auto 142px!important;border-radius:18px!important;font-size:18px!important;box-shadow:0 10px 22px rgba(255,90,18,.15)!important}
+.mxAccountPage .mxAccountLogout{position:relative!important;bottom:20px!important;width:calc(100% - 24px)!important;height:58px!important;margin:18px auto 142px!important;border-radius:18px!important;font-size:18px!important;box-shadow:0 10px 22px rgba(255,90,18,.15)!important}
 .mxAccountPage .mxAccountBody{padding-bottom:148px!important}
 .mxAccountPage .mxAccountShellBottom{position:fixed!important;left:max(18px,env(safe-area-inset-left))!important;right:max(18px,env(safe-area-inset-right))!important;bottom:max(10px,env(safe-area-inset-bottom))!important;z-index:370!important}
 .mxAccountPage .mxAccountShellBottom button.active{color:#f45b1b!important}
@@ -45,6 +45,6 @@ body:has(.mxAccountPage) .mxGlobalWhatsApp{display:none!important}
   .mxAccountPage .mxAccountSupportIcon svg{width:23px;height:23px}
   .mxAccountPage .mxAccountSupportCopy strong{font-size:16px}
   .mxAccountPage .mxAccountSupportCopy small,.mxAccountPage .mxAccountSupportCopy b{font-size:12px}
-  .mxAccountPage .mxAccountLogout{width:calc(100% - 20px)!important;height:56px!important;margin:17px auto 138px!important;border-radius:17px!important;font-size:17px!important}
+  .mxAccountPage .mxAccountLogout{bottom:24px!important;width:calc(100% - 20px)!important;height:56px!important;margin:17px auto 138px!important;border-radius:17px!important;font-size:17px!important}
   .mxAccountPage .mxAccountBody{padding-bottom:144px!important}
 }
