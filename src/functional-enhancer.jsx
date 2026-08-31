@@ -1,5 +1,5 @@
 import React,{useEffect,useMemo,useState}from'react';
-import{Bell,ChevronLeft,CircleHelp,Heart,KeyRound,LogIn,LogOut,Save,Settings,ShieldCheck,UserRound,X}from'lucide-react';
+import{Bell,CarFront,ChevronLeft,CircleHelp,Heart,KeyRound,LogIn,LogOut,Menu,MessageCircle,Save,Search,Settings,ShieldCheck,UserRound,X}from'lucide-react';
 import{auth,db}from'./lib/firebase.js';
 import{onAuthStateChanged,sendPasswordResetEmail,signOut,updateProfile}from'firebase/auth';
 import{doc,serverTimestamp,setDoc}from'firebase/firestore';
@@ -22,6 +22,7 @@ export default function FunctionalEnhancer(){
   const[accountMessage,setAccountMessage]=useState('');
   const[accountError,setAccountError]=useState('');
   const[busy,setBusy]=useState(false);
+  const[favoritesMenuOpen,setFavoritesMenuOpen]=useState(false);
 
   useEffect(()=>{
     if(!auth)return;
@@ -48,6 +49,7 @@ export default function FunctionalEnhancer(){
         image:card.querySelector('.mxCardImage img')?.getAttribute('src')||''
       }));
     setFavorites(items);
+    setFavoritesMenuOpen(false);
     setPanel('favorites');
   }
 
@@ -70,10 +72,17 @@ export default function FunctionalEnhancer(){
   }
 
   function openAccount(){
+    setFavoritesMenuOpen(false);
     setAccountMessage('');
     setAccountError('');
     setNameDraft(user?.displayName||'');
     setPanel('account');
+  }
+
+  function closeToHome(focusSearch=false){
+    setFavoritesMenuOpen(false);
+    setPanel(null);
+    if(focusSearch)setTimeout(()=>document.querySelector('.mxSearch input')?.focus(),60);
   }
 
   async function saveAccount(){
@@ -201,19 +210,36 @@ export default function FunctionalEnhancer(){
 
   if(panel==='favorites'){
     return <div className="mxFavoritesPage" dir="rtl">
-      <header className="mxFavoritesHeader">
-        <button onClick={()=>setPanel(null)} aria-label="إغلاق"><X/></button>
-        <div className="mxFavoritesBrand" dir="ltr"><b>Mauri</b><i>One</i></div>
-        <span aria-hidden="true"/>
+      <header className="mxHeader mxFavoritesAppHeader">
+        <div className="mxHeaderBar">
+          <button className="mxHeaderIcon mxBell" aria-label="الإشعارات"><Bell/><span/></button>
+          <div className="mxBrand mxFavoritesAppBrand" dir="ltr"><span className="mxBrandWord"><b>Mauri</b><i>One</i></span></div>
+          <button className="mxHeaderIcon" onClick={()=>setFavoritesMenuOpen(v=>!v)} aria-label="القائمة">{favoritesMenuOpen?<X/>:<Menu/>}</button>
+        </div>
+        {favoritesMenuOpen&&<div className="mxDrawer" dir="rtl">
+          <button onClick={()=>closeToHome(false)}>الرئيسية</button>
+          <button onClick={()=>closeToHome(true)}>البحث</button>
+          <button><UserRound/> {user?.displayName||user?.email||'حسابي'}</button>
+          <button onClick={()=>{setFavoritesMenuOpen(false);setPanel(null);window.history.pushState({},'', '/admin');window.dispatchEvent(new PopStateEvent('popstate'))}}>لوحة الإدارة</button>
+          <button onClick={()=>signOut(auth)}><LogOut/> تسجيل الخروج</button>
+        </div>}
       </header>
+
       <main className="mxFavoritesBody">
-        <section className="mxFavoritesIntro">
-          <div className="mxFavoritesIcon"><Heart/></div>
+        <section className="mxFavoritesTitleBar">
           <h1>المفضلة</h1>
           <p>السيارات التي حفظتها</p>
         </section>
         {favorites.length?<div className="mxFavoriteList mxFavoriteListPage">{favorites.map(item=><button key={item.key} onClick={()=>{setPanel(null);setTimeout(()=>item.node?.click(),20)}}>{item.image?<img src={item.image} alt=""/>:<div/>}<span><strong>{item.title}</strong>{item.trim&&<small>{item.trim}</small>}<b>{item.price}</b></span></button>)}</div>:<div className="mxFavoritesEmpty"><Heart/><strong>لم تحفظ أي سيارة في المفضلة بعد.</strong></div>}
       </main>
+
+      <nav className="mxBottom mxFavoritesBottom">
+        <button onClick={()=>closeToHome(false)}><CarFront/><span>الرئيسية</span></button>
+        <button onClick={()=>closeToHome(true)}><Search/><span>بحث</span></button>
+        <button className="active"><Heart/><span>المفضلة</span></button>
+        <button><MessageCircle/><span>الرسائل</span></button>
+        <button><UserRound/><span>حسابي</span></button>
+      </nav>
     </div>
   }
 
