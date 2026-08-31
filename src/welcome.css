@@ -2,6 +2,9 @@
 .welcomeExactStage{position:relative;width:min(100vw,760px);height:100svh;height:100dvh;overflow:hidden;background-color:#fff;background-image:url('/maurione-welcome-approved-exact.webp?v=17');background-position:center;background-size:cover;background-repeat:no-repeat}
 .welcomeFullArtwork{display:none!important}
 
+/* The old SafeEntry welcome description must never flash during sign-in transitions. */
+main[style*="z-index: 10000"]>section>header>p{display:none!important}
+
 /* Cover only the original oversized baked-in buttons. */
 .welcomeExactStage::after{content:'';position:absolute;left:0;right:0;top:77.2%;bottom:2.8%;background:#fff;z-index:3;pointer-events:none}
 
