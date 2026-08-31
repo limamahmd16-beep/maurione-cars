@@ -45,6 +45,6 @@ body:has(.mxAccountPage) .mxGlobalWhatsApp{display:none!important}
   .mxAccountPage .mxAccountSupportIcon svg{width:23px;height:23px}
   .mxAccountPage .mxAccountSupportCopy strong{font-size:16px}
   .mxAccountPage .mxAccountSupportCopy small,.mxAccountPage .mxAccountSupportCopy b{font-size:12px}
-  .mxAccountPage .mxAccountLogout{bottom:24px!important;width:calc(100% - 20px)!important;height:56px!important;margin:17px auto 138px!important;border-radius:17px!important;font-size:17px!important}
+  .mxAccountPage .mxAccountLogout{bottom:6px!important;width:calc(100% - 20px)!important;height:56px!important;margin:17px auto 138px!important;border-radius:17px!important;font-size:17px!important}
   .mxAccountPage .mxAccountBody{padding-bottom:144px!important}
 }
