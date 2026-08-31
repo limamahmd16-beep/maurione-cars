@@ -126,3 +126,36 @@
     height:22px!important;
   }
 }
+
+/* Expanded filters keep the same MauriOne visual language. */
+.mxAdvanced input[type="number"]{
+  width:100%!important;
+  height:44px!important;
+  border:1px solid var(--mx-line)!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  color:#111!important;
+  padding:0 10px!important;
+  outline:0!important;
+  box-shadow:none!important;
+}
+.mxAdvanced input[type="number"]::placeholder{color:#9a9ea5}
+.mxAdvanced .mxAdvancedCheck{
+  min-height:44px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:8px!important;
+  padding:0 11px!important;
+  border:1px solid var(--mx-line)!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  color:#555b64!important;
+}
+.mxAdvanced .mxAdvancedCheck input{
+  width:18px!important;
+  height:18px!important;
+  margin:0!important;
+  accent-color:var(--mx-orange);
+}
+.mxAdvanced .mxAdvancedCheck span{font-size:12px;font-weight:750;color:#33373d}
