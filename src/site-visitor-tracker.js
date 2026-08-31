@@ -1,11 +1,24 @@
-import { auth, db } from './lib/firebase.js';
-import { onAuthStateChanged, signInAnonymously } from 'firebase/auth';
-import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { initializeApp, getApps } from 'firebase/app';
+import {
+  browserLocalPersistence,
+  getAuth,
+  onAuthStateChanged,
+  setPersistence,
+  signInAnonymously,
+} from 'firebase/auth';
+import { doc, getFirestore, serverTimestamp, setDoc } from 'firebase/firestore';
+import { auth as primaryAuth, firebaseConfig } from './lib/firebase.js';
 
 const OWNER_UID='sC94v8XaXmUMHK6eineEy25GIst2';
 const TZ='Africa/Nouakchott';
+const VISITOR_APP_NAME='maurione-visitor-analytics';
 let recording=false;
-let guestAuthAttempted=false;
+let started=false;
+
+const visitorApp=getApps().find(app=>app.name===VISITOR_APP_NAME)
+  || initializeApp(firebaseConfig,VISITOR_APP_NAME);
+const visitorAuth=getAuth(visitorApp);
+const visitorDb=getFirestore(visitorApp);
 
 function report(stage,error,user){
   try{
@@ -18,7 +31,7 @@ function report(stage,error,user){
         message:error?.message||'',
         anonymous:Boolean(user?.isAnonymous),
         hasUser:Boolean(user),
-        guestMode:guestMode(),
+        ownerSession:Boolean(primaryAuth?.currentUser?.uid===OWNER_UID),
       }),
       keepalive:true,
     }).catch(()=>{});
@@ -70,10 +83,6 @@ function setFlag(key){
   try{localStorage.setItem(key,'1')}catch{}
 }
 
-function guestMode(){
-  try{return sessionStorage.getItem('maurione_guest')==='1'}catch{return false}
-}
-
 function payload(){
   return {
     views:0,
@@ -85,63 +94,78 @@ function payload(){
 }
 
 async function recordVisitor(user){
-  if(!db||!user||recording||user.uid===OWNER_UID)return;
+  if(!visitorDb||!user||!user.isAnonymous||recording)return;
+  if(primaryAuth?.currentUser?.uid===OWNER_UID){
+    report('visitor-skip-owner',null,user);
+    return;
+  }
 
   const visitor=visitorId();
   const day=dateKey();
-  const totalFlag=`maurione_visitor_total_v6_${visitor}`;
-  const dayFlag=`maurione_visitor_day_v6_${day}_${visitor}`;
+  const totalFlag=`maurione_visitor_total_v7_${visitor}`;
+  const dayFlag=`maurione_visitor_day_v7_${day}_${visitor}`;
   const writes=[];
   recording=true;
 
   if(!hasFlag(totalFlag)){
     writes.push(
-      setDoc(doc(db,'carStats',`visitor-total-${visitor}`),payload())
+      setDoc(doc(visitorDb,'carStats',`visitor-total-${visitor}`),payload())
         .then(()=>setFlag(totalFlag))
     );
   }
 
   if(!hasFlag(dayFlag)){
     writes.push(
-      setDoc(doc(db,'carStats',`visitor-day-${day}-${visitor}`),payload())
+      setDoc(doc(visitorDb,'carStats',`visitor-day-${day}-${visitor}`),payload())
         .then(()=>setFlag(dayFlag))
     );
   }
 
   try{
     await Promise.all(writes);
-    report('firestore-write-success',null,user);
+    report('visitor-write-success',null,user);
   }catch(error){
-    report('firestore-write-failed',error,user);
+    report('visitor-write-failed',error,user);
     console.warn('[MauriOne visitor tracking] write blocked',error?.code||error?.message||error);
   }finally{
     recording=false;
   }
 }
 
-async function ensureGuestAuth(){
-  if(!auth||auth.currentUser||guestAuthAttempted||!guestMode())return;
-  guestAuthAttempted=true;
-  report('anonymous-auth-start',null,null);
+async function signInVisitor(){
   try{
-    const cred=await signInAnonymously(auth);
-    report('anonymous-auth-success',null,cred?.user);
-    if(cred?.user)recordVisitor(cred.user);
+    report('visitor-anonymous-start',null,null);
+    const cred=await signInAnonymously(visitorAuth);
+    report('visitor-anonymous-success',null,cred?.user);
+    if(cred?.user)await recordVisitor(cred.user);
   }catch(error){
-    guestAuthAttempted=false;
-    report('anonymous-auth-failed',error,null);
+    report('visitor-anonymous-failed',error,null);
     console.warn('[MauriOne visitor tracking] anonymous auth unavailable',error?.code||error?.message||error);
   }
 }
 
-if(auth){
-  onAuthStateChanged(auth,user=>{
-    report('auth-state',null,user);
-    if(user){
+async function startVisitorTracking(){
+  if(started)return;
+  started=true;
+  try{await setPersistence(visitorAuth,browserLocalPersistence)}catch{}
+  onAuthStateChanged(visitorAuth,user=>{
+    report('visitor-auth-state',null,user);
+    if(user?.isAnonymous){
       recordVisitor(user);
       return;
     }
-    setTimeout(ensureGuestAuth,300);
+    signInVisitor();
   });
-  window.addEventListener('pageshow',()=>setTimeout(ensureGuestAuth,300));
+}
+
+if(primaryAuth){
+  onAuthStateChanged(primaryAuth,user=>{
+    if(user?.uid===OWNER_UID){
+      report('primary-owner-skip',null,null);
+      return;
+    }
+    startVisitorTracking();
+  });
+}else{
+  startVisitorTracking();
 }
