@@ -9,8 +9,24 @@ service cloud.firestore {
       return signedIn() && request.auth.uid == 'sC94v8XaXmUMHK6eineEy25GIst2';
     }
 
-    function isAdmin() {
-      return isOwner();
+    function staffPath() {
+      return /databases/$(database)/documents/admins/$(request.auth.uid);
+    }
+
+    function isActiveStaff() {
+      return signedIn()
+        && exists(staffPath())
+        && get(staffPath()).data.type == 'staff'
+        && get(staffPath()).data.active == true;
+    }
+
+    function hasPermission(name) {
+      return isOwner() || (
+        isActiveStaff()
+        && get(staffPath()).data.permissions is map
+        && get(staffPath()).data.permissions.keys().hasAny([name])
+        && get(staffPath()).data.permissions[name] == true
+      );
     }
 
     function validStats(data) {
@@ -33,11 +49,18 @@ service cloud.firestore {
 
     match /cars/{carId} {
       allow read: if true;
-      allow create, update, delete: if isOwner();
+      allow create: if hasPermission('carsCreate');
+      allow delete: if hasPermission('carsDelete');
+      allow update: if hasPermission('carsEdit') || (
+        hasPermission('carsMarkSold')
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt'])
+        && request.resource.data.status in ['available', 'sold']
+      );
     }
 
     match /carStats/{carId} {
-      allow read, delete: if isOwner();
+      allow read: if hasPermission('analyticsView');
+      allow delete: if isOwner();
 
       allow create: if signedIn()
         && validStats(request.resource.data)
@@ -72,16 +95,29 @@ service cloud.firestore {
 
     match /users/{userId} {
       allow create: if signedIn() && request.auth.uid == userId;
-      allow get: if signedIn() && (request.auth.uid == userId || isOwner());
-      allow list: if isOwner();
+      allow get: if signedIn() && (
+        request.auth.uid == userId
+        || isOwner()
+        || hasPermission('usersView')
+      );
+      allow list: if isOwner() || hasPermission('usersView');
       allow update: if signedIn() && request.auth.uid == userId;
       allow delete: if false;
     }
 
     match /admins/{userId} {
-      allow read: if isOwner() && userId == request.auth.uid;
-      allow create: if isOwner() && userId == request.auth.uid;
-      allow update, delete: if false;
+      allow get: if signedIn() && (isOwner() || userId == request.auth.uid);
+      allow list: if isOwner();
+      allow create, update, delete: if isOwner();
+    }
+
+    match /staffCredentials/{username} {
+      allow read, write: if false;
+    }
+
+    match /adminAuditLogs/{logId} {
+      allow read: if isOwner();
+      allow write: if false;
     }
   }
 }
