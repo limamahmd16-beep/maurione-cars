@@ -105,6 +105,10 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    match /carFinance/{carId} {
+      allow read, create, update, delete: if isOwner();
+    }
+
     match /admins/{userId} {
       allow get: if signedIn() && (isOwner() || userId == request.auth.uid);
       allow list: if isOwner();
