@@ -47,8 +47,9 @@ function ensureStyle(){
   const style=document.createElement('style');
   style.id=STYLE_ID;
   style.textContent=`
-    .${BUTTON_CLASS}{width:44px!important;height:44px!important;border:1px solid #e1e4e8!important;border-radius:13px!important;background:#fff!important;color:#23262b!important;display:grid!important;place-items:center!important;padding:0!important;cursor:pointer!important;box-shadow:none!important;flex:none!important}
-    .${BUTTON_CLASS} svg{width:21px!important;height:21px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.8!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+    .mxAdminActions:has(.${BUTTON_CLASS}){grid-template-columns:repeat(2,minmax(0,1fr))!important}
+    .mxAdminActions .${BUTTON_CLASS}{min-height:52px!important;border:1px solid #e2e5e9!important;border-radius:16px!important;background:#fff!important;color:#25282d!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:9px!important;padding:0 14px!important;cursor:pointer!important;box-shadow:none!important;font-size:14px!important;font-weight:900!important}
+    .mxAdminActions .${BUTTON_CLASS} svg{width:20px!important;height:20px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.8!important;stroke-linecap:round!important;stroke-linejoin:round!important}
     .${OVERLAY_CLASS}{position:fixed!important;inset:0!important;z-index:99999!important;background:rgba(15,23,42,.34)!important;display:grid!important;place-items:end center!important;padding:16px!important;box-sizing:border-box!important;direction:rtl!important;font-family:Arial,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important}
     .mxAdminSettingsSheet{width:min(100%,560px)!important;max-height:min(86dvh,760px)!important;overflow:auto!important;background:#fff!important;border:1px solid #e7e9ed!important;border-radius:24px!important;box-shadow:0 22px 70px rgba(15,23,42,.18)!important;padding:20px!important;box-sizing:border-box!important}
     .mxAdminSettingsHead{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;margin-bottom:18px!important}
@@ -68,7 +69,7 @@ function ensureStyle(){
     .mxAdminSwitch i{display:block!important;width:20px!important;height:20px!important;border-radius:50%!important;background:#fff!important;box-shadow:0 1px 4px rgba(0,0,0,.18)!important;transition:.2s!important}
     .mxAdminSwitch.on{background:#ff6426!important}.mxAdminSwitch.on i{transform:translateX(20px)!important}
     .mxAdminSettingsNote{margin-top:14px!important;padding:11px 13px!important;border-radius:13px!important;background:#f7f8f9!important;color:#7d838c!important;font-size:11px!important;line-height:1.6!important}
-    html[data-theme='dark'] .${BUTTON_CLASS}{background:#1b1f24!important;border-color:#333840!important;color:#f4f5f7!important}
+    html[data-theme='dark'] .mxAdminActions .${BUTTON_CLASS}{background:#1b1f24!important;border-color:#333840!important;color:#f4f5f7!important}
     html[data-theme='dark'] .${OVERLAY_CLASS}{background:rgba(0,0,0,.68)!important}
     html[data-theme='dark'] .mxAdminSettingsSheet{background:#15181c!important;border-color:#2c3138!important;box-shadow:0 22px 70px rgba(0,0,0,.5)!important}
     html[data-theme='dark'] .mxAdminSettingsHead h2,html[data-theme='dark'] .mxAdminSettingsSection h3,html[data-theme='dark'] .mxAdminSettingRow strong{color:#f5f6f7!important}
@@ -77,7 +78,7 @@ function ensureStyle(){
     html[data-theme='dark'] .mxAdminSettingsSection{border-color:#2b3037!important}
     html[data-theme='dark'] .mxAdminSettingsSection p,html[data-theme='dark'] .mxAdminSettingRow small{color:#969da7!important}
     html[data-theme='dark'] .mxAdminSettingsNote{background:#111419!important;color:#969da7!important}
-    @media(max-width:520px){.${OVERLAY_CLASS}{padding:8px!important}.mxAdminSettingsSheet{border-radius:20px!important;padding:16px!important}.mxAdminThemeChoices{grid-template-columns:1fr!important}}
+    @media(max-width:520px){.mxAdminActions:has(.${BUTTON_CLASS}){grid-template-columns:1fr!important}.${OVERLAY_CLASS}{padding:8px!important}.mxAdminSettingsSheet{border-radius:20px!important;padding:16px!important}.mxAdminThemeChoices{grid-template-columns:1fr!important}}
   `;
   document.head.appendChild(style);
 }
@@ -128,18 +129,16 @@ function renderSettings(){
   });
 }
 function ensureButton(){
-  const admin=document.querySelector('.mxAdmin');
-  const header=admin?.querySelector('.mxAdminHeader');
-  if(!header||header.querySelector(`.${BUTTON_CLASS}`))return;
+  const actions=document.querySelector('.mxAdmin .mxAdminActions');
+  if(!actions||actions.querySelector(`.${BUTTON_CLASS}`))return;
   ensureStyle();
   const button=document.createElement('button');
   button.type='button';
   button.className=BUTTON_CLASS;
   button.setAttribute('aria-label','إعدادات لوحة التحكم');
-  button.title='إعدادات لوحة التحكم';
-  button.innerHTML=iconGear();
+  button.innerHTML=`${iconGear()}<span>إعدادات لوحة التحكم</span>`;
   button.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();renderSettings()});
-  header.appendChild(button);
+  actions.appendChild(button);
 }
 function sync(){applyTheme();applyVisibility();ensureButton()}
 function start(){
@@ -148,6 +147,7 @@ function start(){
   const media=window.matchMedia?.('(prefers-color-scheme: dark)');
   const onMedia=()=>{if(themeChoice()==='system')applyTheme()};
   try{media?.addEventListener('change',onMedia)}catch{try{media?.addListener(onMedia)}catch{}}
+  window.addEventListener('storage',()=>{applyTheme();applyVisibility()});
   window.addEventListener('beforeunload',()=>observer?.disconnect(),{once:true});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
