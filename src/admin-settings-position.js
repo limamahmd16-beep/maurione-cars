@@ -1,3 +1,5 @@
+import './enterprise-admin.js';
+
 const REAL_SELECTOR='.mxAdminHeader .mxAdminUserTools > .mxAdminSettingsButton[data-admin-header-settings="1"]';
 const SENTINEL_CLASS='mxAdminSettingsButton';
 const STYLE_ID='mx-admin-settings-position-style';
