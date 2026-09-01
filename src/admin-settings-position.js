@@ -1,4 +1,4 @@
-const REAL_SELECTOR='.mxAdminHeader > .mxAdminSettingsButton[data-admin-header-settings="1"]';
+const REAL_SELECTOR='.mxAdminHeader .mxAdminUserTools > .mxAdminSettingsButton[data-admin-header-settings="1"]';
 const SENTINEL_CLASS='mxAdminSettingsButton';
 const STYLE_ID='mx-admin-settings-position-style';
 let raf=0;
@@ -9,13 +9,21 @@ function ensureStyle(){
   style.id=STYLE_ID;
   style.textContent=`
     .mxAdminHeader{position:relative!important}
-    .mxAdminHeader > .mxAdminSettingsButton[data-admin-header-settings="1"]{
-      position:absolute!important;
-      left:max(78px,calc(env(safe-area-inset-left,0px) + 78px))!important;
-      top:50%!important;
-      transform:translateY(-50%)!important;
+    .mxAdminHeader .mxAdminUserTools{
+      display:flex!important;
+      align-items:center!important;
+      justify-content:flex-start!important;
+      gap:8px!important;
+      min-width:0!important;
+      white-space:nowrap!important;
+    }
+    .mxAdminHeader .mxAdminUserTools > .mxAdminSettingsButton[data-admin-header-settings="1"]{
+      position:static!important;
+      inset:auto!important;
+      transform:none!important;
       width:46px!important;
       height:46px!important;
+      min-width:46px!important;
       min-height:46px!important;
       padding:0!important;
       margin:0!important;
@@ -25,23 +33,26 @@ function ensureStyle(){
       color:#25282d!important;
       display:grid!important;
       place-items:center!important;
-      z-index:25!important;
+      flex:0 0 46px!important;
+      z-index:auto!important;
       box-shadow:none!important;
       font-size:0!important;
     }
-    .mxAdminHeader > .mxAdminSettingsButton[data-admin-header-settings="1"] span{display:none!important}
-    .mxAdminHeader > .mxAdminSettingsButton[data-admin-header-settings="1"] svg{
+    .mxAdminHeader .mxAdminUserTools > .mxAdminSettingsButton[data-admin-header-settings="1"] span{display:none!important}
+    .mxAdminHeader .mxAdminUserTools > .mxAdminSettingsButton[data-admin-header-settings="1"] svg{
       width:22px!important;height:22px!important;fill:none!important;stroke:currentColor!important;
       stroke-width:1.8!important;stroke-linecap:round!important;stroke-linejoin:round!important;
     }
     .mxAdminActions > .mxAdminSettingsButton[data-admin-settings-sentinel="1"]{display:none!important}
-    html[data-theme='dark'] .mxAdminHeader > .mxAdminSettingsButton[data-admin-header-settings="1"]{
+    html[data-theme='dark'] .mxAdminHeader .mxAdminUserTools > .mxAdminSettingsButton[data-admin-header-settings="1"]{
       background:#1b1f24!important;border-color:#343a42!important;color:#f4f5f7!important;
     }
-    @media(max-width:520px){
-      .mxAdminHeader > .mxAdminSettingsButton[data-admin-header-settings="1"]{
-        left:max(72px,calc(env(safe-area-inset-left,0px) + 72px))!important;
-        width:44px!important;height:44px!important;min-height:44px!important;border-radius:13px!important;
+    @media(max-width:620px){
+      .mxAdminHeader .mxAdminUserTools > span{display:none!important}
+      .mxAdminHeader .mxAdminUserTools{gap:6px!important}
+      .mxAdminHeader .mxAdminUserTools > .mxAdminSettingsButton[data-admin-header-settings="1"]{
+        width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;
+        flex-basis:42px!important;border-radius:13px!important;
       }
     }
   `;
@@ -56,6 +67,10 @@ function placeSettings(){
     if(!header||!actions)return;
     ensureStyle();
 
+    const userBox=[...header.children].find(node=>node.tagName==='DIV');
+    if(!userBox)return;
+    userBox.classList.add('mxAdminUserTools');
+
     let real=document.querySelector(REAL_SELECTOR);
     const actionButton=[...actions.querySelectorAll('button.mxAdminSettingsButton')]
       .find(node=>node.dataset.adminSettingsSentinel!=='1');
@@ -64,10 +79,10 @@ function placeSettings(){
       real=actionButton;
       real.dataset.adminHeaderSettings='1';
       real.title='إعدادات لوحة التحكم';
-      header.appendChild(real);
+      userBox.appendChild(real);
     }
 
-    if(real&&real.parentElement!==header)header.appendChild(real);
+    if(real&&real.parentElement!==userBox)userBox.appendChild(real);
 
     let sentinel=actions.querySelector('.mxAdminSettingsButton[data-admin-settings-sentinel="1"]');
     if(!sentinel){
