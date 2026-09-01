@@ -24,33 +24,52 @@ function ensureStyle(){
     #mxEnterpriseAdmin .entCardHead h3{letter-spacing:-.15px}
     #mxEnterpriseAdmin.entDashboardHome .entHeroActions .entPrimary{box-shadow:0 8px 20px rgba(245,103,43,.16)}
 
-    @media(max-width:760px){
-      #mxEnterpriseAdmin .entTopbar{display:grid!important;grid-template-columns:minmax(0,1fr) auto auto!important;align-items:center!important;column-gap:9px!important}
+    @media(max-width:960px){
+      html,body,#root{width:100%!important;max-width:none!important;margin:0!important;padding-left:0!important;padding-right:0!important;overflow-x:hidden!important}
+      body.mxEnterpriseActive .mxAdmin{width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;padding:0!important}
+      #mxEnterpriseAdmin{display:block!important;width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;padding:0!important;grid-template-columns:none!important}
+      #mxEnterpriseAdmin .entMain{display:block!important;width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;grid-column:auto!important}
+      #mxEnterpriseAdmin .entSidebar{position:fixed!important;right:0!important;left:auto!important;top:0!important;width:min(84vw,300px)!important;height:100dvh!important;z-index:100!important;transform:translateX(105%)!important;transition:.22s ease!important;box-shadow:-20px 0 50px rgba(0,0,0,.26)!important}
+      #mxEnterpriseAdmin.menuOpen .entSidebar{transform:translateX(0)!important}
+      #mxEnterpriseAdmin .entBackdrop{display:block!important;position:fixed!important;inset:0!important;background:rgba(0,0,0,.48)!important;z-index:90!important;opacity:0!important;pointer-events:none!important;transition:.2s!important}
+      #mxEnterpriseAdmin.menuOpen .entBackdrop{opacity:1!important;pointer-events:auto!important}
+      #mxEnterpriseAdmin .entTopbar{width:100%!important;max-width:none!important;display:grid!important;grid-template-columns:minmax(0,1fr) auto auto!important;align-items:center!important;column-gap:9px!important;min-height:72px!important;height:auto!important;padding:calc(8px + env(safe-area-inset-top)) 12px 8px!important}
       #mxEnterpriseAdmin .${BRAND_CLASS}{display:flex}
       #mxEnterpriseAdmin .entTopTitle{min-width:0!important}
       #mxEnterpriseAdmin .entTopTitle h1{font-size:16px!important;line-height:1.15!important}
-      #mxEnterpriseAdmin .entTopActions{display:flex!important;justify-content:flex-end!important}
+      #mxEnterpriseAdmin .entTopTitle p{display:none!important}
+      #mxEnterpriseAdmin .entTopActions{display:flex!important;justify-content:flex-end!important;gap:6px!important}
       #mxEnterpriseAdmin .entTopActions>[data-action='add-car']{display:none!important}
       #mxEnterpriseAdmin .entTopActions .entMobileMenu{display:grid!important}
-      #mxEnterpriseAdmin .entHero{gap:12px!important}
+      #mxEnterpriseAdmin .entTopActions .hideMobile{display:none!important}
+      #mxEnterpriseAdmin .entContent{width:calc(100% - 20px)!important;max-width:none!important;margin:0 auto!important;padding:16px 0 90px!important}
+      #mxEnterpriseAdmin .entHero{align-items:flex-start!important;flex-direction:column!important;gap:12px!important;margin-bottom:13px!important}
       #mxEnterpriseAdmin .entHero h2{font-size:21px!important;line-height:1.25!important}
       #mxEnterpriseAdmin .entHero p{font-size:10px!important;line-height:1.65!important;margin-top:6px!important}
-      #mxEnterpriseAdmin .entHeroActions{grid-template-columns:1fr 1fr!important;gap:8px!important}
+      #mxEnterpriseAdmin .entHeroActions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;width:100%!important}
+      #mxEnterpriseAdmin .entHeroActions>*{width:100%!important;min-width:0!important}
       #mxEnterpriseAdmin .entHeroActions button{min-height:46px!important;border-radius:13px!important;font-size:11px!important}
-      #mxEnterpriseAdmin .entKpis{gap:9px!important}
-      #mxEnterpriseAdmin .entKpi{padding:15px!important;min-height:116px!important;border-radius:17px!important}
+      #mxEnterpriseAdmin .entKpis{grid-template-columns:1fr 1fr!important;gap:9px!important}
+      #mxEnterpriseAdmin .entKpi{padding:15px!important;min-height:116px!important;border-radius:17px!important;min-width:0!important}
       #mxEnterpriseAdmin .entKpiLabel{font-size:9px!important}
       #mxEnterpriseAdmin .entKpi strong{font-size:27px!important;margin-top:14px!important}
       #mxEnterpriseAdmin .entKpi small{font-size:8px!important;line-height:1.4!important}
+      #mxEnterpriseAdmin .entGrid2{grid-template-columns:1fr!important}
+      #mxEnterpriseAdmin .entFeatureGrid,#mxEnterpriseAdmin .entSettingsGrid{grid-template-columns:1fr!important}
+      #mxEnterpriseAdmin .entSectionToolbar{flex-direction:column!important;align-items:stretch!important}
+      #mxEnterpriseAdmin .entSearch{width:100%!important;max-width:none!important}
+      #mxEnterpriseAdmin .entCard{max-width:100%!important;overflow:hidden!important;border-radius:17px!important}
       #mxEnterpriseAdmin .entCardHead{min-height:58px!important;padding:13px 15px!important}
       #mxEnterpriseAdmin .entCardHead h3{font-size:15px!important}
       #mxEnterpriseAdmin .entCardHead span{font-size:8px!important}
+      #mxEnterpriseAdmin .entCardBody{padding:13px 14px!important}
       #mxEnterpriseAdmin .entBars{height:205px!important;gap:6px!important;padding:16px 2px 10px!important}
       #mxEnterpriseAdmin .entBarTrack{height:148px!important}
       #mxEnterpriseAdmin .entBar{width:min(26px,68%)!important;border-radius:7px 7px 3px 3px!important}
       #mxEnterpriseAdmin .entBarCol strong{font-size:8px!important;margin-top:6px!important}
       #mxEnterpriseAdmin .entBarCol span{font-size:6.7px!important;white-space:nowrap!important}
     }
+
     @media(max-width:430px){
       #mxEnterpriseAdmin .${BRAND_CLASS}{font-size:17px}
       #mxEnterpriseAdmin .entTopbar{grid-template-columns:minmax(0,1fr) auto 42px!important}
@@ -81,18 +100,6 @@ function ensureBrand(shell){
 
 function activeView(shell){
   return shell.querySelector('.entNav button.active')?.dataset.view||'dashboard';
-}
-
-function parseMonthDay(text,baseYear){
-  const m=String(text||'').match(/^(\d{2})-(\d{2})$/);
-  if(!m)return null;
-  let year=baseYear;
-  const month=Number(m[1]);
-  const day=Number(m[2]);
-  const now=new Date();
-  if(month>now.getMonth()+1&&now.getMonth()+1===1)year-=1;
-  const date=new Date(year,month-1,day);
-  return Number.isNaN(date.getTime())?null:date;
 }
 
 function keyForDate(date){
