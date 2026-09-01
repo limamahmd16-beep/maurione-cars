@@ -16,16 +16,18 @@
     <link rel="manifest" href="/admin-manifest.webmanifest?v=8" />
     <script>
       (()=>{
-        const key='maurione_cars_theme';
+        const key='maurione_admin_theme';
+        let choice='system';
         let theme='light';
         try{
           const saved=localStorage.getItem(key);
-          if(saved==='dark'||saved==='light')theme=saved;
-          else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)theme='dark';
-        }catch(e){
-          if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)theme='dark';
-        }
+          if(saved==='dark'||saved==='light'||saved==='system')choice=saved;
+        }catch(e){}
+        if(choice==='dark')theme='dark';
+        else if(choice==='light')theme='light';
+        else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)theme='dark';
         document.documentElement.dataset.theme=theme;
+        document.documentElement.dataset.adminThemeChoice=choice;
         document.documentElement.style.colorScheme=theme;
         const meta=document.querySelector('meta[name="theme-color"]');
         if(meta)meta.setAttribute('content',theme==='dark'?'#0d0f12':'#ffffff');
@@ -74,5 +76,6 @@
       },true);
     </script>
     <script type="module" src="/admin-main.jsx"></script>
+    <script type="module" src="/src/admin-settings.js"></script>
   </body>
 </html>
