@@ -2,6 +2,8 @@ const STYLE_ID='mx-enterprise-dashboard-polish-style';
 const BRAND_CLASS='entMobileBrand';
 let scheduled=false;
 
+function adminLang(){try{return localStorage.getItem('maurione_admin_language')==='ar'?'ar':'pt'}catch{return'pt'}}
+
 function ensureStyle(){
   if(document.getElementById(STYLE_ID))return;
   const style=document.createElement('style');
@@ -98,58 +100,21 @@ function ensureBrand(shell){
   }
 }
 
-function activeView(shell){
-  return shell.querySelector('.entNav button.active')?.dataset.view||'dashboard';
-}
-
-function keyForDate(date){
-  return `${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
-}
-
-function labelForDate(date){
-  try{return new Intl.DateTimeFormat('ar',{day:'numeric',month:'short'}).format(date)}catch{return keyForDate(date)}
-}
+function activeView(shell){return shell.querySelector('.entNav button.active')?.dataset.view||'dashboard'}
+function keyForDate(date){return `${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`}
+function labelForDate(date){try{return new Intl.DateTimeFormat(adminLang()==='ar'?'ar-AO':'pt-AO',{day:'numeric',month:'short'}).format(date)}catch{return keyForDate(date)}}
 
 function normalizeBars(container){
-  if(!container||container.dataset.sevenDayReady==='1')return;
-  const existing=[...container.querySelectorAll('.entBarCol')];
-  if(!existing.length)return;
-  const values=new Map();
-  existing.forEach(col=>{
-    const raw=col.querySelector('span')?.textContent?.trim()||'';
-    const value=Number((col.querySelector('strong')?.textContent||'0').replace(/[^0-9.-]/g,''))||0;
-    values.set(raw,value);
-  });
-  const today=new Date();today.setHours(12,0,0,0);
-  const dates=[];
-  for(let i=6;i>=0;i--){const d=new Date(today);d.setDate(today.getDate()-i);dates.push(d)}
+  const currentLang=adminLang();if(!container||container.dataset.sevenDayLang===currentLang)return;
+  const existing=[...container.querySelectorAll('.entBarCol')];if(!existing.length)return;
+  const values=new Map();existing.forEach(col=>{const raw=col.dataset.dayKey||col.querySelector('span')?.textContent?.trim()||'';const value=Number((col.querySelector('strong')?.textContent||'0').replace(/[^0-9.-]/g,''))||0;values.set(raw,value)});
+  const today=new Date();today.setHours(12,0,0,0);const dates=[];for(let i=6;i>=0;i--){const d=new Date(today);d.setDate(today.getDate()-i);dates.push(d)}
   const max=Math.max(1,...dates.map(d=>values.get(keyForDate(d))||0));
-  container.innerHTML=dates.map(d=>{
-    const key=keyForDate(d);const value=values.get(key)||0;
-    const height=value?Math.max(4,Math.round(value/max*100)):2;
-    return `<div class="entBarCol ${value?'':'zero'}"><div class="entBarTrack"><div class="entBar" style="height:${height}%"></div></div><strong>${value}</strong><span>${labelForDate(d)}</span></div>`;
-  }).join('');
-  container.dataset.sevenDayReady='1';
+  container.innerHTML=dates.map(d=>{const key=keyForDate(d);const value=values.get(key)||0;const height=value?Math.max(4,Math.round(value/max*100)):2;return `<div class="entBarCol ${value?'':'zero'}" data-day-key="${key}"><div class="entBarTrack"><div class="entBar" style="height:${height}%"></div></div><strong>${value}</strong><span>${labelForDate(d)}</span></div>`}).join('');
+  container.dataset.sevenDayLang=currentLang;
 }
 
-function sync(){
-  scheduled=false;
-  const shell=document.getElementById('mxEnterpriseAdmin');
-  if(!shell)return;
-  ensureStyle();
-  ensureBrand(shell);
-  const view=activeView(shell);
-  shell.classList.toggle('entDashboardHome',view==='dashboard');
-  shell.querySelectorAll('.entBars').forEach(normalizeBars);
-}
-
+function sync(){scheduled=false;const shell=document.getElementById('mxEnterpriseAdmin');if(!shell)return;ensureStyle();ensureBrand(shell);shell.classList.toggle('entDashboardHome',activeView(shell)==='dashboard');shell.querySelectorAll('.entBars').forEach(normalizeBars)}
 function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(sync)}
-
-function start(){
-  ensureStyle();
-  schedule();
-  const observer=new MutationObserver(schedule);
-  observer.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
-}
-
+function start(){ensureStyle();schedule();const observer=new MutationObserver(schedule);observer.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});window.addEventListener('maurione:admin-language-change',()=>{document.querySelectorAll('.entBars').forEach(x=>delete x.dataset.sevenDayLang);schedule()})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
