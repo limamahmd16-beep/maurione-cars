@@ -6,13 +6,33 @@ function ensureStyle(){
   const style=document.createElement('style');
   style.id=STYLE_ID;
   style.textContent=`
+    body.mxAdminV2Active{
+      overflow:hidden!important;
+      overscroll-behavior:none!important;
+    }
+    body.mxAdminV2Active .mxAdmin{
+      position:static!important;
+      inset:auto!important;
+      width:auto!important;
+      min-height:0!important;
+      overflow:visible!important;
+      transform:none!important;
+    }
     #${ID}{
-      position:relative!important;
-      z-index:1000!important;
+      position:fixed!important;
+      inset:0!important;
+      width:100vw!important;
+      height:100dvh!important;
+      min-height:0!important;
+      overflow-y:auto!important;
+      overflow-x:hidden!important;
+      -webkit-overflow-scrolling:touch!important;
+      overscroll-behavior-y:contain!important;
+      z-index:10000!important;
       pointer-events:auto!important;
       isolation:isolate!important;
+      touch-action:pan-y!important;
     }
-    #${ID} *{pointer-events:auto}
     #${ID} button,
     #${ID} [data-view],
     #${ID} [data-action],
@@ -20,28 +40,30 @@ function ensureStyle(){
     #${ID} select{
       pointer-events:auto!important;
       touch-action:manipulation!important;
-      -webkit-tap-highlight-color:rgba(239,106,50,.12);
+      -webkit-tap-highlight-color:rgba(239,106,50,.12)!important;
+      position:relative;
+      z-index:1;
     }
     #${ID} .v2Backdrop:not(.open){pointer-events:none!important}
     #${ID} .v2Backdrop.open{pointer-events:auto!important}
-    body.mxAdminV2Active>#${ID}{width:100%!important;min-height:100dvh!important}
+    .mxAdminV2Active .mxAdmin>.mxModal{z-index:50000!important;pointer-events:auto!important}
+    .mxAdminTeamPage,.mxAdminUsersPage,#mxAdminFinancePage{z-index:60000!important}
   `;
   document.head.appendChild(style);
 }
 
-function detachFromReact(){
+function markReady(){
   const shell=document.getElementById(ID);
   if(!shell)return false;
   ensureStyle();
-  if(shell.parentElement!==document.body)document.body.appendChild(shell);
   shell.dataset.interactionReady='1';
   return true;
 }
 
 function start(){
-  if(detachFromReact())return;
+  if(markReady())return;
   const observer=new MutationObserver(()=>{
-    if(detachFromReact())observer.disconnect();
+    if(markReady())observer.disconnect();
   });
   observer.observe(document.documentElement,{childList:true,subtree:true});
   setTimeout(()=>observer.disconnect(),20000);
