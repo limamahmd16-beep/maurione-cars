@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="pt" dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -8,26 +8,26 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="MauriOne" />
-    <title>MauriOne السيارات | معرض السيارات</title>
-    <meta name="description" content="MauriOne لعرض سيارات مختارة في موريتانيا مع الصور، السعر، المواصفات والتواصل المباشر." />
+    <title>MauriOne Cars | Mercado automóvel da Mauritânia</title>
+    <meta name="description" content="MauriOne apresenta carros selecionados na Mauritânia com fotografias, preços, especificações e contacto direto." />
     <meta name="robots" content="index,follow,max-image-preview:large" />
     <link rel="canonical" href="https://maurione-cars.vercel.app/" />
 
     <meta property="og:site_name" content="MauriOne" />
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="ar_MR" />
-    <meta property="og:title" content="MauriOne السيارات | معرض السيارات" />
-    <meta property="og:description" content="سيارات مختارة في موريتانيا مع الصور، السعر، المواصفات والتواصل المباشر عبر MauriOne." />
+    <meta property="og:locale" content="pt_AO" />
+    <meta property="og:title" content="MauriOne Cars | Mercado automóvel da Mauritânia" />
+    <meta property="og:description" content="Carros selecionados na Mauritânia com fotografias, preços, especificações e contacto direto através da MauriOne." />
     <meta property="og:image" content="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
     <meta property="og:url" content="https://maurione-cars.vercel.app/" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="MauriOne السيارات | معرض السيارات" />
-    <meta name="twitter:description" content="سيارات مختارة في موريتانيا مع الصور والسعر والمواصفات." />
+    <meta name="twitter:title" content="MauriOne Cars | Mercado automóvel da Mauritânia" />
+    <meta name="twitter:description" content="Carros selecionados na Mauritânia com fotografias, preços e especificações." />
     <meta name="twitter:image" content="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
-    <link id="mxAppManifest" rel="manifest" href="/manifest.webmanifest?v=6" />
+    <link id="mxAppManifest" rel="manifest" href="/manifest.webmanifest?v=7" />
     <script type="application/ld+json" id="maurione-site-schema">
       {
         "@context": "https://schema.org",
@@ -36,19 +36,22 @@
         "url": "https://maurione-cars.vercel.app/",
         "logo": "https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png",
         "image": "https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png",
-        "description": "معرض MauriOne للسيارات المختارة في موريتانيا."
+        "description": "Mercado MauriOne de carros selecionados na Mauritânia."
       }
     </script>
     <script>
       (()=>{
+        const key='maurione_portuguese_primary_v1';
+        try{if(localStorage.getItem(key)!=='1'){localStorage.setItem('maurione_language','pt');localStorage.setItem('maurione_admin_language','pt');localStorage.setItem(key,'1')}}catch(e){}
+        document.documentElement.lang='pt';document.documentElement.dir='ltr';
         const admin=location.pathname==='/admin'||location.pathname.startsWith('/admin/');
         window.__MAURIONE_ADMIN_PATH__=admin;
         if(!admin)return;
-        document.title='لوحة التحكم | MauriOne';
+        document.title='Painel de controlo | MauriOne';
         const manifest=document.getElementById('mxAppManifest');
-        if(manifest)manifest.href='/admin-manifest.webmanifest?v=8';
+        if(manifest)manifest.href='/admin-manifest.webmanifest?v=9';
         const appleTitle=document.querySelector('meta[name="apple-mobile-web-app-title"]');
-        if(appleTitle)appleTitle.content='لوحة التحكم';
+        if(appleTitle)appleTitle.content='Painel MauriOne';
       })();
     </script>
     <link rel="stylesheet" href="/standalone-detail-fix.css?v=1" />
@@ -65,42 +68,35 @@
   <body>
     <div id="root"></div>
     <script type="module">
+      await import('/src/primary-language.js');
       const admin=window.__MAURIONE_ADMIN_PATH__===true;
 
       function loadClassic(src){
         return new Promise((resolve,reject)=>{
-          const script=document.createElement('script');
-          script.src=src;
-          script.onload=resolve;
-          script.onerror=reject;
-          document.body.appendChild(script);
+          const script=document.createElement('script');script.src=src;script.onload=resolve;script.onerror=reject;document.body.appendChild(script);
         });
       }
 
-      function adminBoot(message='جارٍ تشغيل لوحة التحكم...',failed=false){
-        const root=document.getElementById('root');
-        if(!root)return;
-        root.innerHTML=`<main class="mxAdminBoot" dir="rtl"><section class="mxAdminBootCard"><div class="mxAdminBootLogo"><b>Mauri</b><i>One</i></div><h1>لوحة التحكم</h1><p>${message}</p>${failed?'<button type="button" id="mxAdminRetry">إعادة التحميل</button>':''}</section></main>`;
+      function adminBoot(message='A iniciar o painel de controlo...',failed=false){
+        const root=document.getElementById('root');if(!root)return;
+        root.innerHTML=`<main class="mxAdminBoot" dir="ltr"><section class="mxAdminBootCard"><div class="mxAdminBootLogo"><b>Mauri</b><i>One</i></div><h1>Painel de controlo</h1><p>${message}</p>${failed?'<button type="button" id="mxAdminRetry">Recarregar</button>':''}</section></main>`;
         document.getElementById('mxAdminRetry')?.addEventListener('click',()=>location.reload());
       }
 
       if(admin){
         adminBoot();
-        import('/admin-main.jsx').catch(error=>{
-          console.error('MauriOne admin entry failed',error);
-          adminBoot('تعذر تحميل لوحة التحكم. اضغط إعادة التحميل.',true);
-        });
+        import('/admin-main.jsx').catch(error=>{console.error('MauriOne admin entry failed',error);adminBoot('Não foi possível carregar o painel de controlo. Toque em recarregar.',true)});
       }else{
         Promise.all([
           loadClassic('/welcome-loader.js?v=29'),
           loadClassic('/featured-badge-position.js?v=6'),
           loadClassic('/whatsapp-car-inquiry.js?v=2'),
-          loadClassic('/seo-manager.js?v=1'),
+          loadClassic('/seo-manager.js?v=2'),
           import('/src/private-admin-guard.js?v=3'),
           import('/src/car-analytics.js?v=1')
         ]).finally(()=>import('/main.jsx'));
       }
     </script>
-    <!-- stable-recovery-20260829-admin-bootstrap-v2 -->
+    <!-- portuguese-primary-20260902 -->
   </body>
 </html>

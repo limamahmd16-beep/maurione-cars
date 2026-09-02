@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="pt" dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -7,30 +7,22 @@
     <meta name="color-scheme" content="light dark" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="لوحة التحكم" />
-    <title>لوحة التحكم | MauriOne</title>
-    <meta name="description" content="لوحة التحكم الخاصة بمالك MauriOne" />
+    <meta name="apple-mobile-web-app-title" content="Painel MauriOne" />
+    <title>Painel de controlo | MauriOne</title>
+    <meta name="description" content="Painel de administração da MauriOne Cars" />
     <meta name="robots" content="noindex,nofollow,noarchive" />
     <link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
-    <link rel="manifest" href="/admin-manifest.webmanifest?v=8" />
+    <link rel="manifest" href="/admin-manifest.webmanifest?v=9" />
     <script>
       (()=>{
-        const key='maurione_admin_theme';
-        let choice='system';
-        let theme='light';
-        try{
-          const saved=localStorage.getItem(key);
-          if(saved==='dark'||saved==='light'||saved==='system')choice=saved;
-        }catch(e){}
-        if(choice==='dark')theme='dark';
-        else if(choice==='light')theme='light';
-        else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)theme='dark';
-        document.documentElement.dataset.theme=theme;
-        document.documentElement.dataset.adminThemeChoice=choice;
-        document.documentElement.style.colorScheme=theme;
-        const meta=document.querySelector('meta[name="theme-color"]');
-        if(meta)meta.setAttribute('content',theme==='dark'?'#0d0f12':'#ffffff');
+        try{if(localStorage.getItem('maurione_portuguese_primary_v1')!=='1'){localStorage.setItem('maurione_language','pt');localStorage.setItem('maurione_admin_language','pt');localStorage.setItem('maurione_portuguese_primary_v1','1')}}catch(e){}
+        document.documentElement.lang='pt';document.documentElement.dir='ltr';
+        const key='maurione_admin_theme';let choice='system',theme='light';
+        try{const saved=localStorage.getItem(key);if(saved==='dark'||saved==='light'||saved==='system')choice=saved}catch(e){}
+        if(choice==='dark')theme='dark';else if(choice==='light')theme='light';else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)theme='dark';
+        document.documentElement.dataset.theme=theme;document.documentElement.dataset.adminThemeChoice=choice;document.documentElement.style.colorScheme=theme;
+        const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.setAttribute('content',theme==='dark'?'#0d0f12':'#ffffff');
       })();
     </script>
     <style>
@@ -46,35 +38,20 @@
       html[data-theme='dark'] .mxAdminBootCard h1{color:#f7f7f8!important}
       html[data-theme='dark'] .mxAdminBootCard p{color:#9ca3ad!important}
     </style>
-    <script>
-      if(location.pathname==='/admin.html') history.replaceState({},'',`/admin${location.search}${location.hash}`);
-    </script>
+    <script>if(location.pathname==='/admin.html') history.replaceState({},'',`/admin${location.search}${location.hash}`);</script>
   </head>
   <body>
-    <div id="root">
-      <main class="mxAdminBoot" dir="rtl">
-        <section class="mxAdminBootCard">
-          <div class="mxAdminBootLogo"><b>Mauri</b><i>One</i></div>
-          <h1>لوحة التحكم</h1>
-          <p>جارٍ تشغيل لوحة التحكم...</p>
-        </section>
-      </main>
-    </div>
+    <div id="root"><main class="mxAdminBoot" dir="ltr"><section class="mxAdminBootCard"><div class="mxAdminBootLogo"><b>Mauri</b><i>One</i></div><h1>Painel de controlo</h1><p>A iniciar o painel de controlo...</p></section></main></div>
     <script>
       document.addEventListener('click',function(event){
-        var target=event.target instanceof Element?event.target:null;
-        if(!target)return;
-        var action=target.closest('.mxAdminActions button');
-        var back=target.closest('.mxAdminHeader > button:first-child');
-        var openSite=action&&String(action.textContent||'').includes('فتح الموقع');
-        if(!openSite&&!back)return;
-        event.preventDefault();
-        event.stopPropagation();
-        if(event.stopImmediatePropagation)event.stopImmediatePropagation();
-        try{localStorage.setItem('maurione_admin_preview_home','1')}catch(e){}
-        window.location.assign('/?from=admin-preview&t='+Date.now());
+        var target=event.target instanceof Element?event.target:null;if(!target)return;
+        var action=target.closest('.mxAdminActions button');var back=target.closest('.mxAdminHeader > button:first-child');
+        var text=String(action&&action.textContent||'');var openSite=action&&(text.includes('فتح الموقع')||text.includes('Abrir site'));
+        if(!openSite&&!back)return;event.preventDefault();event.stopPropagation();if(event.stopImmediatePropagation)event.stopImmediatePropagation();
+        try{localStorage.setItem('maurione_admin_preview_home','1')}catch(e){}window.location.assign('/?from=admin-preview&t='+Date.now());
       },true);
     </script>
+    <script type="module" src="/src/primary-language.js"></script>
     <script type="module" src="/admin-main.jsx"></script>
     <script type="module" src="/src/admin-settings.js"></script>
     <script type="module" src="/src/admin-settings-position.js"></script>
