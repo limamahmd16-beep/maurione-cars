@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt" dir="ltr">
+<html lang="pt-AO" dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -9,15 +9,22 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Painel MauriOne" />
     <title>Painel de controlo | MauriOne</title>
-    <meta name="description" content="Painel de administração da MauriOne Cars" />
+    <meta name="description" content="Painel de administração da MauriOne Cars Angola" />
     <meta name="robots" content="noindex,nofollow,noarchive" />
     <link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
-    <link rel="manifest" href="/admin-manifest.webmanifest?v=9" />
+    <link rel="manifest" href="/admin-manifest.webmanifest?v=10" />
     <script>
       (()=>{
-        try{if(localStorage.getItem('maurione_portuguese_primary_v1')!=='1'){localStorage.setItem('maurione_language','pt');localStorage.setItem('maurione_admin_language','pt');localStorage.setItem('maurione_portuguese_primary_v1','1')}}catch(e){}
-        document.documentElement.lang='pt';document.documentElement.dir='ltr';
+        try{
+          if(localStorage.getItem('maurione_portuguese_primary_v1')!=='1'){
+            localStorage.setItem('maurione_language','pt');
+            localStorage.setItem('maurione_admin_language','pt');
+            localStorage.setItem('maurione_portuguese_primary_v1','1');
+          }
+          localStorage.setItem('maurione_market','AO');
+        }catch(e){}
+        document.documentElement.lang='pt-AO';document.documentElement.dir='ltr';
         const key='maurione_admin_theme';let choice='system',theme='light';
         try{const saved=localStorage.getItem(key);if(saved==='dark'||saved==='light'||saved==='system')choice=saved}catch(e){}
         if(choice==='dark')theme='dark';else if(choice==='light')theme='light';else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)theme='dark';
@@ -52,6 +59,7 @@
       },true);
     </script>
     <script type="module" src="/src/primary-language.js"></script>
+    <script type="module" src="/src/angola-market.js"></script>
     <script type="module" src="/admin-main.jsx"></script>
     <script type="module" src="/src/admin-settings.js"></script>
     <script type="module" src="/src/admin-settings-position.js"></script>

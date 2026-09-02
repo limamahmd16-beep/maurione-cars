@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt" dir="ltr">
+<html lang="pt-AO" dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -8,26 +8,26 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="MauriOne" />
-    <title>MauriOne Cars | Mercado automóvel da Mauritânia</title>
-    <meta name="description" content="MauriOne apresenta carros selecionados na Mauritânia com fotografias, preços, especificações e contacto direto." />
+    <title>MauriOne Cars | Mercado automóvel de Angola</title>
+    <meta name="description" content="MauriOne apresenta carros selecionados em Angola com fotografias, preços em kwanzas, especificações e contacto direto." />
     <meta name="robots" content="index,follow,max-image-preview:large" />
     <link rel="canonical" href="https://maurione-cars.vercel.app/" />
 
     <meta property="og:site_name" content="MauriOne" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_AO" />
-    <meta property="og:title" content="MauriOne Cars | Mercado automóvel da Mauritânia" />
-    <meta property="og:description" content="Carros selecionados na Mauritânia com fotografias, preços, especificações e contacto direto através da MauriOne." />
+    <meta property="og:title" content="MauriOne Cars | Mercado automóvel de Angola" />
+    <meta property="og:description" content="Carros selecionados em Angola com fotografias, preços em kwanzas, especificações e contacto direto através da MauriOne." />
     <meta property="og:image" content="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
     <meta property="og:url" content="https://maurione-cars.vercel.app/" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="MauriOne Cars | Mercado automóvel da Mauritânia" />
-    <meta name="twitter:description" content="Carros selecionados na Mauritânia com fotografias, preços e especificações." />
+    <meta name="twitter:title" content="MauriOne Cars | Mercado automóvel de Angola" />
+    <meta name="twitter:description" content="Carros selecionados em Angola com fotografias, preços em kwanzas e especificações." />
     <meta name="twitter:image" content="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
-    <link id="mxAppManifest" rel="manifest" href="/manifest.webmanifest?v=7" />
+    <link id="mxAppManifest" rel="manifest" href="/manifest.webmanifest?v=8" />
     <script type="application/ld+json" id="maurione-site-schema">
       {
         "@context": "https://schema.org",
@@ -36,20 +36,29 @@
         "url": "https://maurione-cars.vercel.app/",
         "logo": "https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png",
         "image": "https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png",
-        "description": "Mercado MauriOne de carros selecionados na Mauritânia."
+        "areaServed": {"@type":"Country","name":"Angola"},
+        "currenciesAccepted": "AOA",
+        "description": "Mercado MauriOne de carros selecionados em Angola."
       }
     </script>
     <script>
       (()=>{
         const key='maurione_portuguese_primary_v1';
-        try{if(localStorage.getItem(key)!=='1'){localStorage.setItem('maurione_language','pt');localStorage.setItem('maurione_admin_language','pt');localStorage.setItem(key,'1')}}catch(e){}
-        document.documentElement.lang='pt';document.documentElement.dir='ltr';
+        try{
+          if(localStorage.getItem(key)!=='1'){
+            localStorage.setItem('maurione_language','pt');
+            localStorage.setItem('maurione_admin_language','pt');
+            localStorage.setItem(key,'1');
+          }
+          localStorage.setItem('maurione_market','AO');
+        }catch(e){}
+        document.documentElement.lang='pt-AO';document.documentElement.dir='ltr';
         const admin=location.pathname==='/admin'||location.pathname.startsWith('/admin/');
         window.__MAURIONE_ADMIN_PATH__=admin;
         if(!admin)return;
         document.title='Painel de controlo | MauriOne';
         const manifest=document.getElementById('mxAppManifest');
-        if(manifest)manifest.href='/admin-manifest.webmanifest?v=9';
+        if(manifest)manifest.href='/admin-manifest.webmanifest?v=10';
         const appleTitle=document.querySelector('meta[name="apple-mobile-web-app-title"]');
         if(appleTitle)appleTitle.content='Painel MauriOne';
       })();
@@ -69,6 +78,7 @@
     <div id="root"></div>
     <script type="module">
       import('/src/primary-language.js');
+      import('/src/angola-market.js');
       const admin=window.__MAURIONE_ADMIN_PATH__===true;
 
       function loadClassic(src){
@@ -90,13 +100,13 @@
         Promise.all([
           loadClassic('/welcome-loader.js?v=29'),
           loadClassic('/featured-badge-position.js?v=6'),
-          loadClassic('/whatsapp-car-inquiry.js?v=2'),
-          loadClassic('/seo-manager.js?v=2'),
+          loadClassic('/whatsapp-car-inquiry.js?v=3'),
+          loadClassic('/seo-manager.js?v=3'),
           import('/src/private-admin-guard.js?v=3'),
           import('/src/car-analytics.js?v=1')
         ]).finally(()=>import('/main.jsx'));
       }
     </script>
-    <!-- portuguese-primary-20260902 -->
+    <!-- angola-primary-market-20260902 -->
   </body>
 </html>

@@ -1,8 +1,8 @@
 {
   "id": "/admin-app",
-  "name": "Painel de controlo | MauriOne",
+  "name": "Painel de controlo | MauriOne Angola",
   "short_name": "Painel MauriOne",
-  "description": "Painel de administração da MauriOne Cars",
+  "description": "Painel de administração da MauriOne Cars Angola",
   "lang": "pt-AO",
   "dir": "ltr",
   "start_url": "/admin?source=homescreen",
