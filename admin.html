@@ -13,9 +13,15 @@
     <meta name="robots" content="noindex,nofollow,noarchive" />
     <link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
-    <link rel="manifest" href="/admin-manifest.webmanifest?v=10" />
+    <link rel="manifest" href="/admin-manifest.webmanifest?v=11" />
     <script>
       (()=>{
+        const aliasPath=location.pathname==='/gestao-maurione'||location.pathname.startsWith('/gestao-maurione/');
+        if(location.pathname==='/admin.html'||aliasPath){
+          const params=new URLSearchParams(location.search);
+          if(aliasPath)params.set('entry','gestao');
+          history.replaceState({},'',`/admin${params.toString()?`?${params.toString()}`:''}${location.hash}`);
+        }
         try{
           if(localStorage.getItem('maurione_portuguese_primary_v1')!=='1'){
             localStorage.setItem('maurione_language','pt');
@@ -45,7 +51,6 @@
       html[data-theme='dark'] .mxAdminBootCard h1{color:#f7f7f8!important}
       html[data-theme='dark'] .mxAdminBootCard p{color:#9ca3ad!important}
     </style>
-    <script>if(location.pathname==='/admin.html') history.replaceState({},'',`/admin${location.search}${location.hash}`);</script>
   </head>
   <body>
     <div id="root"><main class="mxAdminBoot" dir="ltr"><section class="mxAdminBootCard"><div class="mxAdminBootLogo"><b>Mauri</b><i>One</i></div><h1>Painel de controlo</h1><p>A iniciar o painel de controlo...</p></section></main></div>
