@@ -38,10 +38,8 @@ export default async function mountAdminRoot(){
  const root=document.getElementById('root');if(!root)throw new Error('ADMIN_ROOT_MISSING');root.replaceChildren();createRoot(root).render(<AdminRoot/>);
  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
  const profile=window.__MAURIONE_ADMIN_CONTEXT__||{};const p=profile.permissions||{};
- const modules=[import('./admin-settings.js'),import('./admin-settings-position.js'),import('./admin-team.js'),import('./enterprise-navigation-fix.js'),import('./enterprise-dashboard-polish.js'),import('./admin-whatsapp-icon-fix.js'),import('./admin-finance.js'),import('./admin-terminology.js'),import('./admin-permissions.js'),import('./admin-car-page.js'),import('./admin-car-reference.js')];
+ const modules=[import('./admin-settings.js'),import('./admin-team.js'),import('./admin-finance.js'),import('./admin-terminology.js'),import('./admin-permissions.js'),import('./admin-car-page.js'),import('./admin-car-reference.js')];
  if(profile.isOwner||p.analyticsView)modules.push(import('./admin-visitor-stats.js'));if(profile.isOwner||p.socialExport)modules.push(import('./admin-social-export.js'));if(profile.isOwner||p.usersView)modules.push(import('./admin-users.js'));
  await Promise.allSettled(modules);
- await import('./admin-actions-fix.js');
- await import('./admin-language-strict.js');
- await import('./admin-language-alias-fix.js');
+ await import('./enterprise-admin-v2.js');
 }
