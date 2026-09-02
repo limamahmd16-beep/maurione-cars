@@ -1,3 +1,5 @@
+import './admin-v2-interaction-fix.js';
+
 const REPLACEMENTS=[
   ['الموظفين','أعضاء الفريق'],
   ['الموظف','عضو الفريق'],
