@@ -1,68 +1,24 @@
 <!doctype html>
 <html lang="pt-AO" dir="ltr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#ffffff" />
-    <meta name="color-scheme" content="light dark" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Painel MauriOne" />
-    <title>Painel de controlo | MauriOne</title>
-    <meta name="description" content="Painel de administração da MauriOne Cars Angola" />
-    <meta name="robots" content="noindex,nofollow,noarchive" />
-    <link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
-    <link rel="icon" type="image/png" href="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
-    <script>
-      (()=>{
-        try{
-          localStorage.setItem('maurione_language','pt');
-          localStorage.setItem('maurione_admin_language','pt');
-          localStorage.setItem('maurione_portuguese_primary_v1','1');
-          localStorage.setItem('maurione_market','AO');
-        }catch(e){}
-        document.documentElement.lang='pt-AO';document.documentElement.dir='ltr';
-        const key='maurione_admin_theme';let choice='system',theme='light';
-        try{const saved=localStorage.getItem(key);if(saved==='dark'||saved==='light'||saved==='system')choice=saved}catch(e){}
-        if(choice==='dark')theme='dark';else if(choice==='light')theme='light';else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)theme='dark';
-        document.documentElement.dataset.theme=theme;document.documentElement.dataset.adminThemeChoice=choice;document.documentElement.style.colorScheme=theme;
-        const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.setAttribute('content',theme==='dark'?'#0d0f12':'#ffffff');
-      })();
-    </script>
-    <style>
-      html,body,#root{min-height:100%;background:#fff;margin:0}
-      .mxAdminBoot{min-height:100vh;display:grid;place-items:center;padding:24px;box-sizing:border-box;background:#fff;font-family:Arial,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-      .mxAdminBootCard{width:min(100%,430px);box-sizing:border-box;padding:30px 24px 24px;border:1px solid #eceef1;border-radius:28px;background:#fff;box-shadow:0 20px 60px rgba(15,23,42,.10);text-align:center}
-      .mxAdminBootLogo{font-size:34px;line-height:1;font-weight:900;direction:ltr;margin-bottom:28px;letter-spacing:-1.5px}.mxAdminBootLogo b{color:#090909}.mxAdminBootLogo i{color:#ff5a12;font-style:normal}
-      .mxAdminBootCard h1{font-size:24px;margin:0 0 8px;color:#111}.mxAdminBootCard p{margin:0;color:#777d86;font-size:14px;line-height:1.7}
-      html[data-theme='dark'],html[data-theme='dark'] body,html[data-theme='dark'] #root{background:#0d0f12!important;color:#f4f5f7!important}
-      html[data-theme='dark'] .mxAdminBoot{background:#0d0f12!important}
-      html[data-theme='dark'] .mxAdminBootCard{background:#15181c!important;border-color:#2c3138!important;box-shadow:0 20px 60px rgba(0,0,0,.38)!important}
-      html[data-theme='dark'] .mxAdminBootLogo b{color:#f7f7f8!important}
-      html[data-theme='dark'] .mxAdminBootCard h1{color:#f7f7f8!important}
-      html[data-theme='dark'] .mxAdminBootCard p{color:#9ca3ad!important}
-    </style>
-  </head>
-  <body>
-    <div id="root"><main class="mxAdminBoot" dir="ltr"><section class="mxAdminBootCard"><div class="mxAdminBootLogo"><b>Mauri</b><i>One</i></div><h1>Painel de controlo</h1><p>A iniciar o painel de controlo...</p></section></main></div>
-    <script>
-      document.addEventListener('click',function(event){
-        var target=event.target instanceof Element?event.target:null;if(!target)return;
-        var action=target.closest('.mxAdminActions button');var back=target.closest('.mxAdminHeader > button:first-child');
-        var text=String(action&&action.textContent||'');var openSite=action&&(text.includes('فتح الموقع')||text.includes('Abrir site'));
-        if(!openSite&&!back)return;event.preventDefault();event.stopPropagation();if(event.stopImmediatePropagation)event.stopImmediatePropagation();
-        try{localStorage.setItem('maurione_admin_preview_home','1')}catch(e){}window.location.assign('/?from=admin-preview&t='+Date.now());
-      },true);
-    </script>
-    <script type="module" src="/admin-safe-main.jsx"></script>
-    <script type="module" src="/src/admin-settings.js"></script>
-    <script type="module" src="/src/admin-settings-position.js"></script>
-    <script type="module" src="/src/admin-team.js"></script>
-    <script type="module" src="/src/enterprise-navigation-fix.js"></script>
-    <script type="module" src="/src/enterprise-dashboard-polish.js"></script>
-    <script type="module" src="/src/admin-whatsapp-icon-fix.js"></script>
-    <script type="module" src="/src/admin-finance.js"></script>
-    <script type="module" src="/src/admin-terminology.js"></script>
-    <script type="module" src="/src/primary-language.js"></script>
-  </body>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover" />
+<meta name="theme-color" content="#ffffff" />
+<meta name="color-scheme" content="light dark" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Painel MauriOne" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<title>Painel de controlo | MauriOne</title>
+<link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
+<link rel="icon" type="image/png" href="https://res.cloudinary.com/bjlglhaw/image/upload/v1788117338/maurione-app-icon.png" />
+<script>(()=>{try{localStorage.setItem('maurione_language','pt');localStorage.setItem('maurione_admin_language','pt');localStorage.setItem('maurione_portuguese_primary_v1','1');localStorage.setItem('maurione_market','AO')}catch{}const k='maurione_admin_theme';let c='system',t='light';try{const s=localStorage.getItem(k);if(['light','dark','system'].includes(s))c=s}catch{}if(c==='dark'||(c==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))t='dark';document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t;const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=t==='dark'?'#0d0f12':'#ffffff'})()</script>
+<style>
+*{box-sizing:border-box}html,body,#root{min-height:100%;margin:0}body{font-family:Arial,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f6f7f8;color:#111820}.mxDirectAccess{min-height:100vh;min-height:100dvh;display:grid;place-items:center;padding:24px}.mxDirectCard{width:min(100%,430px);padding:32px 24px 24px;border:1px solid #e5e8ec;border-radius:28px;background:#fff;box-shadow:0 22px 70px rgba(15,23,42,.10);text-align:center}.mxDirectLogo{font-size:36px;font-weight:950;letter-spacing:-1.8px;direction:ltr;margin-bottom:25px}.mxDirectLogo b{color:#0b0d10}.mxDirectLogo i{color:#f4662d;font-style:normal}.mxDirectCard h1{margin:0 0 7px;font-size:25px}.mxDirectCard p{margin:0 0 20px;color:#7c8490;font-size:13px;line-height:1.6}.mxDirectTabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#f1f3f5;border-radius:13px;padding:5px;margin-bottom:14px}.mxDirectTabs button{height:42px;border:0;border-radius:9px;background:transparent;color:#707984;font-weight:900}.mxDirectTabs button.on{background:#fff;color:#ed642b;box-shadow:0 3px 12px rgba(15,23,42,.06)}#mxDirectLoginForm{display:grid;gap:11px}#mxDirectLoginForm input{width:100%;height:52px;border:1px solid #dfe4e9;border-radius:14px;background:#fff;color:#12171d;padding:0 14px;font-size:16px;outline:none;text-align:left}#mxDirectLoginForm input:focus{border-color:#f4662d;box-shadow:0 0 0 3px rgba(244,102,45,.10)}#mxDirectSubmit{height:52px;border:0;border-radius:14px;background:#f4662d;color:#fff;font-size:15px;font-weight:950}#mxDirectSubmit:disabled{opacity:.6}.mxDirectError{padding:10px 12px;border:1px solid #efcac5;border-radius:12px;background:#fff2f0;color:#9e4138;font-size:12px;line-height:1.5;text-align:left}.mxDirectNote{margin-top:15px!important;font-size:11px!important;color:#9aa1aa!important}html[data-theme='dark'] body{background:#0d0f12;color:#f5f6f7}html[data-theme='dark'] .mxDirectCard{background:#15181c;border-color:#30353c;box-shadow:0 22px 70px rgba(0,0,0,.38)}html[data-theme='dark'] .mxDirectLogo b,html[data-theme='dark'] .mxDirectCard h1{color:#f5f6f7}html[data-theme='dark'] .mxDirectCard p{color:#9ca3ad}html[data-theme='dark'] .mxDirectTabs{background:#101318}html[data-theme='dark'] .mxDirectTabs button.on{background:#252a31;color:#ff824e}html[data-theme='dark'] #mxDirectLoginForm input{background:#111419;border-color:#343a42;color:#f5f6f7}@media(max-width:480px){.mxDirectAccess{padding:16px}.mxDirectCard{padding:28px 18px 20px;border-radius:24px}.mxDirectLogo{font-size:34px}}
+</style>
+</head>
+<body>
+<div id="root"><main class="mxDirectAccess"><section class="mxDirectCard"><div class="mxDirectLogo"><b>Mauri</b><i>One</i></div><h1>Painel de controlo</h1><p>Acesso à administração MauriOne Cars Angola.</p><div class="mxDirectTabs"><button id="mxDirectOwnerTab" class="on" type="button">Proprietário</button><button id="mxDirectTeamTab" type="button">Equipa</button></div><form id="mxDirectLoginForm"><input id="mxDirectIdentity" type="email" placeholder="E-mail" autocomplete="username" required /><input id="mxDirectPassword" type="password" placeholder="Palavra-passe" autocomplete="current-password" required /><div id="mxDirectError" class="mxDirectError" hidden></div><button id="mxDirectSubmit" type="submit">Entrar</button></form><p class="mxDirectNote">A página de entrada abre imediatamente; a verificação só começa depois de tocar em Entrar.</p></section></main></div>
+<script type="module" src="/admin-direct-boot.js"></script>
+</body>
 </html>
