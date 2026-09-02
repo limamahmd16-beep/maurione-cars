@@ -1,8 +1,15 @@
 {
   "rewrites": [
+    { "source": "/gestao-maurione", "destination": "/admin.html" },
+    { "source": "/gestao-maurione/(.*)", "destination": "/admin.html" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/admin/(.*)", "destination": "/admin.html" },
     { "source": "/share/car/:id", "destination": "/api/car-share?id=:id" },
     { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "headers": [
+    { "source": "/gestao-maurione", "headers": [{ "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }] },
+    { "source": "/admin", "headers": [{ "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }] },
+    { "source": "/admin.html", "headers": [{ "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }] }
   ]
 }
